@@ -14,6 +14,7 @@
 #include <QDesktopServices>
 
 #include "databasemanager.h"
+#include "chooseoption.h"
 
 namespace Ui {
 class MainWindow;
@@ -45,10 +46,18 @@ private:
 
      void setMyStyleSheet(void);
 
-     QMenu *fileMenu;
-     QMenu *editMenu;
-     QMenu *viewMenu;
+     QMenu *actionsMenu;
      QMenu *helpMenu;
+
+     QAction *aboutAct;
+     QAction *aboutQtAct;
+     QAction *quitAct;
+
+
+     ChooseOption *chooseOptionWidget;
+
+public slots:
+     void onQuit();
 };
 
 #endif // MAINWINDOW_H

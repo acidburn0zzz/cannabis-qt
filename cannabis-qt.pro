@@ -11,10 +11,12 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
-    src/databasemanager.cpp
+    src/databasemanager.cpp \
+    src/chooseoption.cpp
 
 HEADERS  += src/mainwindow.h \
-    src/databasemanager.h
+    src/databasemanager.h \
+    src/chooseoption.h
 
 FORMS    += src/mainwindow.ui
 
