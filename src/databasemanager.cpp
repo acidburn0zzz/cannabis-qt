@@ -19,7 +19,7 @@ bool DatabaseManager::openDB()
 
         // Set database file name and path
         QString path(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
-        path.append(QDir::separator()).append("sandra-qt.sqlite3");
+        path.append(QDir::separator()).append("cannabis-qt.sqlite3");
         path = QDir::toNativeSeparators(path);
         db.setDatabaseName(path);
 
@@ -65,7 +65,7 @@ bool DatabaseManager::createDB()
         return false;
     }
 
-    QFile sqlFile(":/sandra-qt.sql");
+    QFile sqlFile(":/cannabis-qt.sql");
 
     if (sqlFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {

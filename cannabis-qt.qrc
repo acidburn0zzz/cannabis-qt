@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>cannabis-qt.sql</file>
+    </qresource>
+</RCC>
