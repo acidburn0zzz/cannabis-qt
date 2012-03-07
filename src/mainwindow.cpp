@@ -93,6 +93,10 @@ void MainWindow::createActions()
     manageMembersAct->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
     connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageMembers()));
 
+    manageCannabisAct = new QAction(tr("Gestiona el &cannabis"), this);
+    manageCannabisAct->setStatusTip(tr("Afegeix o edita la informació del cannabis que demanen els socis"));
+    connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
+
     quitAct = new QAction(tr("&Sortir"), this);
     quitAct->setShortcuts(QKeySequence::Quit);
     quitAct->setStatusTip(tr("Surt de l'aplicació"));
@@ -103,6 +107,7 @@ void MainWindow::createMenus()
 {
     actionsMenu = menuBar()->addMenu(tr("&Accions"));
     actionsMenu->addAction(manageMembersAct);
+    actionsMenu->addAction(manageCannabisAct);
     actionsMenu->addSeparator();
     actionsMenu->addAction(quitAct);
 
@@ -125,16 +130,18 @@ void MainWindow::createCentralWidgets()
     // Main menu
     chooseOptionWidget = new ChooseOption();
     connect( chooseOptionWidget->membersButton, SIGNAL(pressed()), this, SLOT(onManageMembers()));
-    connect( chooseOptionWidget->cannabisButton, SIGNAL(pressed()), this, SLOT(onCannabis()));
+    connect( chooseOptionWidget->cannabisButton, SIGNAL(pressed()), this, SLOT(onManageCannabis()));
     connect( chooseOptionWidget->othersButton, SIGNAL(pressed()), this, SLOT(onOther()));
     connect( chooseOptionWidget->cashButton, SIGNAL(pressed()), this, SLOT(onCashControl()));
     connect( chooseOptionWidget->quitButton, SIGNAL(pressed()), this, SLOT(onQuit()));
 
     membersWidget = new Members();
-
     connect(membersWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveMembers()));
     connect(membersWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 
+    cannabisWidget = new Cannabis();
+    connect(cannabisWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCannabis()));
+    connect(cannabisWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 }
 
 void MainWindow::print()
@@ -183,19 +190,32 @@ void MainWindow::onQuit()
     }
 }
 
-void MainWindow::onManageMembers()
-{
-    setMyCentralWidget(membersWidget);
-}
-
 void MainWindow::onMainMenu()
 {
     setMyCentralWidget(chooseOptionWidget);
 }
 
+void MainWindow::onManageMembers()
+{
+    setMyCentralWidget(membersWidget);
+}
+
 void MainWindow::onSaveMembers()
 {
     if (membersWidget->save())
+    {
+        onMainMenu();
+    }
+}
+
+void MainWindow::onManageCannabis()
+{
+    setMyCentralWidget(cannabisWidget);
+}
+
+void MainWindow::onSaveCannabis()
+{
+    if (cannabisWidget->save())
     {
         onMainMenu();
     }

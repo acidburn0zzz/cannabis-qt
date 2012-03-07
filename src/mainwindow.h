@@ -15,8 +15,10 @@
 #include <QDesktopServices>
 
 #include "databasemanager.h"
+
 #include "chooseoption.h"
 #include "members.h"
+#include "cannabis.h"
 
 namespace Ui {
 class MainWindow;
@@ -53,15 +55,18 @@ private:
      QAction *aboutQtAct;
      QAction *quitAct;
      QAction *manageMembersAct;
-
+     QAction *manageCannabisAct;
 
      ChooseOption *chooseOptionWidget;
      Members *membersWidget;
+     Cannabis *cannabisWidget;
 
 public slots:
      void onQuit();
      void onManageMembers();
      void onSaveMembers();
+     void onManageCannabis();
+     void onSaveCannabis();
      void onMainMenu();
 
 };

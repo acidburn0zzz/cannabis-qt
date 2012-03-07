@@ -1,6 +1,6 @@
-#include "members.h"
+#include "cannabis.h"
 
-Members::Members(QWidget *parent) :
+Cannabis::Cannabis(QWidget *parent) :
     QWidget(parent)
 {
     /*
@@ -25,22 +25,18 @@ Members::Members(QWidget *parent) :
     hbox->addWidget(filterButton);
 
     QSqlTableModel *model = new QSqlTableModel;
-    model->setTable("Socis");
+    model->setTable("Cannabis");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select();
 
-    // model->removeColumn(0); // don't show the ID
+    // S'HA DE RELACIONAR EL CODI DE SOCI!!!!!!!
 
-    model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
-    model->setHeaderData(1, Qt::Horizontal, tr("DNI"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Nom"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Primer Cognom"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Segon Cognom"));
-    model->setHeaderData(5, Qt::Horizontal, tr("Adreça"));
-    model->setHeaderData(6, Qt::Horizontal, tr("Telèfon"));
-    model->setHeaderData(7, Qt::Horizontal, tr("Codi Postal"));
-    model->setHeaderData(8, Qt::Horizontal, tr("Població"));
-    model->setHeaderData(9, Qt::Horizontal, tr("E-mail"));
+    model->removeColumn(0); // don't show the ID
+
+    model->setHeaderData(0, Qt::Horizontal, tr("Codi soci"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Data"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Grams"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Preu"));
 
     tableView = new QTableView;
     tableView->setModel(model);
@@ -57,11 +53,11 @@ Members::Members(QWidget *parent) :
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
-    QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou soci"));
-    connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewMember()));
+    QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou consum"));
+    connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewOrder()));
 
-    QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar soci"));
-    connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteMember()));
+    QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar consum"));
+    connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteOrder()));
 
     QHBoxLayout *hbox2 = new QHBoxLayout;
     hbox2->addWidget(addNewCustomerPushButton);
@@ -76,7 +72,7 @@ Members::Members(QWidget *parent) :
     setLayout(vbox);
 }
 
-void Members::onHelp()
+void Cannabis::onHelp()
 {
     QMessageBox *msgBox = new QMessageBox(this);
 
@@ -87,7 +83,7 @@ void Members::onHelp()
     msgBox->exec();
 }
 
-void Members::addNewMember()
+void Cannabis::addNewOrder()
 {
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -99,13 +95,13 @@ void Members::addNewMember()
     }
 }
 
-void Members::deleteMember()
+void Cannabis::deleteOrder()
 {
 
     // int i = tableView->selectedIndexes()
     // QModelIndex index = tableView->currentIndex();
 
-    QMessageBox::warning(this, tr("Members"), tr("Encara per fer!"));
+    QMessageBox::warning(this, tr("Socis"), tr("TODO"));
     return;
 
 
@@ -144,7 +140,7 @@ void Members::deleteMember()
     }
 }
 
-void Members::onFilter()
+void Cannabis::onFilter()
 {
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -189,7 +185,7 @@ void Members::onFilter()
     }
 }
 
-void Members::onCancel()
+void Cannabis::onCancel()
 { 
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -203,7 +199,7 @@ void Members::onCancel()
     }
 }
 
-bool Members::save()
+bool Cannabis::save()
 {
     bool result = false;
 
@@ -234,7 +230,7 @@ bool Members::save()
     return result;
 }
 
-void Members::resizeTableViewToContents()
+void Cannabis::resizeTableViewToContents()
 {
     if (tableView != NULL)
     {

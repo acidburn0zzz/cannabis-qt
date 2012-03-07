@@ -82,7 +82,8 @@ bool DatabaseManager::createDB()
 
            if (line.contains(';'))
            {
-               // debug(sql, __FILE__, __LINE__);
+               qDebug() << sql;
+
                if (!qry.exec(sql))
                {
                    qDebug() << qry.lastError().text();
@@ -93,8 +94,11 @@ bool DatabaseManager::createDB()
                sql = "";
            }
         }
+
         sqlFile.close();
+
         db.close();
+
         return true;
     }
     else

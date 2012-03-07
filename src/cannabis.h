@@ -1,5 +1,5 @@
-#ifndef MEMBERS_H
-#define MEMBERS_H
+#ifndef CANNABIS_H
+#define CANNABIS_H
 
 #include <QWidget>
 #include <QPushButton>
@@ -16,11 +16,11 @@
 #include <QSqlError>
 #include <QMessageBox>
 
-class Members : public QWidget
+class Cannabis : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Members(QWidget *parent = 0);
+    explicit Cannabis(QWidget *parent = 0);
 
     QDialogButtonBox *buttonBox;
 
@@ -36,8 +36,9 @@ protected:
 signals:
     
 public slots:
-    void addNewMember();
-    void deleteMember();
+
+    void addNewOrder();
+    void deleteOrder();
     void onFilter();
 
     void onCancel();
