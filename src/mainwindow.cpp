@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -17,8 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     qDebug() << "Application data will be stored in : " + appDataDir;
-
-    //    ui->setupUi(this);
 
     // Init our db (just for checking)
     if (!db.openDB())
@@ -48,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-//    delete ui;
+    db.closeDB();
 }
 
 void MainWindow::setMyStyleSheet()

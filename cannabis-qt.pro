@@ -12,13 +12,13 @@ TEMPLATE = app
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
     src/databasemanager.cpp \
-    src/chooseoption.cpp
+    src/chooseoption.cpp \
+    src/members.cpp
 
 HEADERS  += src/mainwindow.h \
     src/databasemanager.h \
-    src/chooseoption.h
-
-FORMS    += src/mainwindow.ui
+    src/chooseoption.h \
+    src/members.h
 
 RESOURCES += \
     cannabis-qt.qrc

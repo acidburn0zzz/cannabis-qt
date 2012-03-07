@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QApplication>
 #include <QMainWindow>
 #include <QTextCodec>
 #include <QDebug>
@@ -29,9 +30,6 @@ public:
     ~MainWindow();
 
     DatabaseManager db;
-
-private:
-    // Ui::MainWindow *ui;
 
 private slots:
     void print();
