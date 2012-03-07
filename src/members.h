@@ -39,12 +39,13 @@ signals:
     
 public slots:
 
-    void addNewCustomer();
-    void deleteCustomer();
+    void addNewMember();
+    void deleteMember();
     void onFilter();
 
     void onCancel();
     void onHelp();
+
 };
 
 #endif // MEMBERS_H

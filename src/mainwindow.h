@@ -16,6 +16,7 @@
 
 #include "databasemanager.h"
 #include "chooseoption.h"
+#include "members.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,6 +44,7 @@ private:
      void createCentralWidgets();
 
      void setMyStyleSheet(void);
+     void setMyCentralWidget(QWidget *widget);
 
      QMenu *actionsMenu;
      QMenu *helpMenu;
@@ -50,12 +52,18 @@ private:
      QAction *aboutAct;
      QAction *aboutQtAct;
      QAction *quitAct;
+     QAction *manageMembersAct;
 
 
      ChooseOption *chooseOptionWidget;
+     Members *membersWidget;
 
 public slots:
      void onQuit();
+     void onManageMembers();
+     void onSaveMembers();
+     void onMainMenu();
+
 };
 
 #endif // MAINWINDOW_H

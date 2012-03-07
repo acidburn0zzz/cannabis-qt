@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setCentralWidget(chooseOptionWidget);
 
-    resize( QSize(600, 400).expandedTo(minimumSizeHint()) );
+    resize( QSize(700, 500).expandedTo(minimumSizeHint()) );
 
     setMinimumSize(600, 400);
 }
@@ -46,6 +46,12 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     db.closeDB();
+}
+
+void MainWindow::setMyCentralWidget(QWidget *widget)
+{
+    centralWidget()->setParent( NULL );
+    setCentralWidget(widget);
 }
 
 void MainWindow::setMyStyleSheet()
@@ -83,11 +89,9 @@ void MainWindow::createActions()
     aboutQtAct->setStatusTip(tr("Mostra informació sobre Qt"));
     connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
-    /*
     manageMembersAct = new QAction(tr("Gestiona els &socis"), this);
     manageMembersAct->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
-    connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageCustomers()));
-    */
+    connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageMembers()));
 
     quitAct = new QAction(tr("&Sortir"), this);
     quitAct->setShortcuts(QKeySequence::Quit);
@@ -98,7 +102,7 @@ void MainWindow::createActions()
 void MainWindow::createMenus()
 {
     actionsMenu = menuBar()->addMenu(tr("&Accions"));
-    // actionsMenu->addAction(manageMembersAct);
+    actionsMenu->addAction(manageMembersAct);
     actionsMenu->addSeparator();
     actionsMenu->addAction(quitAct);
 
@@ -120,11 +124,17 @@ void MainWindow::createCentralWidgets()
 {
     // Main menu
     chooseOptionWidget = new ChooseOption();
-    connect( chooseOptionWidget->membersButton, SIGNAL(pressed()), this, SLOT(onEditMembers()));
+    connect( chooseOptionWidget->membersButton, SIGNAL(pressed()), this, SLOT(onManageMembers()));
     connect( chooseOptionWidget->cannabisButton, SIGNAL(pressed()), this, SLOT(onCannabis()));
     connect( chooseOptionWidget->othersButton, SIGNAL(pressed()), this, SLOT(onOther()));
     connect( chooseOptionWidget->cashButton, SIGNAL(pressed()), this, SLOT(onCashControl()));
     connect( chooseOptionWidget->quitButton, SIGNAL(pressed()), this, SLOT(onQuit()));
+
+    membersWidget = new Members();
+
+    connect(membersWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveMembers()));
+    connect(membersWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
+
 }
 
 void MainWindow::print()
@@ -170,5 +180,23 @@ void MainWindow::onQuit()
     if (msgBox.exec() == QMessageBox::Ok)
     {
         qApp->quit();
+    }
+}
+
+void MainWindow::onManageMembers()
+{
+    setMyCentralWidget(membersWidget);
+}
+
+void MainWindow::onMainMenu()
+{
+    setMyCentralWidget(chooseOptionWidget);
+}
+
+void MainWindow::onSaveMembers()
+{
+    if (membersWidget->save())
+    {
+        onMainMenu();
     }
 }

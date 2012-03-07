@@ -29,6 +29,9 @@ Members::Members(QWidget *parent) :
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select();
 
+    connect(model, SIGNAL(beforeInsert(QSqlRecord&)),this, SLOT(beforeInsertMember(QSqlRecord &)));
+    connect(model, SIGNAL(beforeUpdate(int, QSqlRecord &)),this, SLOT(beforeUpdateMember(QSqlRecord &)));
+
     // model->removeColumn(0); // don't show the ID
 
     model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
@@ -46,7 +49,7 @@ Members::Members(QWidget *parent) :
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
     tableView->resizeColumnsToContents();
-    tableView->horizontalHeader()->setStretchLastSection(true);
+    // tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
 //    QGroupBox *groupBox = new QGroupBox;
@@ -58,10 +61,10 @@ Members::Members(QWidget *parent) :
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou soci"));
-    connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewCustomer()));
+    connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewMember()));
 
     QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar soci"));
-    connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteCustomer()));
+    connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteMember()));
 
     QHBoxLayout *hbox2 = new QHBoxLayout;
     hbox2->addWidget(addNewCustomerPushButton);
@@ -76,7 +79,7 @@ Members::Members(QWidget *parent) :
     setLayout(vbox);
 }
 
-void Customers::onHelp()
+void Members::onHelp()
 {
     QMessageBox *msgBox = new QMessageBox(this);
 
@@ -85,10 +88,9 @@ void Customers::onHelp()
     msgBox->setText(tr("blah blah blah"));
 
     msgBox->exec();
-
 }
 
-void Customers::addNewCustomer()
+void Members::addNewMember()
 {
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -100,7 +102,7 @@ void Customers::addNewCustomer()
     }
 }
 
-void Customers::deleteCustomer()
+void Members::deleteMember()
 {
 
     // int i = tableView->selectedIndexes()
@@ -141,11 +143,11 @@ void Customers::deleteCustomer()
     }
     else
     {
-        QMessageBox::warning(this, tr("Socis"), tr("Si us plau, marqui a la llista el soci que vol esborrarl"));
+        QMessageBox::warning(this, tr("Socis"), tr("Si us plau, marqui a la llista el soci que vol esborrar"));
     }
 }
 
-void Customers::onFilter()
+void Members::onFilter()
 {
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -185,13 +187,13 @@ void Customers::onFilter()
 
         if (model->rowCount() <= 0)
         {
-            QMessageBox::warning(this, tr("Customers"), tr("Sorry, can't find any record with this name or CIF!"));
+            QMessageBox::warning(this, tr("Socis"), tr("Ho sento, no puc trobar cap soci amb aquest codi o amb aquest nom!"));
         }
     }
 }
 
-void Customers::onCancel()
-{
+void Members::onCancel()
+{ 
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     if (model != NULL)
@@ -204,7 +206,7 @@ void Customers::onCancel()
     }
 }
 
-bool Customers::save()
+bool Members::save()
 {
     bool result = false;
 
@@ -216,7 +218,9 @@ bool Customers::save()
         if (model->submitAll())
         {
             model->database().commit();
-            QMessageBox::information(this, tr("Customers"), tr("All changes have been saved"));
+
+            // QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+
             result = true;
         }
         else
@@ -226,14 +230,14 @@ bool Customers::save()
             model->revertAll();
 
             qDebug() << model->lastError().text();
-            QMessageBox::warning(this, tr("Customers"), tr("Can't save your changes: %1").arg(model->lastError().text()));
+            QMessageBox::warning(this, tr("Socis"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
         }
     }
 
     return result;
 }
 
-void Customers::resizeTableViewToContents()
+void Members::resizeTableViewToContents()
 {
     if (tableView != NULL)
     {
