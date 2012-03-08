@@ -46,7 +46,7 @@ Members::Members(QWidget *parent) :
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
     tableView->resizeColumnsToContents();
-    // tableView->horizontalHeader()->setStretchLastSection(true);
+    tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
 //    QGroupBox *groupBox = new QGroupBox;

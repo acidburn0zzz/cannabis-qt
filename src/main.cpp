@@ -5,9 +5,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    a.setOrganizationDomain("Sandra");
-    a.setOrganizationName("Sandra");
-    a.setApplicationName("Cannabis-qt");
+    a.setOrganizationDomain("sandra");
+    a.setOrganizationName("sandra");
+    a.setApplicationName("cannabis-qt");
 
     MainWindow w;
     w.show();

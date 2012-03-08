@@ -24,12 +24,13 @@ Cannabis::Cannabis(QWidget *parent) :
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
 
-    QSqlTableModel *model = new QSqlTableModel;
+    QSqlRelationalTableModel *model = new QSqlRelationalTableModel;
     model->setTable("Cannabis");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->select();
 
-    // S'HA DE RELACIONAR EL CODI DE SOCI!!!!!!!
+    model->setRelation(1, QSqlRelation("Socis", "Codi", "Codi"));
+
+    model->select();
 
     model->removeColumn(0); // don't show the ID
 
@@ -42,7 +43,8 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
     tableView->resizeColumnsToContents();
-    // tableView->horizontalHeader()->setStretchLastSection(true);
+    tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
+    tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
 //    QGroupBox *groupBox = new QGroupBox;
@@ -85,7 +87,7 @@ void Cannabis::onHelp()
 
 void Cannabis::addNewOrder()
 {
-    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
     // insert a row at the end
     int row = model->rowCount();
@@ -117,7 +119,7 @@ void Cannabis::deleteOrder()
     {
         int row = index.row();
 
-        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+        QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
         QMessageBox msgBox;
 
@@ -142,7 +144,7 @@ void Cannabis::deleteOrder()
 
 void Cannabis::onFilter()
 {
-    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
     if (model->submitAll())
     {
@@ -187,7 +189,7 @@ void Cannabis::onFilter()
 
 void Cannabis::onCancel()
 { 
-    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
     if (model != NULL)
     {
@@ -205,7 +207,7 @@ bool Cannabis::save()
 
     if (tableView != NULL)
     {
-        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+        QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
         model->database().transaction();
 
         if (model->submitAll())

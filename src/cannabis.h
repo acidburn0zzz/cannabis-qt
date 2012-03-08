@@ -7,7 +7,8 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 #include <QGroupBox>
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
+#include <QSqlRelationalDelegate>
 #include <QTableView>
 #include <QHeaderView>
 #include <QDebug>
