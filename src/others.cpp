@@ -47,6 +47,8 @@ Others::Others(QWidget *parent) :
     tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
+    connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
+
 //    QGroupBox *groupBox = new QGroupBox;
 //    groupBox->setLayout(layout);
 
@@ -72,6 +74,8 @@ Others::Others(QWidget *parent) :
     vbox->addLayout(hbox2);
 
     setLayout(vbox);
+
+    isDirty = false;
 }
 
 void Others::onHelp()
@@ -95,6 +99,8 @@ void Others::addNewOrder()
     {
         qDebug() << model->lastError().text();
     }
+
+    isDirty = true;
 }
 
 void Others::deleteOrder()
@@ -134,6 +140,7 @@ void Others::deleteOrder()
         if (msgBox.exec() == QMessageBox::Yes)
         {
             model->removeRow(row);
+            isDirty = true;
         }
     }
     else
@@ -144,11 +151,29 @@ void Others::deleteOrder()
 
 void Others::onFilter()
 {
+    if (isDirty)
+    {
+        QMessageBox msgBox;
+
+        msgBox.setText("Abans de poder fer una cerca, s'han de guardar els canvis. "
+                       "Estàs segur de voler guardar-los ara?");
+        msgBox.setInformativeText("Està segur ?");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+
+        if (msgBox.exec() == QMessageBox::No)
+        {
+            return;
+        }
+    }
+
     QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
     if (model->submitAll())
     {
         model->database().commit();
+        isDirty = false;
     }
     else
     {
@@ -197,8 +222,15 @@ void Others::onCancel()
 
         model->revertAll();
 
+        isDirty = false;
+
         // qDebug() << model->lastError().text();
     }
+}
+
+void Others::onDataChanged(QModelIndex, QModelIndex)
+{
+    isDirty = true;
 }
 
 bool Others::save()
@@ -227,6 +259,12 @@ bool Others::save()
             qDebug() << model->lastError().text();
             QMessageBox::warning(this, tr("Socis"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
         }
+    }
+
+    if (result && isDirty)
+    {
+        QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+        isDirty = false;
     }
 
     return result;

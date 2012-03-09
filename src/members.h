@@ -33,6 +33,8 @@ protected:
 
     QTableView *tableView;
 
+    bool isDirty;
+
 signals:
     
 public slots:
@@ -43,6 +45,7 @@ public slots:
     void onCancel();
     void onHelp();
 
+    void onDataChanged(QModelIndex , QModelIndex );
 };
 
 #endif // MEMBERS_H

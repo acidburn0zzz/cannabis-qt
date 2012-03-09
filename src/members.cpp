@@ -14,7 +14,7 @@ Members::Members(QWidget *parent) :
     // QPushButton *clearFilterButton = new QPushButton(tr(""));
     // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
-    QPushButton *filterButton = new QPushButton(tr("Filter!"));
+    QPushButton *filterButton = new QPushButton(tr("Cerca!"));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
 
     filterLineEdit = new QLineEdit;
@@ -49,6 +49,8 @@ Members::Members(QWidget *parent) :
     tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
+    connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
+
 //    QGroupBox *groupBox = new QGroupBox;
 //    groupBox->setLayout(layout);
 
@@ -74,6 +76,8 @@ Members::Members(QWidget *parent) :
     vbox->addLayout(hbox2);
 
     setLayout(vbox);
+
+    isDirty = false;
 }
 
 void Members::onHelp()
@@ -93,10 +97,13 @@ void Members::addNewMember()
 
     // insert a row at the end
     int row = model->rowCount();
+
     if (model->insertRow(row) == false)
     {
         qDebug() << model->lastError().text();
     }
+
+    isDirty = true;
 }
 
 void Members::deleteMember()
@@ -136,6 +143,7 @@ void Members::deleteMember()
         if (msgBox.exec() == QMessageBox::Yes)
         {
             model->removeRow(row);
+            isDirty = true;
         }
     }
     else
@@ -146,11 +154,29 @@ void Members::deleteMember()
 
 void Members::onFilter()
 {
+    if (isDirty)
+    {
+        QMessageBox msgBox;
+
+        msgBox.setText("Abans de poder fer una cerca, s'han de guardar els canvis. "
+                       "Estàs segur de voler guardar-los ara?");
+        msgBox.setInformativeText("Està segur ?");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+
+        if (msgBox.exec() == QMessageBox::No)
+        {
+            return;
+        }
+    }
+
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     if (model->submitAll())
     {
         model->database().commit();
+        isDirty = false;
     }
     else
     {
@@ -199,8 +225,15 @@ void Members::onCancel()
 
         model->revertAll();
 
+        isDirty = false;
+
         // qDebug() << model->lastError().text();
     }
+}
+
+void Members::onDataChanged(QModelIndex, QModelIndex)
+{
+    isDirty = true;
 }
 
 bool Members::save()
@@ -229,6 +262,12 @@ bool Members::save()
             qDebug() << model->lastError().text();
             QMessageBox::warning(this, tr("Socis"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
         }
+    }
+
+    if (result && isDirty)
+    {
+        QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+        isDirty = false;
     }
 
     return result;

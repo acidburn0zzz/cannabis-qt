@@ -72,7 +72,7 @@ void MainWindow::createActions()
 
     otherBenefitsAct = new QAction(tr("&Altres consums"), this);
     otherBenefitsAct->setStatusTip(tr("Afegeix o edita la informació de les donacions"));
-    connect( otherBenefitsAct, SIGNAL( triggered() ), this, SLOT( onOtherBenefits()));
+    connect( otherBenefitsAct, SIGNAL( triggered() ), this, SLOT( onManageOthers()));
 
     cashControlAct = new QAction(tr("Control de &caixa"), this);
     cashControlAct->setStatusTip(tr("Mostra un resum de l'estat de caixa."));

@@ -47,6 +47,8 @@ CashControl::CashControl(QWidget *parent) :
     tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
+    connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
+
 //    QGroupBox *groupBox = new QGroupBox;
 //    groupBox->setLayout(layout);
 
@@ -72,6 +74,8 @@ CashControl::CashControl(QWidget *parent) :
     vbox->addLayout(hbox2);
 
     setLayout(vbox);
+
+    isDirty = false;
 }
 
 void CashControl::onHelp()
@@ -91,10 +95,13 @@ void CashControl::addNewOrder()
 
     // insert a row at the end
     int row = model->rowCount();
+
     if (model->insertRow(row) == false)
     {
         qDebug() << model->lastError().text();
     }
+
+    isDirty = true;
 }
 
 void CashControl::deleteOrder()
@@ -134,6 +141,7 @@ void CashControl::deleteOrder()
         if (msgBox.exec() == QMessageBox::Yes)
         {
             model->removeRow(row);
+            isDirty = true;
         }
     }
     else
@@ -144,11 +152,29 @@ void CashControl::deleteOrder()
 
 void CashControl::onFilter()
 {
+    if (isDirty)
+    {
+        QMessageBox msgBox;
+
+        msgBox.setText("Abans de poder fer una cerca, s'han de guardar els canvis. "
+                       "Estàs segur de voler guardar-los ara?");
+        msgBox.setInformativeText("Està segur ?");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+
+        if (msgBox.exec() == QMessageBox::No)
+        {
+            return;
+        }
+    }
+
     QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
     if (model->submitAll())
     {
         model->database().commit();
+        isDirty = false;
     }
     else
     {
@@ -197,8 +223,15 @@ void CashControl::onCancel()
 
         model->revertAll();
 
+        isDirty = false;
+
         // qDebug() << model->lastError().text();
     }
+}
+
+void CashControl::onDataChanged(QModelIndex, QModelIndex)
+{
+    isDirty = true;
 }
 
 bool CashControl::save()
@@ -214,8 +247,6 @@ bool CashControl::save()
         {
             model->database().commit();
 
-            // QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
-
             result = true;
         }
         else
@@ -227,6 +258,12 @@ bool CashControl::save()
             qDebug() << model->lastError().text();
             QMessageBox::warning(this, tr("Socis"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
         }
+    }
+
+    if (result && isDirty)
+    {
+        QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+        isDirty = false;
     }
 
     return result;
