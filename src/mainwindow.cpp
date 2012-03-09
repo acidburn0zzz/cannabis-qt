@@ -200,7 +200,6 @@ void MainWindow::onSaveMembers()
 }
 
 void MainWindow::onManageCannabis()
-cashControlAct = new QAction(tr("Gestiona el &canna
 {
     setMyCentralWidget(cannabisWidget);
 }
