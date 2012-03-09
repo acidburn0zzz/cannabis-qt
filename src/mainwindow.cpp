@@ -26,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
         qApp->quit();
     }
 
-    setMyStyleSheet();
-
     createActions();
     createMenus();
     createToolBars();
@@ -54,31 +52,6 @@ void MainWindow::setMyCentralWidget(QWidget *widget)
     setCentralWidget(widget);
 }
 
-void MainWindow::setMyStyleSheet()
-{
-/*
-    setStyleSheet("QRadioButton { font: bold 18px; }"
-                  //"QRadioButton::indicator { width: 40px; height: 40px; }"
-                  "QLabel { font: bold 14px; padding-left:42px; }");
-*/
-    setStyleSheet("QPushButton {"
-            "color: white;"
-            "background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #44d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);"
-            "border-width: 1px;"
-            "border-color: #339;"
-            "border-style: solid;"
-            "border-radius: 7;"
-            "padding: 3px;"
-            "font-size: 18px;"
-            "padding-left: 5px;"
-            "padding-right: 5px;"
-            "min-width: 50px;"
-            // "max-width: 10px;"
-            "min-height: 30px;"
-            "max-height: 60px; }"
-        "QGroupBox { border: 2px solid gray; border-radius: 6px; }");
-}
-
 void MainWindow::createActions()
 {
     aboutAct = new QAction(tr("&Sobre el progama"), this);
@@ -93,9 +66,17 @@ void MainWindow::createActions()
     manageMembersAct->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
     connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageMembers()));
 
-    manageCannabisAct = new QAction(tr("Gestiona el &cannabis"), this);
+    manageCannabisAct = new QAction(tr("Consum de &cannabis"), this);
     manageCannabisAct->setStatusTip(tr("Afegeix o edita la informació del cannabis que demanen els socis"));
-    connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
+    connect( manageCannabisAct, SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
+
+    otherBenefitsAct = new QAction(tr("&Altres consums"), this);
+    otherBenefitsAct->setStatusTip(tr("Afegeix o edita la informació de les donacions"));
+    connect( otherBenefitsAct, SIGNAL( triggered() ), this, SLOT( onOtherBenefits()));
+
+    cashControlAct = new QAction(tr("Control de &caixa"), this);
+    cashControlAct->setStatusTip(tr("Mostra un resum de l'estat de caixa."));
+    connect( cashControlAct, SIGNAL( triggered() ), this, SLOT( onCashControl()));
 
     quitAct = new QAction(tr("&Sortir"), this);
     quitAct->setShortcuts(QKeySequence::Quit);
@@ -108,6 +89,8 @@ void MainWindow::createMenus()
     actionsMenu = menuBar()->addMenu(tr("&Accions"));
     actionsMenu->addAction(manageMembersAct);
     actionsMenu->addAction(manageCannabisAct);
+    actionsMenu->addAction(otherBenefitsAct);
+    actionsMenu->addAction(cashControlAct);
     actionsMenu->addSeparator();
     actionsMenu->addAction(quitAct);
 
@@ -188,11 +171,11 @@ void MainWindow::onQuit()
 
     msgBox.setIcon(QMessageBox::Information);
 
-    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
 
     // execute message box. method exec() return the button value of clicked button
-    if (msgBox.exec() == QMessageBox::Ok)
+    if (msgBox.exec() == QMessageBox::Yes)
     {
         qApp->quit();
     }
@@ -217,6 +200,7 @@ void MainWindow::onSaveMembers()
 }
 
 void MainWindow::onManageCannabis()
+cashControlAct = new QAction(tr("Gestiona el &canna
 {
     setMyCentralWidget(cannabisWidget);
 }

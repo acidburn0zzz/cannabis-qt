@@ -47,7 +47,6 @@ private:
      void createStatusBar();
      void createCentralWidgets();
 
-     void setMyStyleSheet(void);
      void setMyCentralWidget(QWidget *widget);
 
      QMenu *actionsMenu;
@@ -58,6 +57,8 @@ private:
      QAction *quitAct;
      QAction *manageMembersAct;
      QAction *manageCannabisAct;
+     QAction *otherBenefitsAct;
+     QAction *cashControlAct;
 
      ChooseOption *chooseOptionWidget;
      Members *membersWidget;
