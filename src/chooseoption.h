@@ -18,6 +18,9 @@ public:
     QPushButton *othersButton;
     QPushButton *cashButton;
 
+protected:
+    void setMyStyleSheet(void);
+
 signals:
     
 public slots:
