@@ -131,7 +131,7 @@ void MainWindow::createCentralWidgets()
     chooseOptionWidget = new ChooseOption();
     connect( chooseOptionWidget->membersButton, SIGNAL(pressed()), this, SLOT(onManageMembers()));
     connect( chooseOptionWidget->cannabisButton, SIGNAL(pressed()), this, SLOT(onManageCannabis()));
-    connect( chooseOptionWidget->othersButton, SIGNAL(pressed()), this, SLOT(onOther()));
+    connect( chooseOptionWidget->othersButton, SIGNAL(pressed()), this, SLOT(onManageOthers()));
     connect( chooseOptionWidget->cashButton, SIGNAL(pressed()), this, SLOT(onCashControl()));
     connect( chooseOptionWidget->quitButton, SIGNAL(pressed()), this, SLOT(onQuit()));
 
@@ -142,6 +142,14 @@ void MainWindow::createCentralWidgets()
     cannabisWidget = new Cannabis();
     connect(cannabisWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCannabis()));
     connect(cannabisWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
+
+    othersWidget = new Others();
+    connect(othersWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveOthers()));
+    connect(othersWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
+
+    cashControlWidget = new CashControl();
+    connect(cashControlWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCashControl()));
+    connect(cashControlWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 }
 
 void MainWindow::print()
@@ -220,3 +228,19 @@ void MainWindow::onSaveCannabis()
         onMainMenu();
     }
 }
+
+void MainWindow::onManageOthers()
+{
+    setMyCentralWidget(othersWidget);
+}
+
+void MainWindow::onSaveOthers()
+{}
+
+void MainWindow::onCashControl()
+{
+    setMyCentralWidget(cashControlWidget);
+}
+
+void MainWindow::onSaveCashControl()
+{}

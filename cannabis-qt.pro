@@ -14,13 +14,17 @@ SOURCES += src/main.cpp\
     src/databasemanager.cpp \
     src/chooseoption.cpp \
     src/members.cpp \
-    src/cannabis.cpp
+    src/cannabis.cpp \
+    src/others.cpp \
+    src/cashcontrol.cpp
 
 HEADERS  += src/mainwindow.h \
     src/databasemanager.h \
     src/chooseoption.h \
     src/members.h \
-    src/cannabis.h
+    src/cannabis.h \
+    src/others.h \
+    src/cashcontrol.h
 
 RESOURCES += \
     cannabis-qt.qrc

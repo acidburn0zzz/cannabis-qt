@@ -19,6 +19,8 @@
 #include "chooseoption.h"
 #include "members.h"
 #include "cannabis.h"
+#include "others.h"
+#include "cashcontrol.h"
 
 namespace Ui {
 class MainWindow;
@@ -60,13 +62,24 @@ private:
      ChooseOption *chooseOptionWidget;
      Members *membersWidget;
      Cannabis *cannabisWidget;
+     Others *othersWidget;
+     CashControl *cashControlWidget;
 
 public slots:
      void onQuit();
+
      void onManageMembers();
      void onSaveMembers();
+
      void onManageCannabis();
      void onSaveCannabis();
+
+     void onManageOthers();
+     void onSaveOthers();
+
+     void onCashControl();
+     void onSaveCashControl();
+
      void onMainMenu();
 
 };

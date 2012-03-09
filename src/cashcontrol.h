@@ -1,5 +1,5 @@
-#ifndef CANNABIS_H
-#define CANNABIS_H
+#ifndef CASHCONTROL_H
+#define CASHCONTROL_H
 
 #include <QWidget>
 #include <QPushButton>
@@ -17,11 +17,11 @@
 #include <QSqlError>
 #include <QMessageBox>
 
-class Cannabis : public QWidget
+class CashControl : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Cannabis(QWidget *parent = 0);
+    explicit CashControl(QWidget *parent = 0);
 
     QDialogButtonBox *buttonBox;
 
@@ -47,4 +47,4 @@ public slots:
 
 };
 
-#endif // CANNABIS_H
+#endif // CASHCONTROL_H
