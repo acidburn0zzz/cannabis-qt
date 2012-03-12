@@ -9,6 +9,8 @@ int main(int argc, char *argv[])
     a.setOrganizationName("sandra");
     a.setApplicationName("cannabis-qt");
 
+    a.setWindowIcon(QIcon(":/cannabis-qt.jpg"));
+
     MainWindow w;
     w.show();
     
