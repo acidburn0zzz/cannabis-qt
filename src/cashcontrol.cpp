@@ -14,7 +14,7 @@ CashControl::CashControl(QWidget *parent) :
     // QPushButton *clearFilterButton = new QPushButton(tr(""));
     // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
-    QPushButton *filterButton = new QPushButton(tr("Filter!"));
+    QPushButton *filterButton = new QPushButton(tr("Cerca!"));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
 
     filterLineEdit = new QLineEdit;
