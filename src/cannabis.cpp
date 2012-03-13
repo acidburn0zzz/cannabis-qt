@@ -43,18 +43,14 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView = new QTableView;
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
+
+    QDateEdit *calendar = new QDateEdit;
+    calendar->setCalendarPopup(true);
+    tableView->setIndexWidget(model->index(0, 2), calendar);
+
     tableView->resizeColumnsToContents();
     tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->horizontalHeader()->setStretchLastSection(true);
-
-    /*
-    QDateEdit *calendar = new QDateEdit;
-    calendar->setCalendarPopup(true);
-    tableView->setIndexWidget(model->index(fila,columna),calendario);
-        view->show();
-    */
-
-
 
     tableView->show();
 
@@ -110,6 +106,12 @@ void Cannabis::addNewOrder()
     if (model->insertRow(row) == false)
     {
         qDebug() << model->lastError().text();
+    }
+    else
+    {
+        QDateEdit *calendar = new QDateEdit;
+        calendar->setCalendarPopup(true);
+        tableView->setIndexWidget(model->index(row, 2), calendar);
     }
 
     isDirty = true;
