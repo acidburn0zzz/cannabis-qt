@@ -16,6 +16,7 @@
 #include <QVBoxLayout>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QDateEdit>
 
 class Cannabis : public QWidget
 {

@@ -34,7 +34,9 @@ Cannabis::Cannabis(QWidget *parent) :
 
     model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
     model->setHeaderData(1, Qt::Horizontal, tr("Soci"));
+
     model->setHeaderData(2, Qt::Horizontal, tr("Data"));
+
     model->setHeaderData(3, Qt::Horizontal, tr("Grams"));
     model->setHeaderData(4, Qt::Horizontal, tr("Preu"));
 
@@ -44,6 +46,16 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView->resizeColumnsToContents();
     tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->horizontalHeader()->setStretchLastSection(true);
+
+    /*
+    QDateEdit *calendar = new QDateEdit;
+    calendar->setCalendarPopup(true);
+    tableView->setIndexWidget(model->index(fila,columna),calendario);
+        view->show();
+    */
+
+
+
     tableView->show();
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
