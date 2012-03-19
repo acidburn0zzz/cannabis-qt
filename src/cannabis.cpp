@@ -44,8 +44,9 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
 
-    QDateEdit *calendar = new QDateEdit;
-    calendar->setCalendarPopup(true);
+    dateEdit.clear();
+    QDateEdit *calendar = createCalendar();
+    dateEdit.append(calendar);
     tableView->setIndexWidget(model->index(0, 2), calendar);
 
     tableView->resizeColumnsToContents();
@@ -109,6 +110,8 @@ void Cannabis::addNewOrder()
     }
     else
     {
+        QDateEdit *calendar = createCalendar();
+        dateEdit.append(calendar);
         tableView->setIndexWidget(model->index(row, 2), calendar);
     }
 

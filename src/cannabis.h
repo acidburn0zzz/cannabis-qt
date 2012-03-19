@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QList>
 #include <QLineEdit>
 #include <QLabel>
 #include <QDialogButtonBox>
@@ -30,12 +31,16 @@ public:
 
     bool save(void);
 
+    QDateEdit *createCalendar();
+
 protected:
     QLineEdit *filterLineEdit;
 
     QTableView *tableView;
 
     bool isDirty;
+
+    QList<QDateEdit *> dateEdit;
 
 signals:
     
