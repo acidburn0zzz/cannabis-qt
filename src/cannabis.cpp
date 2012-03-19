@@ -109,12 +109,18 @@ void Cannabis::addNewOrder()
     }
     else
     {
-        QDateEdit *calendar = new QDateEdit;
-        calendar->setCalendarPopup(true);
         tableView->setIndexWidget(model->index(row, 2), calendar);
     }
 
     isDirty = true;
+}
+
+QDateEdit * Cannabis::createCalendar()
+{
+    QDateEdit *calendar = new QDateEdit;
+    calendar->setCalendarPopup(true);
+
+    return calendar;
 }
 
 void Cannabis::deleteOrder()
