@@ -17,7 +17,6 @@
 #include <QVBoxLayout>
 #include <QSqlError>
 #include <QMessageBox>
-#include <QDateEdit>
 
 class Cannabis : public QWidget
 {
@@ -31,16 +30,12 @@ public:
 
     bool save(void);
 
-    QDateEdit *createCalendar();
-
 protected:
     QLineEdit *filterLineEdit;
 
     QTableView *tableView;
 
     bool isDirty;
-
-    QList<QDateEdit *> dateEdit;
 
 signals:
     
@@ -54,7 +49,6 @@ public slots:
     void onHelp();
 
     void onDataChanged(QModelIndex , QModelIndex );
-
 };
 
 #endif // CANNABIS_H

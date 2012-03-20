@@ -1,4 +1,5 @@
 #include "cannabis.h"
+#include "mydateedit.h"
 
 Cannabis::Cannabis(QWidget *parent) :
     QWidget(parent)
@@ -44,14 +45,11 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
 
-    dateEdit.clear();
-    QDateEdit *calendar = createCalendar();
-    dateEdit.append(calendar);
-    tableView->setIndexWidget(model->index(0, 2), calendar);
-
-    tableView->resizeColumnsToContents();
+    // tableView->resizeColumnsToContents();
     tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->horizontalHeader()->setStretchLastSection(true);
+
+    tableView->setItemDelegateForColumn(2, new MyDateEdit);
 
     tableView->show();
 
@@ -108,22 +106,8 @@ void Cannabis::addNewOrder()
     {
         qDebug() << model->lastError().text();
     }
-    else
-    {
-        QDateEdit *calendar = createCalendar();
-        dateEdit.append(calendar);
-        tableView->setIndexWidget(model->index(row, 2), calendar);
-    }
 
     isDirty = true;
-}
-
-QDateEdit * Cannabis::createCalendar()
-{
-    QDateEdit *calendar = new QDateEdit;
-    calendar->setCalendarPopup(true);
-
-    return calendar;
 }
 
 void Cannabis::deleteOrder()
@@ -263,6 +247,7 @@ bool Cannabis::save()
     if (tableView != NULL)
     {
         QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+
         model->database().transaction();
 
         if (model->submitAll())
