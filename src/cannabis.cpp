@@ -51,7 +51,6 @@ Cannabis::Cannabis(QWidget *parent) :
 
     tableView->setItemDelegateForColumn(2, new MyDateEdit);
 
-    // tableView->setEditTriggers(tableView->editTriggers() | QAbstractItemView::SelectedClicked);
     tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
     tableView->show();
