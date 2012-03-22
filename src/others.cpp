@@ -1,4 +1,5 @@
 #include "others.h"
+#include "mydateedit.h"
 
 Others::Others(QWidget *parent) :
     QWidget(parent)
@@ -24,27 +25,31 @@ Others::Others(QWidget *parent) :
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
 
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel;
-    model->setTable("Cannabis");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    // CREATE TABLE "Altres" ( "Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Data" TEXT, "Diners" REAL);
 
-    model->setRelation(1, QSqlRelation("Socis", "Codi", "Codi"));
+    QSqlTableModel *model = new QSqlTableModel;
+    model->setTable("Altres");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     model->select();
 
     model->removeColumn(0); // don't show the ID
 
-    model->setHeaderData(0, Qt::Horizontal, tr("Codi soci"));
+    model->setHeaderData(0, Qt::Horizontal, tr("Codi consum"));
     model->setHeaderData(1, Qt::Horizontal, tr("Data"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Grams"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Preu"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Diners"));
 
     tableView = new QTableView;
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
     tableView->resizeColumnsToContents();
-    tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
+
     tableView->horizontalHeader()->setStretchLastSection(true);
+
+    tableView->setItemDelegateForColumn(1, new MyDateEdit);
+
+    tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
+
     tableView->show();
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
@@ -91,7 +96,7 @@ void Others::onHelp()
 
 void Others::addNewOrder()
 {
-    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     // insert a row at the end
     int row = model->rowCount();
@@ -125,7 +130,7 @@ void Others::deleteOrder()
     {
         int row = index.row();
 
-        QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
         QMessageBox msgBox;
 
@@ -168,7 +173,7 @@ void Others::onFilter()
         }
     }
 
-    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     if (model->submitAll())
     {
@@ -207,14 +212,14 @@ void Others::onFilter()
 
         if (model->rowCount() <= 0)
         {
-            QMessageBox::warning(this, tr("Socis"), tr("Ho sento, no puc trobar cap soci amb aquest codi o amb aquest nom!"));
+            QMessageBox::warning(this, tr("Altres"), tr("Ho sento, no puc trobar cap consum amb aquest codi o aquesta data!"));
         }
     }
 }
 
 void Others::onCancel()
 { 
-    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     if (model != NULL)
     {
@@ -239,7 +244,7 @@ bool Others::save()
 
     if (tableView != NULL)
     {
-        QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
         model->database().transaction();
 
         if (model->submitAll())
@@ -257,13 +262,13 @@ bool Others::save()
             model->revertAll();
 
             qDebug() << model->lastError().text();
-            QMessageBox::warning(this, tr("Socis"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
+            QMessageBox::warning(this, tr("Altres"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
         }
     }
 
     if (result && isDirty)
     {
-        QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+        QMessageBox::information(this, tr("Altres"), tr("S'han guardat tots els canvis"));
         isDirty = false;
     }
 
