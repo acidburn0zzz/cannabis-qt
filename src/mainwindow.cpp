@@ -218,7 +218,12 @@ void MainWindow::onManageOthers()
 }
 
 void MainWindow::onSaveOthers()
-{}
+{
+    if (othersWidget->save())
+    {
+        onMainMenu();
+    }
+}
 
 void MainWindow::onCashControl()
 {
@@ -226,4 +231,9 @@ void MainWindow::onCashControl()
 }
 
 void MainWindow::onSaveCashControl()
-{}
+{
+    if (cashControlWidget->save())
+    {
+        onMainMenu();
+    }
+}
