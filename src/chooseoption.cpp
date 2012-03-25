@@ -6,7 +6,8 @@ ChooseOption::ChooseOption(QWidget *parent) :
     setMyStyleSheet();
 
     membersButton = new QPushButton(tr("Modifica la informació dels &socis o afegeix-ne de nous"), this);
-    cannabisButton = new QPushButton(tr("Consum de &cannabis"), this);
+    cannabisButton = new QPushButton(tr("Consum de &cànnabis"), this);
+    cansButton = new QPushButton(tr("Pots de &cànnabis"), this);
     othersButton = new QPushButton(tr("&Altres consums"), this);
     cashButton = new QPushButton(tr("Control de cai&xa"), this);
     quitButton = new QPushButton(tr("&Sortir"), this);
@@ -14,6 +15,7 @@ ChooseOption::ChooseOption(QWidget *parent) :
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(membersButton);
     vbox->addWidget(cannabisButton);
+    vbox->addWidget(cansButton);
     vbox->addWidget(othersButton);
     vbox->addWidget(cashButton);
     vbox->addWidget(quitButton);

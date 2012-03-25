@@ -1,4 +1,6 @@
 #include "members.h"
+#include "mydateedit.h"
+#include "mycheckbox.h"
 
 Members::Members(QWidget *parent) :
     QWidget(parent)
@@ -9,7 +11,6 @@ Members::Members(QWidget *parent) :
                   "QLabel { font: bold 18px; min-height: 30px; max-height: 60px; }");
     */
 
-    // name cif address phone email
 
     // QPushButton *clearFilterButton = new QPushButton(tr(""));
     // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
@@ -32,21 +33,28 @@ Members::Members(QWidget *parent) :
     // model->removeColumn(0); // don't show the ID
 
     model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
-    model->setHeaderData(1, Qt::Horizontal, tr("DNI"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Nom"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Primer Cognom"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Segon Cognom"));
-    model->setHeaderData(5, Qt::Horizontal, tr("Adreça"));
-    model->setHeaderData(6, Qt::Horizontal, tr("Telèfon"));
-    model->setHeaderData(7, Qt::Horizontal, tr("Codi Postal"));
-    model->setHeaderData(8, Qt::Horizontal, tr("Població"));
-    model->setHeaderData(9, Qt::Horizontal, tr("E-mail"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Data Alta"));
+    model->setHeaderData(2, Qt::Horizontal, tr("DNI"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Nom"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Primer Cognom"));
+    model->setHeaderData(5, Qt::Horizontal, tr("Segon Cognom"));
+    model->setHeaderData(6, Qt::Horizontal, tr("Adreça"));
+    model->setHeaderData(7, Qt::Horizontal, tr("Telèfon"));
+    model->setHeaderData(8, Qt::Horizontal, tr("Codi Postal"));
+    model->setHeaderData(9, Qt::Horizontal, tr("Població"));
+    model->setHeaderData(10, Qt::Horizontal, tr("E-mail"));
+    model->setHeaderData(11, Qt::Horizontal, tr("Pagat"));
 
     tableView = new QTableView;
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
     tableView->resizeColumnsToContents();
     tableView->horizontalHeader()->setStretchLastSection(true);
+
+    tableView->setItemDelegateForColumn(1, new MyDateEdit);
+    tableView->setItemDelegateForColumn(11, new MyCheckBox);
+    tableView->set
+
     tableView->show();
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
@@ -266,6 +274,7 @@ bool Members::save()
 
     if (result && isDirty)
     {
+        resizeTableViewToContents();
         QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
         isDirty = false;
     }

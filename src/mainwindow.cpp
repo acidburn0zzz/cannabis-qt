@@ -21,9 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
     if (!db.openDB())
     {
         qDebug() << "Error: can't create/open database.";
-        QMessageBox::critical(this, tr("Cannabis-qt Application"),
-                              tr("Critical error: Can't open database. Please get in touch with your dealer for further help."));
+        QMessageBox::critical(this, tr("Cannabis-qt"),
+                              tr("Error crític: No puc obrir la base de dades. Si us plau, posi's en contacte amb el seu distribuidor per a obtenir ajuda"));
         qApp->quit();
+
     }
 
     createActions();
@@ -66,9 +67,13 @@ void MainWindow::createActions()
     manageMembersAct->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
     connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageMembers()));
 
-    manageCannabisAct = new QAction(tr("Consum de &cannabis"), this);
-    manageCannabisAct->setStatusTip(tr("Afegeix o edita la informació del cannabis que demanen els socis"));
+    manageCannabisAct = new QAction(tr("Consum de &cànnabis"), this);
+    manageCannabisAct->setStatusTip(tr("Afegeix o edita la informació del cànnabis que demanen els socis"));
     connect( manageCannabisAct, SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
+
+    manageCansAct = new QAction(tr("Control dels pots de cànnabis"), this);
+    manageCansAct->setStatusTip(tr("Afegeix o edita la informació dels pots contenidors de cànnabis"));
+    connect(manageCansAct, SIGNAL(triggered()), this, SLOT(onManageCans()));
 
     otherBenefitsAct = new QAction(tr("&Altres consums"), this);
     otherBenefitsAct->setStatusTip(tr("Afegeix o edita la informació de les donacions"));
@@ -89,6 +94,7 @@ void MainWindow::createMenus()
     actionsMenu = menuBar()->addMenu(tr("&Accions"));
     actionsMenu->addAction(manageMembersAct);
     actionsMenu->addAction(manageCannabisAct);
+    actionsMenu->addAction(manageCansAct);
     actionsMenu->addAction(otherBenefitsAct);
     actionsMenu->addAction(cashControlAct);
     actionsMenu->addSeparator();
@@ -114,6 +120,7 @@ void MainWindow::createCentralWidgets()
     chooseOptionWidget = new ChooseOption();
     connect( chooseOptionWidget->membersButton, SIGNAL(pressed()), this, SLOT(onManageMembers()));
     connect( chooseOptionWidget->cannabisButton, SIGNAL(pressed()), this, SLOT(onManageCannabis()));
+    connect( chooseOptionWidget->cansButton, SIGNAL(pressed()), this, SLOT(onManageCans()));
     connect( chooseOptionWidget->othersButton, SIGNAL(pressed()), this, SLOT(onManageOthers()));
     connect( chooseOptionWidget->cashButton, SIGNAL(pressed()), this, SLOT(onCashControl()));
     connect( chooseOptionWidget->quitButton, SIGNAL(pressed()), this, SLOT(onQuit()));
@@ -125,6 +132,10 @@ void MainWindow::createCentralWidgets()
     cannabisWidget = new Cannabis();
     connect(cannabisWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCannabis()));
     connect(cannabisWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
+
+    cansWidget = new Cans();
+    connect(cansWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCans()));
+    connect(cansWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 
     othersWidget = new Others();
     connect(othersWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveOthers()));
@@ -157,8 +168,7 @@ void MainWindow::about()
 {
     QMessageBox::about(this, tr("Sobre Cannabis-qt"),
              tr("The <b>Cannabis-qt</b> programa per gestionar "
-                "un club social de cannabis. "
-                "Creat per Sandra Castells."));
+                "un club social de cànnabis. "));
 }
 
 // ---------------------------------------------------------------------------------------------------------
@@ -207,6 +217,19 @@ void MainWindow::onManageCannabis()
 void MainWindow::onSaveCannabis()
 {
     if (cannabisWidget->save())
+    {
+        onMainMenu();
+    }
+}
+
+void MainWindow::onManageCans()
+{
+    setMyCentralWidget(cansWidget);
+}
+
+void MainWindow::onSaveCans()
+{
+    if (cansWidget->save())
     {
         onMainMenu();
     }

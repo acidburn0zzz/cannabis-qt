@@ -17,7 +17,8 @@ SOURCES += src/main.cpp\
     src/cannabis.cpp \
     src/others.cpp \
     src/cashcontrol.cpp \
-    src/mydateedit.cpp
+    src/mydateedit.cpp \
+    src/cans.cpp
 
 HEADERS  += src/mainwindow.h \
     src/databasemanager.h \
@@ -26,7 +27,8 @@ HEADERS  += src/mainwindow.h \
     src/cannabis.h \
     src/others.h \
     src/cashcontrol.h \
-    src/mydateedit.h
+    src/mydateedit.h \
+    src/cans.h
 
 RESOURCES += \
     cannabis-qt.qrc

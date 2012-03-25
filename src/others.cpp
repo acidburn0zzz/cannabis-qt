@@ -267,6 +267,7 @@ bool Others::save()
 
     if (result && isDirty)
     {
+        resizeTableViewToContents();
         QMessageBox::information(this, tr("Altres"), tr("S'han guardat tots els canvis"));
         isDirty = false;
     }

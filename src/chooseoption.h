@@ -17,6 +17,7 @@ public:
     QPushButton *cannabisButton;
     QPushButton *othersButton;
     QPushButton *cashButton;
+    QPushButton *cansButton;
 
 protected:
     void setMyStyleSheet(void);

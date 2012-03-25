@@ -1,7 +1,6 @@
-#include "cannabis.h"
-#include "mydateedit.h"
+#include "cans.h"
 
-Cannabis::Cannabis(QWidget *parent) :
+Cans::Cans(QWidget *parent) :
     QWidget(parent)
 {
     /*
@@ -25,30 +24,28 @@ Cannabis::Cannabis(QWidget *parent) :
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
 
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel;
-    model->setTable("Cannabis");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    // CREATE TABLE "Pots" ( "Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Numero" INTEGER NOT NULL, "Grams" INTEGER NOT NULL);
 
-    model->setRelation(1, QSqlRelation("Socis", "Codi", "Codi"));
+    QSqlTableModel *model = new QSqlTableModel;
+    model->setTable("Pots");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     model->select();
 
-    model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Soci"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Data"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Pot"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Grams"));
-    model->setHeaderData(5, Qt::Horizontal, tr("Preu"));
+    model->removeColumn(0); // don't show the ID
+//    model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
+    model->setHeaderData(0, Qt::Horizontal, tr("Número de pot"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Grams"));
+
 
     tableView = new QTableView;
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
+    tableView->resizeColumnsToContents();
 
-    // tableView->resizeColumnsToContents();
-    tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    tableView->setItemDelegateForColumn(2, new MyDateEdit);
+    // tableView->setItemDelegateForColumn(0, new MyDateEdit);
 
     tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
@@ -64,11 +61,11 @@ Cannabis::Cannabis(QWidget *parent) :
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
-    QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou consum"));
-    connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewOrder()));
+    QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou pot"));
+    connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewCan()));
 
-    QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar consum"));
-    connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteOrder()));
+    QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar pot"));
+    connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteCan()));
 
     QHBoxLayout *hbox2 = new QHBoxLayout;
     hbox2->addWidget(addNewCustomerPushButton);
@@ -85,7 +82,7 @@ Cannabis::Cannabis(QWidget *parent) :
     isDirty = false;
 }
 
-void Cannabis::onHelp()
+void Cans::onHelp()
 {
     QMessageBox *msgBox = new QMessageBox(this);
 
@@ -96,13 +93,12 @@ void Cannabis::onHelp()
     msgBox->exec();
 }
 
-void Cannabis::addNewOrder()
+void Cans::addNewCan()
 {
-    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     // insert a row at the end
     int row = model->rowCount();
-
     if (model->insertRow(row) == false)
     {
         qDebug() << model->lastError().text();
@@ -111,13 +107,13 @@ void Cannabis::addNewOrder()
     isDirty = true;
 }
 
-void Cannabis::deleteOrder()
+void Cans::deleteCan()
 {
 
     // int i = tableView->selectedIndexes()
     // QModelIndex index = tableView->currentIndex();
 
-    QMessageBox::warning(this, tr("Socis"), tr("TODO"));
+    QMessageBox::warning(this, tr("Pots"), tr("TODO"));
     return;
 
 
@@ -133,11 +129,11 @@ void Cannabis::deleteOrder()
     {
         int row = index.row();
 
-        QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
         QMessageBox msgBox;
 
-        msgBox.setText("Aquesta acció eliminarà el soci! "
+        msgBox.setText("Aquesta acció eliminarà el pot."
         "(els seus consums quedaran registrats, però no podrà accedir-hi)");
         msgBox.setInformativeText("Està segur ?");
         msgBox.setIcon(QMessageBox::Warning);
@@ -153,11 +149,11 @@ void Cannabis::deleteOrder()
     }
     else
     {
-        QMessageBox::warning(this, tr("Socis"), tr("Si us plau, marqui a la llista el soci que vol esborrar"));
+        QMessageBox::warning(this, tr("Pots"), tr("Si us plau, marqui a la llista el pot que vol esborrar"));
     }
 }
 
-void Cannabis::onFilter()
+void Cans::onFilter()
 {
     if (isDirty)
     {
@@ -176,7 +172,7 @@ void Cannabis::onFilter()
         }
     }
 
-    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     if (model->submitAll())
     {
@@ -196,33 +192,22 @@ void Cannabis::onFilter()
 
     if (!filterLineEdit->text().isEmpty())
     {
-        where = "Codi = '" + filterLineEdit->text() + "'";
+        where = "Numero = '" + filterLineEdit->text() + "'";
     }
 
     model->setFilter(where);
 
     model->select();
 
-    if (model->rowCount() <= 0 && !filterLineEdit->text().isEmpty())
+    if (model->rowCount() <= 0)
     {
-        // Try with Name
-
-        where = "Name = '" + filterLineEdit->text() + "'";
-
-        model->setFilter(where);
-
-        model->select();
-
-        if (model->rowCount() <= 0)
-        {
-            QMessageBox::warning(this, tr("Socis"), tr("Ho sento, no puc trobar cap soci amb aquest codi o amb aquest nom!"));
-        }
+        QMessageBox::warning(this, tr("Pots"), tr("Ho sento, no puc trobar cap pot amb aquest número!"));
     }
 }
 
-void Cannabis::onCancel()
+void Cans::onCancel()
 { 
-    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     if (model != NULL)
     {
@@ -236,26 +221,25 @@ void Cannabis::onCancel()
     }
 }
 
-void Cannabis::onDataChanged(QModelIndex, QModelIndex)
+void Cans::onDataChanged(QModelIndex, QModelIndex)
 {
     isDirty = true;
 }
 
-bool Cannabis::save()
+bool Cans::save()
 {
     bool result = false;
 
     if (tableView != NULL)
     {
-        QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
-
+        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
         model->database().transaction();
 
         if (model->submitAll())
         {
             model->database().commit();
 
-            // QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+            // QMessageBox::information(this, tr("Pots"), tr("S'han guardat tots els canvis"));
 
             result = true;
         }
@@ -266,21 +250,22 @@ bool Cannabis::save()
             model->revertAll();
 
             qDebug() << model->lastError().text();
-            QMessageBox::warning(this, tr("Socis"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
+            QMessageBox::warning(this, tr("Altres"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
         }
     }
 
     if (result && isDirty)
     {
         resizeTableViewToContents();
-        QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+
+        QMessageBox::information(this, tr("Pots"), tr("S'han guardat tots els canvis"));
         isDirty = false;
     }
 
     return result;
 }
 
-void Cannabis::resizeTableViewToContents()
+void Cans::resizeTableViewToContents()
 {
     if (tableView != NULL)
     {

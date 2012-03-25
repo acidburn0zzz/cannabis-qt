@@ -262,6 +262,7 @@ bool CashControl::save()
 
     if (result && isDirty)
     {
+        resizeTableViewToContents();
         QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
         isDirty = false;
     }

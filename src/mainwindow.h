@@ -21,6 +21,7 @@
 #include "cannabis.h"
 #include "others.h"
 #include "cashcontrol.h"
+#include "cans.h"
 
 namespace Ui {
 class MainWindow;
@@ -57,12 +58,14 @@ private:
      QAction *quitAct;
      QAction *manageMembersAct;
      QAction *manageCannabisAct;
+     QAction *manageCansAct;
      QAction *otherBenefitsAct;
      QAction *cashControlAct;
 
      ChooseOption *chooseOptionWidget;
      Members *membersWidget;
      Cannabis *cannabisWidget;
+     Cans *cansWidget;
      Others *othersWidget;
      CashControl *cashControlWidget;
 
@@ -74,6 +77,9 @@ public slots:
 
      void onManageCannabis();
      void onSaveCannabis();
+
+     void onManageCans();
+     void onSaveCans();
 
      void onManageOthers();
      void onSaveOthers();
