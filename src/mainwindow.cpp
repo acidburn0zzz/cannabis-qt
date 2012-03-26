@@ -255,8 +255,5 @@ void MainWindow::onCashControl()
 
 void MainWindow::onSaveCashControl()
 {
-    if (cashControlWidget->save())
-    {
-        onMainMenu();
-    }
+    onMainMenu();
 }

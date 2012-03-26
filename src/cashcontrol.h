@@ -16,6 +16,7 @@
 #include <QVBoxLayout>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QDateEdit>
 
 class CashControl : public QWidget
 {
@@ -30,24 +31,17 @@ public:
     bool save(void);
 
 protected:
-    QLineEdit *filterLineEdit;
+    QDateEdit *dataInicial;
+    QDateEdit *dataFinal;
 
     QTableView *tableView;
-
-    bool isDirty;
 
 signals:
     
 public slots:
-
-    void addNewOrder();
-    void deleteOrder();
-    void onFilter();
-
-    void onCancel();
     void onHelp();
-
-    void onDataChanged(QModelIndex , QModelIndex );
+    void onShow();
+    void onPrint();
 
 };
 
