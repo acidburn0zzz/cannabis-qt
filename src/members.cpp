@@ -1,5 +1,6 @@
 #include "members.h"
-#include "mydateedit.h"
+#include "mydateeditdelegate.h"
+#include "mycheckboxdelegate.h"
 
 Members::Members(QWidget *parent) :
     QWidget(parent)
@@ -50,8 +51,8 @@ Members::Members(QWidget *parent) :
     tableView->resizeColumnsToContents();
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    tableView->setItemDelegateForColumn(1, new MyDateEdit);
-    tableView->setItemDelegateForColumn(11, new QItemDelegate);
+    tableView->setItemDelegateForColumn(1, new MyDateEditDelegate);
+    tableView->setItemDelegateForColumn(11, new MyCheckBoxDelegate);
 
     tableView->show();
 

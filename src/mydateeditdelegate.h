@@ -4,11 +4,11 @@
 #include <QDateEdit>
 #include <QItemDelegate>
 
-class MyDateEdit : public QItemDelegate
+class MyDateEditDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    explicit MyDateEdit(QObject *parent = 0);
+    explicit MyDateEditDelegate(QObject *parent = 0);
 
     QWidget * createEditor(QWidget*parent,const QStyleOptionViewItem &opcion,
                             const QModelIndex &index) const;

@@ -1,5 +1,5 @@
 #include "others.h"
-#include "mydateedit.h"
+#include "mydateeditdelegate.h"
 
 Others::Others(QWidget *parent) :
     QWidget(parent)
@@ -45,7 +45,7 @@ Others::Others(QWidget *parent) :
 
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    tableView->setItemDelegateForColumn(0, new MyDateEdit);
+    tableView->setItemDelegateForColumn(0, new MyDateEditDelegate);
 
     tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 

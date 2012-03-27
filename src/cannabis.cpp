@@ -1,5 +1,5 @@
 #include "cannabis.h"
-#include "mydateedit.h"
+#include "mydateeditdelegate.h"
 
 Cannabis::Cannabis(QWidget *parent) :
     QWidget(parent)
@@ -48,7 +48,7 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    tableView->setItemDelegateForColumn(2, new MyDateEdit);
+    tableView->setItemDelegateForColumn(2, new MyDateEditDelegate);
 
     tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 

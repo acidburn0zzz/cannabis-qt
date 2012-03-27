@@ -1,12 +1,12 @@
-#include "mydateedit.h"
+#include "mydateeditdelegate.h"
 
-MyDateEdit::MyDateEdit(QObject *parent) :
+MyDateEditDelegate::MyDateEditDelegate(QObject *parent) :
     QItemDelegate(parent)
 {
      this->setParent(parent);
 }
 
-QWidget * MyDateEdit::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget * MyDateEditDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QDateEdit *dateEdit = new QDateEdit(parent);
 
@@ -26,7 +26,7 @@ QWidget * MyDateEdit::createEditor(QWidget *parent, const QStyleOptionViewItem &
     return dateEdit;
 }
 
-void MyDateEdit::setEditorData(QWidget *editor, const QModelIndex &index) const
+void MyDateEditDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QString dateStr = index.model()->data(index, Qt::EditRole).toString();
 
@@ -37,7 +37,7 @@ void MyDateEdit::setEditorData(QWidget *editor, const QModelIndex &index) const
     dateEdit->setDate(date);
 }
 
-void MyDateEdit::setModelData(QWidget *editor, QAbstractItemModel *model,const QModelIndex &index) const
+void MyDateEditDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,const QModelIndex &index) const
 {
     QDateEdit *dateEdit = static_cast<QDateEdit *>(editor);
 
@@ -48,7 +48,7 @@ void MyDateEdit::setModelData(QWidget *editor, QAbstractItemModel *model,const Q
     model->setData(index, dateStr, Qt::EditRole);
 }
 
-void MyDateEdit::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void MyDateEditDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     editor->setGeometry(option.rect);
 }
