@@ -55,7 +55,7 @@ void MainWindow::setMyCentralWidget(QWidget *widget)
 
 void MainWindow::createActions()
 {
-    aboutAct = new QAction(tr("&Sobre el progama"), this);
+    aboutAct = new QAction(tr("&Sobre el programa"), this);
     aboutAct->setStatusTip(tr("Mostra informació sobre el programa"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 

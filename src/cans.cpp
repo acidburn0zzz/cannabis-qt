@@ -56,8 +56,10 @@ Cans::Cans(QWidget *parent) :
 //    QGroupBox *groupBox = new QGroupBox;
 //    groupBox->setLayout(layout);
 
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
+    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
@@ -79,7 +81,7 @@ Cans::Cans(QWidget *parent) :
 
     setLayout(vbox);
 
-    isDirty = false;
+    setDirtyFlag(false);
 }
 
 void Cans::onHelp()
@@ -104,7 +106,7 @@ void Cans::addNewCan()
         qDebug() << model->lastError().text();
     }
 
-    isDirty = true;
+    setDirtyFlag(true);
 }
 
 void Cans::deleteCan()
@@ -144,7 +146,7 @@ void Cans::deleteCan()
         if (msgBox.exec() == QMessageBox::Yes)
         {
             model->removeRow(row);
-            isDirty = true;
+            setDirtyFlag(true);
         }
     }
     else
@@ -177,7 +179,7 @@ void Cans::onFilter()
     if (model->submitAll())
     {
         model->database().commit();
-        isDirty = false;
+        setDirtyFlag(false);
     }
     else
     {
@@ -215,7 +217,7 @@ void Cans::onCancel()
 
         model->revertAll();
 
-        isDirty = false;
+        setDirtyFlag(false);
 
         // qDebug() << model->lastError().text();
     }
@@ -223,7 +225,7 @@ void Cans::onCancel()
 
 void Cans::onDataChanged(QModelIndex, QModelIndex)
 {
-    isDirty = true;
+    setDirtyFlag(true);
 }
 
 bool Cans::save()
@@ -259,7 +261,7 @@ bool Cans::save()
         resizeTableViewToContents();
 
         QMessageBox::information(this, tr("Pots"), tr("S'han guardat tots els canvis"));
-        isDirty = false;
+        setDirtyFlag(false);
     }
 
     return result;
@@ -271,4 +273,18 @@ void Cans::resizeTableViewToContents()
     {
         tableView->resizeColumnsToContents();
     }
+}
+
+void Cans::onApply()
+{
+    save();
+}
+
+void Cans::setDirtyFlag(bool status)
+{
+    isDirty = status;
+
+    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+
+    applyButton->setEnabled(status);
 }

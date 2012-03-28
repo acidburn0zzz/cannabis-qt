@@ -33,12 +33,14 @@ Cannabis::Cannabis(QWidget *parent) :
 
     model->select();
 
-    model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Soci"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Data"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Pot"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Grams"));
-    model->setHeaderData(5, Qt::Horizontal, tr("Preu"));
+    model->removeColumn(0); // don't show the ID
+
+    // model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
+    model->setHeaderData(0, Qt::Horizontal, tr("Soci"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Data"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Pot"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Grams"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Preu"));
 
     tableView = new QTableView;
     tableView->setModel(model);
@@ -82,15 +84,6 @@ Cannabis::Cannabis(QWidget *parent) :
     setLayout(vbox);
 
     setDirtyFlag(false);
-}
-
-void Cannabis::setDirtyFlag(bool status)
-{
-    isDirty = status;
-
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
-
-    applyButton->setEnabled(status);
 }
 
 void Cannabis::onHelp()
@@ -300,4 +293,13 @@ void Cannabis::resizeTableViewToContents()
         tableView->resizeColumnsToContents();
         tableView->horizontalHeader()->setStretchLastSection(true);
     }
+}
+
+void Cannabis::setDirtyFlag(bool status)
+{
+    isDirty = status;
+
+    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+
+    applyButton->setEnabled(status);
 }

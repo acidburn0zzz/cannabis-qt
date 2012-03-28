@@ -35,6 +35,8 @@ protected:
 
     bool isDirty;
 
+    void setDirtyFlag(bool status);
+
 signals:
 
 public slots:
@@ -43,6 +45,7 @@ public slots:
     void deleteCan();
     void onFilter();
 
+    void onApply();
     void onCancel();
     void onHelp();
 

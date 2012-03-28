@@ -56,8 +56,10 @@ Others::Others(QWidget *parent) :
 //    QGroupBox *groupBox = new QGroupBox;
 //    groupBox->setLayout(layout);
 
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
+    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
@@ -79,7 +81,7 @@ Others::Others(QWidget *parent) :
 
     setLayout(vbox);
 
-    isDirty = false;
+    setDirtyFlag(false);
 }
 
 void Others::onHelp()
@@ -104,7 +106,7 @@ void Others::addNewOrder()
         qDebug() << model->lastError().text();
     }
 
-    isDirty = true;
+    setDirtyFlag(true);
 }
 
 void Others::deleteOrder()
@@ -144,7 +146,7 @@ void Others::deleteOrder()
         if (msgBox.exec() == QMessageBox::Yes)
         {
             model->removeRow(row);
-            isDirty = true;
+            setDirtyFlag(true);
         }
     }
     else
@@ -177,7 +179,7 @@ void Others::onFilter()
     if (model->submitAll())
     {
         model->database().commit();
-        isDirty = false;
+        setDirtyFlag(false);
     }
     else
     {
@@ -226,7 +228,7 @@ void Others::onCancel()
 
         model->revertAll();
 
-        isDirty = false;
+        setDirtyFlag(false);
 
         // qDebug() << model->lastError().text();
     }
@@ -234,7 +236,7 @@ void Others::onCancel()
 
 void Others::onDataChanged(QModelIndex, QModelIndex)
 {
-    isDirty = true;
+    setDirtyFlag(true);
 }
 
 bool Others::save()
@@ -269,7 +271,7 @@ bool Others::save()
     {
         resizeTableViewToContents();
         QMessageBox::information(this, tr("Altres"), tr("S'han guardat tots els canvis"));
-        isDirty = false;
+        setDirtyFlag(false);
     }
 
     return result;
@@ -281,4 +283,18 @@ void Others::resizeTableViewToContents()
     {
         tableView->resizeColumnsToContents();
     }
+}
+
+void Others::onApply()
+{
+    save();
+}
+
+void Others::setDirtyFlag(bool status)
+{
+    isDirty = status;
+
+    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+
+    applyButton->setEnabled(status);
 }
