@@ -32,7 +32,7 @@ Members::Members(QWidget *parent) :
 
     // model->removeColumn(0); // don't show the ID
 
-    model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
+    model->setHeaderData(0, Qt::Horizontal, tr("Codi soci"));
     model->setHeaderData(1, Qt::Horizontal, tr("Data Alta"));
     model->setHeaderData(2, Qt::Horizontal, tr("DNI"));
     model->setHeaderData(3, Qt::Horizontal, tr("Nom"));

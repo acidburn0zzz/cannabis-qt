@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setCentralWidget(chooseOptionWidget);
 
-    resize( QSize(700, 500).expandedTo(minimumSizeHint()) );
+    resize( QSize(860, 500).expandedTo(minimumSizeHint()) );
 
     setMinimumSize(600, 400);
 }

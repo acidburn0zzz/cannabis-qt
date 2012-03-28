@@ -33,14 +33,14 @@ Cannabis::Cannabis(QWidget *parent) :
 
     model->select();
 
-    model->removeColumn(0); // don't show the ID
+    // model->removeColumn(0); // don't show the ID
 
-    // model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
-    model->setHeaderData(0, Qt::Horizontal, tr("Soci"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Data"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Pot"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Grams"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Preu"));
+    model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Soci"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Data"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Pot"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Grams"));
+    model->setHeaderData(5, Qt::Horizontal, tr("Preu"));
 
     tableView = new QTableView;
     tableView->setModel(model);
@@ -49,6 +49,8 @@ Cannabis::Cannabis(QWidget *parent) :
     // tableView->resizeColumnsToContents();
     tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->horizontalHeader()->setStretchLastSection(true);
+
+    tableView->setColumnWidth(0,0);
 
     tableView->setItemDelegateForColumn(2, new MyDateEditDelegate);
 

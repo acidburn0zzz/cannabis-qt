@@ -33,10 +33,10 @@ Others::Others(QWidget *parent) :
 
     model->select();
 
-    model->removeColumn(0); // don't show the ID
-    // model->setHeaderData(0, Qt::Horizontal, tr("Codi consum"));
-    model->setHeaderData(0, Qt::Horizontal, tr("Data"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Diners"));
+    // model->removeColumn(0); // don't show the ID
+    model->setHeaderData(0, Qt::Horizontal, tr("Codi consum"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Data"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Diners"));
 
     tableView = new QTableView;
     tableView->setModel(model);
@@ -45,7 +45,7 @@ Others::Others(QWidget *parent) :
 
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    tableView->setItemDelegateForColumn(0, new MyDateEditDelegate);
+    tableView->setItemDelegateForColumn(1, new MyDateEditDelegate);
 
     tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
