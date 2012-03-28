@@ -56,11 +56,10 @@ Cannabis::Cannabis(QWidget *parent) :
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
 
-//    QGroupBox *groupBox = new QGroupBox;
-//    groupBox->setLayout(layout);
-
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
+    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
@@ -82,7 +81,16 @@ Cannabis::Cannabis(QWidget *parent) :
 
     setLayout(vbox);
 
-    isDirty = false;
+    setDirtyFlag(false);
+}
+
+void Cannabis::setDirtyFlag(bool status)
+{
+    isDirty = status;
+
+    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+
+    applyButton->setEnabled(status);
 }
 
 void Cannabis::onHelp()
@@ -108,7 +116,7 @@ void Cannabis::addNewOrder()
         qDebug() << model->lastError().text();
     }
 
-    isDirty = true;
+    setDirtyFlag(true);
 }
 
 void Cannabis::deleteOrder()
@@ -148,7 +156,7 @@ void Cannabis::deleteOrder()
         if (msgBox.exec() == QMessageBox::Yes)
         {
             model->removeRow(row);
-            isDirty = true;
+            setDirtyFlag(true);
         }
     }
     else
@@ -181,7 +189,7 @@ void Cannabis::onFilter()
     if (model->submitAll())
     {
         model->database().commit();
-        isDirty = false;
+        setDirtyFlag(false);
     }
     else
     {
@@ -230,7 +238,7 @@ void Cannabis::onCancel()
 
         model->revertAll();
 
-        isDirty = false;
+        setDirtyFlag(false);
 
         // qDebug() << model->lastError().text();
     }
@@ -238,7 +246,12 @@ void Cannabis::onCancel()
 
 void Cannabis::onDataChanged(QModelIndex, QModelIndex)
 {
-    isDirty = true;
+    setDirtyFlag(true);
+}
+
+void Cannabis::onApply()
+{
+    save();
 }
 
 bool Cannabis::save()
@@ -272,9 +285,9 @@ bool Cannabis::save()
 
     if (result && isDirty)
     {
-        resizeTableViewToContents();
+        // resizeTableViewToContents();
         QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
-        isDirty = false;
+        setDirtyFlag(false);
     }
 
     return result;
@@ -285,5 +298,6 @@ void Cannabis::resizeTableViewToContents()
     if (tableView != NULL)
     {
         tableView->resizeColumnsToContents();
+        tableView->horizontalHeader()->setStretchLastSection(true);
     }
 }
