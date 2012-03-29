@@ -33,9 +33,8 @@ Cans::Cans(QWidget *parent) :
     model->select();
 
     // model->removeColumn(0); // don't show the ID
-    model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Número de pot"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Grams"));
+    model->setHeaderData(0, Qt::Horizontal, tr("Número de pot"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Grams"));
 
 
     tableView = new QTableView;
@@ -44,8 +43,6 @@ Cans::Cans(QWidget *parent) :
     tableView->resizeColumnsToContents();
 
     tableView->horizontalHeader()->setStretchLastSection(true);
-
-    tableView->setColumnWidth(0,0);
 
     tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 

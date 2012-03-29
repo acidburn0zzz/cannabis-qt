@@ -27,12 +27,13 @@ bool DatabaseManager::openDB()
 
         QFile dbFile(db.databaseName());
 
-        if (!dbFile.exists())
+        if (!dbFile.exists() || dbFile.size() <= 0)
         {
-            qDebug() << "database does not exist. I'll try to create it.";
+            qDebug() << "database does not exist or is corrputed. I'll try to create it.";
 
             if (!createDB())
             {
+                qDebug() << "ERROR: Can't create a new database!";
                 return false;
             }
         }
@@ -45,6 +46,7 @@ bool DatabaseManager::openDB()
 
         if (!db.open())
         {
+            qDebug() << "ERROR: Can't open database!";
             qDebug() << db.lastError().text();
             return false;
         }
@@ -78,20 +80,28 @@ bool DatabaseManager::createDB()
         while (!in.atEnd())
         {
            QString line = in.readLine();
-           sql += line;
 
-           if (line.contains(';'))
+           if (line.startsWith('#'))
            {
-               qDebug() << sql;
+               qDebug() << line;
+           }
+           else
+           {
+               sql += line;
 
-               if (!qry.exec(sql))
+               if (line.contains(';'))
                {
-                   qDebug() << qry.lastError().text();
-                   db.close();
-                   return false;
-               }
+                   qDebug() << sql;
 
-               sql = "";
+                   if (!qry.exec(sql))
+                   {
+                       qDebug() << qry.lastError().text();
+                       db.close();
+                       return false;
+                   }
+
+                   sql = "";
+               }
            }
         }
 
