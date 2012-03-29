@@ -24,7 +24,7 @@ Cans::Cans(QWidget *parent) :
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
 
-    // CREATE TABLE "Pots" ( "Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Numero" INTEGER NOT NULL, "Grams" INTEGER NOT NULL);
+    // CREATE TABLE "Pots" ( "Id" INTEGER PRIMARY KEY, "Grams" INTEGER NOT NULL);
 
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable("Pots");
