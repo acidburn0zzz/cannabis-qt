@@ -30,6 +30,7 @@ Cannabis::Cannabis(QWidget *parent) :
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     model->setRelation(1, QSqlRelation("Socis", "Codi", "Codi"));
+    model->setRelation(3, QSqlRelation("Pots", "Id", "Id"));
 
     model->select();
 
