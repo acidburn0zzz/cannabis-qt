@@ -25,7 +25,7 @@ public:
 
     bool createDB(void);
     bool openDB(void);
-    void closeDB(void);
+    void closeDB();
 
 signals:
 

@@ -45,9 +45,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    /*
     qDebug() << "Closing database";
     dbManager.closeDB();
     qDebug() << "Database closed";
+    */
 }
 
 void MainWindow::setMyCentralWidget(QWidget *widget)

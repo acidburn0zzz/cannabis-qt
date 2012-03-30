@@ -7,12 +7,7 @@ DatabaseManager::DatabaseManager(QObject *parent) :
 
 DatabaseManager::~DatabaseManager()
 {
-    //closeDB();
-
-    QSqlDatabase db = QSqlDatabase::database();
-    QString connectionName = db.connectionName();
-    db.close();
-    QSqlDatabase::removeDatabase(connectionName);
+    closeDB();
 }
 
 bool DatabaseManager::openDB()
@@ -62,6 +57,15 @@ bool DatabaseManager::openDB()
 
 bool DatabaseManager::createDB()
 {
+    QSqlDatabase db = QSqlDatabase::database();
+
+    // Db does not exist, or is corrupted. Open a new one and fill it.
+    if (!db.open())
+    {
+        qDebug() << db.lastError().text();
+        return false;
+    }
+
     QFile sqlFile(":/cannabis-qt.sql");
 
     if (sqlFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -91,6 +95,8 @@ bool DatabaseManager::createDB()
                    if (!qry.exec(sql))
                    {
                        qDebug() << qry.lastError().text();
+                       sqlFile.close();
+                       db.close();
                        return false;
                    }
 
@@ -100,19 +106,23 @@ bool DatabaseManager::createDB()
         }
 
         sqlFile.close();
+        db.close();
+
         return true;
     }
     else
     {
+        db.close();
         return false;
     }
 }
 
 void DatabaseManager::closeDB()
 {
-    QSqlDatabase.
+    qDebug() << "Closing database";
     QSqlDatabase::database().close();
     QString connectionName = QSqlDatabase::database().connectionName();
     QSqlDatabase::removeDatabase(connectionName);
+    qDebug() << "Database closed";
 }
 
