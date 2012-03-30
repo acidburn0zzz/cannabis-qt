@@ -1,3 +1,5 @@
+#define PROGRAM_VERSION "0.1alfa"
+
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -34,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createStatusBar();
     createCentralWidgets();
 
-    setWindowTitle(tr("Cannabis-qt"));
+    setWindowTitle(tr("Cannabis-qt  ") + QString(PROGRAM_VERSION));
 
     setCentralWidget(chooseOptionWidget);
 
@@ -173,7 +175,8 @@ void MainWindow::about()
 {
     QMessageBox::about(this, tr("Sobre Cannabis-qt"),
              tr("The <b>Cannabis-qt</b> programa per gestionar "
-                "un club social de cànnabis. "));
+                "un club social de cànnabis.<br><br>"
+                "Versió ") + QString(PROGRAM_VERSION));
 }
 
 // ---------------------------------------------------------------------------------------------------------
