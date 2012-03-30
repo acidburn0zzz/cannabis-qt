@@ -17,14 +17,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "Application data will be stored in : " + appDataDir;
 
-    // Init our db (just for checking)
-    if (!db.openDB())
+    // Open our database
+    if (!dbManager.openDB())
     {
         qDebug() << "Error: can't create/open database.";
         QMessageBox::critical(this, tr("Cannabis-qt"),
-                              tr("Error crític: No puc obrir la base de dades. Si us plau, posi's en contacte amb el seu distribuidor per a obtenir ajuda"));
+                              tr("Error crític: No puc obrir la base de dades."
+                              "Si us plau, posi's en contacte amb el seu distribuidor "
+                              "per a obtenir ajuda"));
         qApp->quit();
-
     }
 
     createActions();
@@ -44,7 +45,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    db.closeDB();
+    qDebug() << "Closing database";
+    dbManager.closeDB();
+    qDebug() << "Database closed";
 }
 
 void MainWindow::setMyCentralWidget(QWidget *widget)

@@ -27,9 +27,6 @@ public:
     bool openDB(void);
     void closeDB(void);
 
-private:
-        QSqlDatabase db;
-
 signals:
 
 public slots:

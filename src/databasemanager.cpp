@@ -7,7 +7,12 @@ DatabaseManager::DatabaseManager(QObject *parent) :
 
 DatabaseManager::~DatabaseManager()
 {
-    closeDB();
+    //closeDB();
+
+    QSqlDatabase db = QSqlDatabase::database();
+    QString connectionName = db.connectionName();
+    db.close();
+    QSqlDatabase::removeDatabase(connectionName);
 }
 
 bool DatabaseManager::openDB()
@@ -15,7 +20,7 @@ bool DatabaseManager::openDB()
     if (!QSqlDatabase::contains())
     {
         // Find QSLite driver
-        db = QSqlDatabase::addDatabase("QSQLITE");
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
         // Set database file name and path
         QString path(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
@@ -51,22 +56,12 @@ bool DatabaseManager::openDB()
             return false;
         }
     }
-    else
-    {
-        db = QSqlDatabase::database();
-    }
 
     return true;
 }
 
 bool DatabaseManager::createDB()
 {
-    if (!db.open())
-    {
-        qDebug() << db.lastError().text();
-        return false;
-    }
-
     QFile sqlFile(":/cannabis-qt.sql");
 
     if (sqlFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -96,7 +91,6 @@ bool DatabaseManager::createDB()
                    if (!qry.exec(sql))
                    {
                        qDebug() << qry.lastError().text();
-                       db.close();
                        return false;
                    }
 
@@ -106,9 +100,6 @@ bool DatabaseManager::createDB()
         }
 
         sqlFile.close();
-
-        db.close();
-
         return true;
     }
     else
@@ -119,8 +110,9 @@ bool DatabaseManager::createDB()
 
 void DatabaseManager::closeDB()
 {
-    if (db.isOpen())
-    {
-        db.close();
-    }
+    QSqlDatabase.
+    QSqlDatabase::database().close();
+    QString connectionName = QSqlDatabase::database().connectionName();
+    QSqlDatabase::removeDatabase(connectionName);
 }
+

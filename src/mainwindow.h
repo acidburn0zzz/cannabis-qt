@@ -35,7 +35,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    DatabaseManager db;
+    DatabaseManager dbManager;
 
 private slots:
     void print();
