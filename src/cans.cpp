@@ -4,6 +4,15 @@ Cans::Cans(QWidget *parent) :
     QWidget(parent)
 {
     /*
+
+      TODO: He repensat tot el widget. Només ha de fer un recompte entre el què s'ha afegit als pots i el què s'ha tret mirant
+            la taula cannabis
+
+            Per tant, no ha de ser una taula editable, però sí ha de permetre afegir herba als pots.
+
+    */
+
+    /*
     setStyleSheet("QRadioButton { font: bold 18px; padding-left:60px; min-height: 30px; max-height: 60px; }"
                   "QRadioButton::indicator { width: 40px; height: 40px; }"
                   "QLabel { font: bold 18px; min-height: 30px; max-height: 60px; }");
@@ -24,18 +33,11 @@ Cans::Cans(QWidget *parent) :
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
 
-    // CREATE TABLE "Pots" ( "Id" INTEGER PRIMARY KEY, "Grams" INTEGER NOT NULL);
-
-    QSqlTableModel *model = new QSqlTableModel;
-    model->setTable("Pots");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    model->select();
-
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT * FROM Pots");
     // model->removeColumn(0); // don't show the ID
     model->setHeaderData(0, Qt::Horizontal, tr("Número de pot"));
     model->setHeaderData(1, Qt::Horizontal, tr("Grams"));
-
 
     tableView = new QTableView;
     tableView->setModel(model);
@@ -44,7 +46,7 @@ Cans::Cans(QWidget *parent) :
 
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
+    // tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
     tableView->show();
 
@@ -60,15 +62,19 @@ Cans::Cans(QWidget *parent) :
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
+/*
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou pot"));
     connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewCan()));
-
     QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar pot"));
     connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteCan()));
+*/
+    QPushButton *addPushButton = new QPushButton(tr("Afegir cànnabis a un pot"));
+    connect(addPushButton, SIGNAL(pressed()), this, SLOT(addToCan()));
 
     QHBoxLayout *hbox2 = new QHBoxLayout;
-    hbox2->addWidget(addNewCustomerPushButton);
-    hbox2->addWidget(deleteCustomerPushButton);
+    // hbox2->addWidget(addNewCustomerPushButton);
+    // hbox2->addWidget(deleteCustomerPushButton);
+    hbox2->addWidget(addPushButton);
     hbox2->addWidget(buttonBox);
 
     QVBoxLayout *vbox = new QVBoxLayout;
@@ -79,6 +85,10 @@ Cans::Cans(QWidget *parent) :
     setLayout(vbox);
 
     setDirtyFlag(false);
+}
+
+void Cans::addToCan()
+{
 }
 
 void Cans::onHelp()
@@ -94,6 +104,7 @@ void Cans::onHelp()
 
 void Cans::addNewCan()
 {
+    /*
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     // insert a row at the end
@@ -104,11 +115,12 @@ void Cans::addNewCan()
     }
 
     setDirtyFlag(true);
+    */
 }
 
 void Cans::deleteCan()
 {
-
+/*
     // int i = tableView->selectedIndexes()
     // QModelIndex index = tableView->currentIndex();
 
@@ -150,6 +162,7 @@ void Cans::deleteCan()
     {
         QMessageBox::warning(this, tr("Pots"), tr("Si us plau, marqui a la llista el pot que vol esborrar"));
     }
+    */
 }
 
 void Cans::onFilter()
@@ -206,6 +219,7 @@ void Cans::onFilter()
 
 void Cans::onCancel()
 { 
+    /*
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     if (model != NULL)
@@ -218,6 +232,7 @@ void Cans::onCancel()
 
         // qDebug() << model->lastError().text();
     }
+    */
 }
 
 void Cans::onDataChanged(QModelIndex, QModelIndex)

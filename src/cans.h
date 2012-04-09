@@ -42,6 +42,7 @@ signals:
 public slots:
 
     void addNewCan();
+    void addToCan();
     void deleteCan();
     void onFilter();
 
