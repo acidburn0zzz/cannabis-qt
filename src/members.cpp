@@ -138,8 +138,26 @@ void Members::deleteMember()
 
         if (msgBox.exec() == QMessageBox::Yes)
         {
+            QSqlTableModel *model = (QSqlTableModel *)tableView->model();
             //qDebug() << QString(row);
             // model->removeRow(row);
+            /*
+
+              S'ha de fer la query!!!!
+
+            QSqlQuery *query = new QSqlQuery;
+            query->clear();
+            query->prepare("DELETE FROM socis WHERE codi SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis,altres "
+                           "WHERE altres.Data >= :mydata AND cannabis.Data >= :mydata GROUP BY cannabis.Data");
+            query->bindValue(":mydata", dataInicialStr);
+
+            if (!query->exec())
+            {
+                qDebug() << "Can't execute query!";
+                qDebug() << query->lastError().text();
+            }
+            */
+
             save();
         }
     }
