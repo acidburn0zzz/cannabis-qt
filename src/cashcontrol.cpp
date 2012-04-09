@@ -22,7 +22,7 @@ CashControl::CashControl(QWidget *parent) :
     hbox2->addWidget(dataFinalLabel);
     hbox2->addWidget(dataFinal);
 
-    QPushButton *showButton = new QPushButton(tr("Mostra!"));
+    QPushButton *showButton = new QPushButton(tr("Mostra els moviments entre les dates seleccionades!"));
     connect(showButton, SIGNAL(pressed()), this, SLOT(onShow()));
 
     CashControlModel *model = new CashControlModel();
@@ -85,7 +85,7 @@ void CashControl::onShow()
 
     model->setDates(dataInicial->date().toString("dd/MM/yyyy"), dataFinal->date().toString("dd/MM/yyyy"));
 
-    // tableView->reset();
+
     tableView->resizeColumnsToContents();
     tableView->horizontalHeader()->setStretchLastSection(true);
 }

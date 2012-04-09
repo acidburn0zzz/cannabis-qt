@@ -28,7 +28,7 @@ public:
 
     void resizeTableViewToContents(void);
 
-    bool save(void);
+    bool save(bool showMessage=true);
 
 protected:
     QLineEdit *filterLineEdit;
@@ -46,6 +46,7 @@ public slots:
     void addNewOrder();
     void deleteOrder();
     void onFilter();
+    void onClearFilter();
 
     void onApply();
     void onCancel();

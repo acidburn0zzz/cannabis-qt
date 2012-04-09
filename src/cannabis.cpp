@@ -12,8 +12,8 @@ Cannabis::Cannabis(QWidget *parent) :
 
     // name cif address phone email
 
-    // QPushButton *clearFilterButton = new QPushButton(tr(""));
-    // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
+    QPushButton *clearFilterButton = new QPushButton(tr("Neteja el filtre de cerca"));
+    connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
@@ -24,6 +24,7 @@ Cannabis::Cannabis(QWidget *parent) :
     QHBoxLayout *hbox = new QHBoxLayout;
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
+    hbox->addWidget(clearFilterButton);
 
     QSqlRelationalTableModel *model = new QSqlRelationalTableModel;
     model->setTable("Cannabis");
@@ -112,6 +113,9 @@ void Cannabis::addNewOrder()
         qDebug() << model->lastError().text();
     }
 
+    // Ens assegurem que es veurà
+    tableView->scrollToBottom();
+
     setDirtyFlag(true);
 }
 
@@ -163,6 +167,7 @@ void Cannabis::deleteOrder()
 
 void Cannabis::onFilter()
 {
+    /*
     if (isDirty)
     {
         QMessageBox msgBox;
@@ -179,6 +184,9 @@ void Cannabis::onFilter()
             return;
         }
     }
+    */
+
+    save(false);
 
     QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
@@ -209,9 +217,9 @@ void Cannabis::onFilter()
 
     if (model->rowCount() <= 0 && !filterLineEdit->text().isEmpty())
     {
-        // Try with Name
+        // Try with date
 
-        where = "Name = '" + filterLineEdit->text() + "'";
+        where = "Data = '" + filterLineEdit->text() + "'";
 
         model->setFilter(where);
 
@@ -219,9 +227,18 @@ void Cannabis::onFilter()
 
         if (model->rowCount() <= 0)
         {
-            QMessageBox::warning(this, tr("Socis"), tr("Ho sento, no puc trobar cap soci amb aquest codi o amb aquest nom!"));
+            QMessageBox::warning(this, tr("Cànnabis"), tr("Ho sento, no puc trobar cap consum d'un soci amb aquest codi o un consum amb aquesta data!"));
         }
     }
+}
+
+void Cannabis::onClearFilter()
+{
+    filterLineEdit->setText("");
+
+    QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
+    model->setFilter("");
+    model->select();
 }
 
 void Cannabis::onCancel()
@@ -250,7 +267,7 @@ void Cannabis::onApply()
     save();
 }
 
-bool Cannabis::save()
+bool Cannabis::save(bool showMessage)
 {
     bool result = false;
 
@@ -282,7 +299,11 @@ bool Cannabis::save()
     if (result && isDirty)
     {
         // resizeTableViewToContents();
-        QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+        if (showMessage)
+        {
+            QMessageBox::information(this, tr("Cànnabis"), tr("S'han guardat tots els canvis"));
+        }
+
         setDirtyFlag(false);
     }
 

@@ -15,6 +15,7 @@
 #include <QVBoxLayout>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QInputDialog>
 
 class Members : public QWidget
 {
@@ -26,7 +27,7 @@ public:
 
     void resizeTableViewToContents(void);
 
-    bool save(void);
+    bool save(bool showMessage=true);
 
 protected:
     QLineEdit *filterLineEdit;

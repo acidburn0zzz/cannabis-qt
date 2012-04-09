@@ -113,23 +113,42 @@ void Members::addNewMember()
         qDebug() << model->lastError().text();
     }
 
+    // Ens assegurem que es veurà
+    tableView->scrollToBottom();
+
     setDirtyFlag(true);
 }
 
 void Members::deleteMember()
 {
+    save(false);
 
-    // int i = tableView->selectedIndexes()
-    // QModelIndex index = tableView->currentIndex();
+    bool ok;
+    int num_soci = QInputDialog::getInt(this, tr("Número de soci"), tr("Número:"), 0, 0, 2147483647, 1, &ok);
 
-    QMessageBox::warning(this, tr("Members"), tr("Encara per fer!"));
-    return;
+    if (ok)
+    {
+        QMessageBox msgBox;
+
+        msgBox.setText("Aquesta acció eliminarà el soci número "+ QString::number(num_soci) +" !");
+        msgBox.setInformativeText("Està segur ?");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+
+        if (msgBox.exec() == QMessageBox::Yes)
+        {
+            //qDebug() << QString(row);
+            // model->removeRow(row);
+            save();
+        }
+    }
 
 
 
 
+    /*
 
-    // Does not work : "QSqlQuery::value not positioned on a valid record"
 
 
     QModelIndex index = tableView->currentIndex();
@@ -138,7 +157,7 @@ void Members::deleteMember()
     {
         int row = index.row();
 
-        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+        t *model = (QSqlTableModel *)tableView->model();
 
         QMessageBox msgBox;
 
@@ -149,10 +168,10 @@ void Members::deleteMember()
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);
 
-        // execute message box. method exec() return the button value of clicked button
         if (msgBox.exec() == QMessageBox::Yes)
         {
-            model->removeRow(row);
+            qDebug() << QString(row);
+            // model->removeRow(row);
             setDirtyFlag(true);
         }
     }
@@ -160,17 +179,19 @@ void Members::deleteMember()
     {
         QMessageBox::warning(this, tr("Socis"), tr("Si us plau, marqui a la llista el soci que vol esborrar"));
     }
+    */
 }
 
 void Members::onFilter()
 {
+    /*
     if (isDirty)
     {
         QMessageBox msgBox;
 
         msgBox.setText("Abans de poder fer una cerca, s'han de guardar els canvis. "
                        "Estàs segur de voler guardar-los ara?");
-        msgBox.setInformativeText("Està segur ?");
+        msgBox.setInformativeText("Estàs segur ?");
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);
@@ -180,6 +201,9 @@ void Members::onFilter()
             return;
         }
     }
+    */
+
+    save(false);
 
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -256,7 +280,7 @@ void Members::onDataChanged(QModelIndex, QModelIndex)
     setDirtyFlag(true);
 }
 
-bool Members::save()
+bool Members::save(bool showMessage)
 {
     bool result = false;
 
@@ -287,7 +311,10 @@ bool Members::save()
     if (result && isDirty)
     {
         resizeTableViewToContents();
-        QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+        if (showMessage)
+        {
+            QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
+        }
         setDirtyFlag(false);
     }
 

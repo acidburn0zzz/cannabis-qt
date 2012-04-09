@@ -106,6 +106,9 @@ void Others::addNewOrder()
         qDebug() << model->lastError().text();
     }
 
+    // Ens assegurem que es veurà
+    tableView->scrollToBottom();
+
     setDirtyFlag(true);
 }
 

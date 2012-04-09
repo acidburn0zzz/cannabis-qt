@@ -7,8 +7,9 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QSqlRecord>
+#include <QSqlTableModel>
 
-class CashControlModel : public QAbstractTableModel
+class CashControlModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
@@ -24,11 +25,9 @@ public:
     QDate dataInicial;
     QDate dataFinal;
 
-    QSqlQuery *query1;
-    QSqlQuery *query2;
+    QSqlQuery *query;
 
-    int query1Size;
-    int query2Size;
+    int querySize;
 
 signals:
     
