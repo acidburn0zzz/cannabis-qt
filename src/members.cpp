@@ -12,8 +12,8 @@ Members::Members(QWidget *parent) :
     */
 
 
-    // QPushButton *clearFilterButton = new QPushButton(tr(""));
-    // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
+    QPushButton *clearFilterButton = new QPushButton(tr("Neteja el filtre cerca"));
+    connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
@@ -24,6 +24,7 @@ Members::Members(QWidget *parent) :
     QHBoxLayout *hbox = new QHBoxLayout;
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
+    hbox->addWidget(clearFilterButton);
 
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable("Socis");
@@ -191,7 +192,7 @@ void Members::onFilter()
     {
         model->database().rollback();
         model->revertAll();
-        qDebug() << model->lastError().text();
+        qDebug() << QString("Members::onFilter(): ") + model->lastError().text();
         // QMessageBox::warning(this, tr("Customers"),
         // tr("Can't save your changes: %1").arg(model->lastError().text()));
     }
@@ -211,7 +212,7 @@ void Members::onFilter()
     {
         // Try with Name
 
-        where = "Name = '" + filterLineEdit->text() + "'";
+        where = "Nom = '" + filterLineEdit->text() + "'";
 
         model->setFilter(where);
 
@@ -220,8 +221,18 @@ void Members::onFilter()
         if (model->rowCount() <= 0)
         {
             QMessageBox::warning(this, tr("Socis"), tr("Ho sento, no puc trobar cap soci amb aquest codi o amb aquest nom!"));
+            onClearFilter();
         }
     }
+}
+
+void Members::onClearFilter()
+{
+    filterLineEdit->setText("");
+
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+    model->setFilter("");
+    model->select();
 }
 
 void Members::onCancel()

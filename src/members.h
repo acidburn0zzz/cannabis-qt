@@ -43,6 +43,7 @@ public slots:
     void addNewMember();
     void deleteMember();
     void onFilter();
+    void onClearFilter();
 
     void onApply();
     void onCancel();
