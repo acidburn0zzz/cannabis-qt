@@ -127,6 +127,8 @@ void Members::addNewMember()
     setDirtyFlag(true);
 }
 
+// Això hauria d'estar dins del model (que hauriem de crear derivant la classe de QSqlTableModel)
+// De moment ho deixo així perquè amb la xapussa de destruir el model i crear-ne un de nou funciona de pm
 void Members::deleteMember()
 {
     save(false);

@@ -114,19 +114,8 @@ void Others::addNewOrder()
 
 void Others::deleteOrder()
 {
-
-    // int i = tableView->selectedIndexes()
-    // QModelIndex index = tableView->currentIndex();
-
-    QMessageBox::warning(this, tr("Socis"), tr("TODO"));
-    return;
-
-
-
-
-
-    // Does not work : "QSqlQuery::value not positioned on a valid record"
-
+    // Does not work! : "QSqlQuery::value not positioned on a valid record"
+    // Ara sí que funciona ¿?
 
     QModelIndex index = tableView->currentIndex();
 
@@ -138,9 +127,8 @@ void Others::deleteOrder()
 
         QMessageBox msgBox;
 
-        msgBox.setText("Aquesta acció eliminarà el soci! "
-        "(els seus consums quedaran registrats, però no podrà accedir-hi)");
-        msgBox.setInformativeText("Està segur ?");
+        msgBox.setText(tr("Aquesta acció eliminarà la informació sobre el consum del soci!"));
+        msgBox.setInformativeText(tr("Està segur ?"));
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);
@@ -154,7 +142,7 @@ void Others::deleteOrder()
     }
     else
     {
-        QMessageBox::warning(this, tr("Socis"), tr("Si us plau, marqui a la llista el soci que vol esborrar"));
+        QMessageBox::warning(this, tr("Altres"), tr("Si us plau, marqui a la llista el consum que vol esborrar"));
     }
 }
 
