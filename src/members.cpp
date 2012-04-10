@@ -36,7 +36,11 @@ Members::Members(QWidget *parent) :
     tableView->horizontalHeader()->setStretchLastSection(true);
 
     tableView->setItemDelegateForColumn(1, new MyDateEditDelegate);
+    tableView->setColumnWidth(1, 100);
+
     tableView->setItemDelegateForColumn(11, new MyCheckBoxDelegate);
+
+    tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
     tableView->show();
 

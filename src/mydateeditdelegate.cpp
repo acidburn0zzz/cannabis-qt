@@ -1,7 +1,7 @@
 #include "mydateeditdelegate.h"
 
 MyDateEditDelegate::MyDateEditDelegate(QObject *parent) :
-    QItemDelegate(parent)
+    QStyledItemDelegate(parent)
 {
      this->setParent(parent);
 }
@@ -12,7 +12,8 @@ QWidget * MyDateEditDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 
     QString dateStr = index.model()->data(index, Qt::EditRole).toString();
 
-    QDate date(QDate::fromString(dateStr, "dd/MM/yyyy"));
+    // QDate date(QDate::fromString(dateStr, "dd/MM/yyyy"));
+    QDate date(QDate::fromString(dateStr, "yyyyMMdd"));
 
     if (date.isNull())
     {
@@ -30,11 +31,13 @@ void MyDateEditDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 {
     QString dateStr = index.model()->data(index, Qt::EditRole).toString();
 
-    QDate date(QDate::fromString(dateStr,"dd/MM/yyyy"));
+    // QDate date(QDate::fromString(dateStr,"dd/MM/yyyy"));
+    QDate date(QDate::fromString(dateStr, "yyyyMMdd"));
 
     QDateEdit * dateEdit = static_cast<QDateEdit *>(editor);
 
     dateEdit->setDate(date);
+    dateEdit->setDisplayFormat("dd/MM/yyyy");
 }
 
 void MyDateEditDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,const QModelIndex &index) const
@@ -43,9 +46,10 @@ void MyDateEditDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 
     dateEdit->interpretText();
 
-    QString dateStr = dateEdit->date().toString("dd/MM/yyyy");
+    QString dateStr = dateEdit->date().toString("yyyyMMdd");
 
     model->setData(index, dateStr, Qt::EditRole);
+
 }
 
 void MyDateEditDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

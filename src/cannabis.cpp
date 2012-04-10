@@ -55,6 +55,7 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView->setColumnWidth(0,0);
 
     tableView->setItemDelegateForColumn(2, new MyDateEditDelegate);
+    tableView->setColumnWidth(2, 100);
 
     tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
