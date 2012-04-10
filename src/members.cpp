@@ -27,24 +27,7 @@ Members::Members(QWidget *parent) :
     hbox->addWidget(clearFilterButton);
 
     QSqlTableModel *model = new QSqlTableModel;
-    model->setTable("Socis");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->select();
-
-    // model->removeColumn(0); // don't show the ID
-
-    model->setHeaderData(0, Qt::Horizontal, tr("Codi soci"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Data Alta"));
-    model->setHeaderData(2, Qt::Horizontal, tr("DNI"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Nom"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Primer Cognom"));
-    model->setHeaderData(5, Qt::Horizontal, tr("Segon Cognom"));
-    model->setHeaderData(6, Qt::Horizontal, tr("Adreça"));
-    model->setHeaderData(7, Qt::Horizontal, tr("Telèfon"));
-    model->setHeaderData(8, Qt::Horizontal, tr("Codi Postal"));
-    model->setHeaderData(9, Qt::Horizontal, tr("Població"));
-    model->setHeaderData(10, Qt::Horizontal, tr("E-mail"));
-    model->setHeaderData(11, Qt::Horizontal, tr("Pagat"));
+    createModel(model);
 
     tableView = new QTableView;
     tableView->setModel(model);
@@ -90,6 +73,31 @@ Members::Members(QWidget *parent) :
     setDirtyFlag(false);
 }
 
+void Members::createModel(QSqlTableModel *model)
+{
+    if (model != NULL)
+    {
+        model->setTable("Socis");
+        model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        model->select();
+
+        // model->removeColumn(0); // don't show the ID
+
+        model->setHeaderData(0, Qt::Horizontal, tr("Codi soci"));
+        model->setHeaderData(1, Qt::Horizontal, tr("Data Alta"));
+        model->setHeaderData(2, Qt::Horizontal, tr("DNI"));
+        model->setHeaderData(3, Qt::Horizontal, tr("Nom"));
+        model->setHeaderData(4, Qt::Horizontal, tr("Primer Cognom"));
+        model->setHeaderData(5, Qt::Horizontal, tr("Segon Cognom"));
+        model->setHeaderData(6, Qt::Horizontal, tr("Adreça"));
+        model->setHeaderData(7, Qt::Horizontal, tr("Telèfon"));
+        model->setHeaderData(8, Qt::Horizontal, tr("Codi Postal"));
+        model->setHeaderData(9, Qt::Horizontal, tr("Població"));
+        model->setHeaderData(10, Qt::Horizontal, tr("E-mail"));
+        model->setHeaderData(11, Qt::Horizontal, tr("Pagat"));
+    }
+}
+
 void Members::onHelp()
 {
     QMessageBox *msgBox = new QMessageBox(this);
@@ -128,37 +136,59 @@ void Members::deleteMember()
 
     if (ok)
     {
-        QMessageBox msgBox;
+        QSqlQuery *query = new QSqlQuery;
 
-        msgBox.setText("Aquesta acció eliminarà el soci número "+ QString::number(num_soci) +" !");
-        msgBox.setInformativeText("Està segur ?");
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::No);
+        query->prepare("SELECT Codi,Nom,Cognom1,Cognom2 FROM socis WHERE Codi = :mycode");
+        query->bindValue(":mycode", num_soci);
 
-        if (msgBox.exec() == QMessageBox::Yes)
+        if (!query->exec())
         {
-            QSqlTableModel *model = (QSqlTableModel *)tableView->model();
-            //qDebug() << QString(row);
-            // model->removeRow(row);
-            /*
+            qDebug() << "Can't execute query!";
+            qDebug() << query->lastError().text();
+        }
 
-              S'ha de fer la query!!!!
+        int querySize=0;
 
-            QSqlQuery *query = new QSqlQuery;
-            query->clear();
-            query->prepare("DELETE FROM socis WHERE codi SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis,altres "
-                           "WHERE altres.Data >= :mydata AND cannabis.Data >= :mydata GROUP BY cannabis.Data");
-            query->bindValue(":mydata", dataInicialStr);
+        while (query->next()) querySize++;
 
-            if (!query->exec())
+        if (querySize > 0)
+        {
+            QMessageBox msgBox;
+
+            msgBox.setText(tr("Aquesta acció eliminarà el soci número ") + QString::number(num_soci) +" !");
+            msgBox.setInformativeText(tr("Està segur ?"));
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::No);
+
+            if (msgBox.exec() == QMessageBox::Yes)
             {
-                qDebug() << "Can't execute query!";
-                qDebug() << query->lastError().text();
-            }
-            */
+                // QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+                //qDebug() << QString(row);
+                // model->removeRow(row);
 
-            save();
+                query->clear();
+                query->prepare("DELETE FROM socis WHERE Codi = :mycode");
+                query->bindValue(":mycode", num_soci);
+
+                if (!query->exec())
+                {
+                    qDebug() << "Can't execute query!";
+                    qDebug() << query->lastError().text();
+                }
+
+                tableView->setModel(NULL);
+
+                QSqlTableModel *model = new QSqlTableModel;
+                createModel(model);
+
+                tableView->setModel(model);
+
+            }
+        }
+        else
+        {
+            QMessageBox::warning(NULL, "Cannabis-qt", "Ho sento, no trobo el soci nº " + QString::number(num_soci) + ". Comprova que realment existeix.");
         }
     }
 
