@@ -304,6 +304,7 @@ void Cannabis::resizeTableViewToContents()
     if (tableView != NULL)
     {
         tableView->resizeColumnsToContents();
+        tableView->setColumnWidth(2, 100);
         tableView->horizontalHeader()->setStretchLastSection(true);
     }
 }

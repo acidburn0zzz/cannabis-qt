@@ -380,6 +380,7 @@ void Members::resizeTableViewToContents()
     if (tableView != NULL)
     {
         tableView->resizeColumnsToContents();
+        tableView->setColumnWidth(1, 100);
     }
 }
 

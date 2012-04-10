@@ -56,3 +56,8 @@ void MyDateEditDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptio
 {
     editor->setGeometry(option.rect);
 }
+
+void MyDateEditDelegate::paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
+    QStyledItemDelegate::paint(painter, option, index);
+}
