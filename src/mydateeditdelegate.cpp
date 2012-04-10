@@ -59,5 +59,25 @@ void MyDateEditDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptio
 
 void MyDateEditDelegate::paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
-    QStyledItemDelegate::paint(painter, option, index);
+    QModelIndex modelIndex(index);
+
+    QString dateStr = modelIndex.data().toString();
+
+    QDate date(QDate::fromString(dateStr, "yyyyMMdd"));
+
+    /*
+ void QStyledItemDelegate::paint(QPainter *painter,
+        const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    Q_ASSERT(index.isValid());
+
+    QStyleOptionViewItemV4 opt = option;
+    initStyleOption(&opt, index);
+
+    const QWidget *widget = QStyledItemDelegatePrivate::widget(option);
+    QStyle *style = widget ? widget->style() : QApplication::style();
+    style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, widget);
+}      */
+
+    QStyledItemDelegate::paint(painter, option, modelIndex);
 }
