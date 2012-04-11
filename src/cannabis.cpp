@@ -208,7 +208,9 @@ void Cannabis::onFilter()
     {
         // Try with date
 
-        where = "Data = '" + filterLineEdit->text() + "'";
+        QDate data(QDate::fromString(filterLineEdit->text(), "dd/MM/yyyy"));
+
+        where = "Data = '" + data.toString("yyyyMMdd") + "'";
 
         model->setFilter(where);
 

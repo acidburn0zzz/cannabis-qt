@@ -44,6 +44,7 @@ public slots:
     void addNewOrder();
     void deleteOrder();
     void onFilter();
+    void onClearFilter();
 
     void onApply();
     void onCancel();

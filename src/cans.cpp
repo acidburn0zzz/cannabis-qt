@@ -23,15 +23,15 @@ Cans::Cans(QWidget *parent) :
     // QPushButton *clearFilterButton = new QPushButton(tr(""));
     // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
-    QPushButton *filterButton = new QPushButton(tr("Cerca!"));
-    connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
+    // QPushButton *filterButton = new QPushButton(tr("Cerca!"));
+    // connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
 
-    filterLineEdit = new QLineEdit;
-    connect(filterLineEdit, SIGNAL(returnPressed()), this, SLOT(onFilter()));
+    // filterLineEdit = new QLineEdit;
+    // connect(filterLineEdit, SIGNAL(returnPressed()), this, SLOT(onFilter()));
 
-    QHBoxLayout *hbox = new QHBoxLayout;
-    hbox->addWidget(filterLineEdit);
-    hbox->addWidget(filterButton);
+    // QHBoxLayout *hbox = new QHBoxLayout;
+    // hbox->addWidget(filterLineEdit);
+    // hbox->addWidget(filterButton);
 
     QSqlQueryModel *model = new QSqlQueryModel;
     model->setQuery("SELECT * FROM Pots");
@@ -78,7 +78,7 @@ Cans::Cans(QWidget *parent) :
     hbox2->addWidget(buttonBox);
 
     QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addLayout(hbox);
+    // vbox->addLayout(hbox);
     vbox->addWidget(tableView);
     vbox->addLayout(hbox2);
 

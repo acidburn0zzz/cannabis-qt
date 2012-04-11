@@ -12,8 +12,8 @@ Others::Others(QWidget *parent) :
 
     // name cif address phone email
 
-    // QPushButton *clearFilterButton = new QPushButton(tr(""));
-    // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
+    QPushButton *clearFilterButton = new QPushButton(tr("Neteja el filtre de cerca"));
+    connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
@@ -24,6 +24,7 @@ Others::Others(QWidget *parent) :
     QHBoxLayout *hbox = new QHBoxLayout;
     hbox->addWidget(filterLineEdit);
     hbox->addWidget(filterButton);
+    hbox->addWidget(clearFilterButton);
 
     // CREATE TABLE "Altres" ( "Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Data" TEXT, "Diners" REAL);
 
@@ -186,7 +187,7 @@ void Others::onFilter()
 
     if (!filterLineEdit->text().isEmpty())
     {
-        where = "Codi = '" + filterLineEdit->text() + "'";
+        where = "Id = '" + filterLineEdit->text() + "'";
     }
 
     model->setFilter(where);
@@ -195,9 +196,11 @@ void Others::onFilter()
 
     if (model->rowCount() <= 0 && !filterLineEdit->text().isEmpty())
     {
-        // Try with Name
+        // Try with date
 
-        where = "Name = '" + filterLineEdit->text() + "'";
+        QDate data(QDate::fromString(filterLineEdit->text(), "dd/MM/yyyy"));
+
+        where = "Data = '" + data.toString("yyyyMMdd") + "'";
 
         model->setFilter(where);
 
@@ -205,10 +208,20 @@ void Others::onFilter()
 
         if (model->rowCount() <= 0)
         {
-            QMessageBox::warning(this, tr("Altres"), tr("Ho sento, no puc trobar cap consum amb aquest codi o aquesta data!"));
+            QMessageBox::warning(this, tr("Altres"), tr("Ho sento, no puc trobar cap consum d'un soci amb aquest codi o un consum amb aquesta data!"));
         }
     }
 }
+
+void Others::onClearFilter()
+{
+    filterLineEdit->setText("");
+
+    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+    model->setFilter("");
+    model->select();
+}
+
 
 void Others::onCancel()
 { 
