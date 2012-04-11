@@ -55,7 +55,7 @@ QVariant CashControlModel::data(const QModelIndex &index, int role) const
                 case 0:
                 // mostra la data
                 field = query->record().indexOf("cannabis.Data");
-                return QString(query->value(field).toString());
+                return QDate::fromString(query->value(field).toString(), "yyyyMMdd").toString("dd/MM/yyyy");
                 break;
 
                 case 1:
@@ -101,33 +101,29 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
 {
     layoutAboutToBeChanged();
 
-    dataInicial = QDate::fromString(dataInicialStr, "dd/MM/yyyy");
-    dataFinal = QDate::fromString(dataFinalStr, "dd/MM/yyyy");
-
     if (query == NULL)
     {
         query = new QSqlQuery();
     }
 
     query->clear();
-    query->prepare("SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis,altres "
-                   "WHERE altres.Data >= :mydata AND cannabis.Data >= :mydata GROUP BY cannabis.Data");
-    query->bindValue(":mydata", dataInicialStr);
+    query->prepare("SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis LEFT OUTER JOIN altres ON "
+                   "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal UNION ALL "
+                   "SELECT altres.Data, cannabis.Grams, cannabis.Preu, altres.Diners FROM altres LEFT OUTER JOIN cannabis ON "
+                   "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal AND "
+                   "cannabis.data <> altres.Data ORDER BY cannabis.Data");
+
+    query->bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+    query->bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+
+    querySize=0;
 
     if (!query->exec())
     {
         qDebug() << "Can't execute query!";
         qDebug() << query->lastError().text();
+        return;
     }
-    else
-    {
-        qDebug() << "Query OK!";
-    }
-
-    qDebug() << dataInicialStr;
-    qDebug() << query->lastQuery();
-
-    querySize=0;
 
     while (query->next()) querySize++;
     query->first();
