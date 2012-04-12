@@ -159,7 +159,7 @@ void Members::deleteMember()
 
         if (querySize > 0)
         {
-            QMessageBox msgBox;
+            QMessageBox msgBox(this);
 
             msgBox.setText(tr("Aquesta acció eliminarà el soci número ") + QString::number(num_soci) +" !");
             msgBox.setInformativeText(tr("Està segur ?"));
@@ -194,7 +194,7 @@ void Members::deleteMember()
         }
         else
         {
-            QMessageBox::warning(NULL, "Cannabis-qt", "Ho sento, no trobo el soci nº " + QString::number(num_soci) + ". Comprova que realment existeix.");
+            QMessageBox::warning(this, "Cannabis-qt", "Ho sento, no trobo el soci nº " + QString::number(num_soci) + ". Comprova que realment existeix.");
         }
     }
 
@@ -213,7 +213,7 @@ void Members::deleteMember()
 
         t *model = (QSqlTableModel *)tableView->model();
 
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
 
         msgBox.setText("Aquesta acció eliminarà el soci! "
         "(els seus consums quedaran registrats, però no podrà accedir-hi)");
@@ -241,7 +241,7 @@ void Members::onFilter()
     /*
     if (isDirty)
     {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
 
         msgBox.setText("Abans de poder fer una cerca, s'han de guardar els canvis. "
                        "Estàs segur de voler guardar-los ara?");

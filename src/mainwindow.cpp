@@ -90,22 +90,38 @@ void MainWindow::createActions()
     cashControlAct->setStatusTip(tr("Mostra un resum de l'estat de caixa."));
     connect( cashControlAct, SIGNAL( triggered() ), this, SLOT( onCashControl()));
 
+    exportDatabaseAct = new QAction(tr("&Guarda com..."), this);
+    exportDatabaseAct->setStatusTip(tr("Guarda les dades del programa en un fitxer"));
+    connect(exportDatabaseAct, SIGNAL(triggered()), this, SLOT(onExportDB()));
+
     quitAct = new QAction(tr("&Sortir"), this);
     quitAct->setShortcuts(QKeySequence::Quit);
     quitAct->setStatusTip(tr("Surt de l'aplicació"));
     connect(quitAct, SIGNAL(triggered()), this, SLOT(onQuit()));
 }
 
+void MainWindow::onExportDB()
+{
+    QString dstFile = QFileDialog::getSaveFileName(this, tr("Cannabis-qt - Export your database"));
+
+    QSqlDatabase db = QSqlDatabase::database();
+
+    QFile::copy(db.databaseName(), dstFile);
+}
+
 void MainWindow::createMenus()
 {
+    dataMenu = menuBar()->addMenu(tr("&Dades"));
+    dataMenu->addAction(exportDatabaseAct);
+    dataMenu->addSeparator();
+    dataMenu->addAction(quitAct);
+
     actionsMenu = menuBar()->addMenu(tr("&Accions"));
     actionsMenu->addAction(manageMembersAct);
     actionsMenu->addAction(manageCannabisAct);
     actionsMenu->addAction(manageCansAct);
     actionsMenu->addAction(otherBenefitsAct);
-    actionsMenu->addAction(cashControlAct);
-    actionsMenu->addSeparator();
-    actionsMenu->addAction(quitAct);
+    // actionsMenu->addAction(cashControlAct);
 
     helpMenu = menuBar()->addMenu(tr("&Ajuda"));
     helpMenu->addAction(aboutAct);

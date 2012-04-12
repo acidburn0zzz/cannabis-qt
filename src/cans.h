@@ -38,7 +38,7 @@ protected:
     bool isDirty;
 
     void setDirtyFlag(bool status);
-    void createModel(QSqlTableModel *model);
+    void createModel(QSqlQueryModel *model);
 
 signals:
 

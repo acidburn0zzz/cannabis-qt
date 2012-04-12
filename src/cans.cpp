@@ -1,4 +1,5 @@
 #include "cans.h"
+#include "cansmodel.h"
 
 Cans::Cans(QWidget *parent) :
     QWidget(parent)
@@ -33,7 +34,7 @@ Cans::Cans(QWidget *parent) :
     // hbox->addWidget(filterLineEdit);
     // hbox->addWidget(filterButton);
 
-    QSqlTableModel *model = new QSqlTableModel;
+    CansModel *model = new CansModel;
     createModel(model);
 
     tableView = new QTableView;
@@ -96,43 +97,31 @@ void Cans::addToCan()
 
         QModelIndex potIndex(tableView->indexAt(QPoint(0, row * tableView->rowHeight(row))));
 
+        int idpot = potIndex.data().toInt();
+
         bool ok;
 
-        int grams = 0;
-
-        grams = QInputDialog::getInt(this, tr("Afegeix al pot")+QString::number(grams),tr("Grams:"), 0, -2147483647, 2147483647, 1, &ok);
+        int gramsToAdd = QInputDialog::getInt(this, tr("Afegeix al pot nº ") + QString::number(idpot),
+                                              QString(tr("Grams:")), 0, -2147483647, 2147483647, 1, &ok);
 
         if (ok)
         {
-            QModelIndex gramsIndex(tableView->indexAt(QPoint(1*tableView->columnWidth(0), row * tableView->rowHeight(row))));
+            QSqlQuery *query = new QSqlQuery;
 
-            qDebug() << potIndex.data();
-            qDebug() << gramsIndex.data();
+            query->prepare("SELECT grams FROM pots WHERE Id=:idpot");
+            query->bindValue(":idpot", idpot);
 
-            // bool QSqlTableModel::setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole ) [virtual]
-
-            grams += gramsIndex.data().toInt();
-
-            if (grams < 0)
+            if (query->exec())
             {
-                QMessageBox::warning(this, tr("Pots"), tr("Vigila! Aquest pot no conté tant producte!"));
-            }
-            else
-            {
-                QSqlTableModel *model = (QSqlTableModel *)tableView->model();
+                query->next();
 
-                if (!model->setData(gramsIndex, grams))
-                {
-                    qDebug() << "Can't set new value";
-                }
+                int gramsOriginal = query->value(0).toInt();
 
-
-                /*
-                QSqlQuery *query = new QSqlQuery;
+                query->clear();
 
                 query->prepare("UPDATE pots SET Grams = :mygrams WHERE Id = :mypot");
                 query->bindValue(":mypot", potIndex.data().toInt());
-                query->bindValue(":mygrams", grams);
+                query->bindValue(":mygrams", gramsToAdd+gramsOriginal);
 
                 if (!query->exec())
                 {
@@ -143,12 +132,16 @@ void Cans::addToCan()
                 {
                     tableView->setModel(NULL);
 
-                    QSqlQueryModel *model = new QSqlQueryModel;
+                    CansModel *model = new CansModel;
                     createModel(model);
 
                     tableView->setModel(model);
                 }
-                */
+            }
+            else
+            {
+                qDebug() << "Can't execute query!";
+                qDebug() << query->lastError().text();
             }
         }
     }
@@ -158,19 +151,16 @@ void Cans::addToCan()
     }
 }
 
-void Cans::createModel(QSqlTableModel *model)
+void Cans::createModel(QSqlQueryModel *model)
 {
-    // model->setQuery("SELECT Id,Grams, SUM(Grams) AS G FROM Pots");
-    model->setTable("pots");
+    model->setQuery("SELECT Id,Grams FROM Pots");
+    // model->setTable("pots");
 
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    model->select();
 
     // model->removeColumn(0); // don't show the ID
     model->setHeaderData(0, Qt::Horizontal, tr("Número de pot"));
     model->setHeaderData(1, Qt::Horizontal, tr("Grams"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Grams Totals"));
 }
 
 void Cans::onHelp()

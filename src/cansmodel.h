@@ -7,9 +7,10 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QSqlRecord>
-#include <QSqlTableModel>
+#include <QSqlQueryModel>
+#include <QMap>
 
-class CansModel : public QSqlTableModel
+class CansModel : public QSqlQueryModel
 {
     Q_OBJECT
 public:
@@ -20,6 +21,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    QMap<int,int> *ids;
 
 signals:
 

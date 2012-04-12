@@ -14,6 +14,8 @@
 
 #include <QDesktopServices>
 
+#include <QFileDialog>
+
 #include "databasemanager.h"
 
 #include "chooseoption.h"
@@ -51,6 +53,7 @@ private:
      void setMyCentralWidget(QWidget *widget);
 
      QMenu *actionsMenu;
+     QMenu *dataMenu;
      QMenu *helpMenu;
 
      QAction *aboutAct;
@@ -61,6 +64,7 @@ private:
      QAction *manageCansAct;
      QAction *otherBenefitsAct;
      QAction *cashControlAct;
+     QAction *exportDatabaseAct;
 
      ChooseOption *chooseOptionWidget;
      Members *membersWidget;
@@ -88,6 +92,8 @@ public slots:
      void onSaveCashControl();
 
      void onMainMenu();
+
+     void onExportDB();
 
 };
 

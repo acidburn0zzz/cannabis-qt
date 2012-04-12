@@ -1,8 +1,9 @@
 #include "cansmodel.h"
 
 CansModel::CansModel(QObject *parent) :
-    QSqlTableModel(parent)
+    QSqlQueryModel(parent)
 {
+    ids = new QMap<int,int>;
 }
 
 CansModel::~CansModel()
@@ -36,17 +37,54 @@ int CansModel::rowCount(const QModelIndex & /*parent*/) const
 
 QVariant CansModel::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole && index.column() == 1)
+    if (role == Qt::DisplayRole)
     {
-        QSqlQuery query;
-
-        query.prepare("SELECT SUM(Grams) AS gramsgastats FROM cannabis WHERE cannabis.IdPot = :idpot");
-        query.bindValue(":idpot", index.row()+1);
-
-        if (query.exec())
+        if (index.column() == 0)
         {
-            return QString(query.value(0).toString());
+            int i = index.row();
+            int value = QSqlQueryModel::data(index, role).toInt();
+
+            ids->insert(i, value);
+
+            return QSqlQueryModel::data(index, role);
         }
+        else if (index.column() == 1)
+        {
+            QSqlQuery query;
+
+            query.prepare("SELECT SUM(Grams) AS gramsgastats FROM cannabis WHERE cannabis.IdPot = :idpot");
+            query.bindValue(":idpot", ids->value(index.row(), 0));
+
+            if (query.exec())
+            {
+                query.next();
+
+                int gastats = query.value(0).toInt();
+
+                query.clear();
+                query.prepare("SELECT grams FROM pots WHERE Id = :idpot");
+                query.bindValue(":idpot", ids->value(index.row(), 0));
+
+                if (query.exec())
+                {
+                    query.next();
+
+                    int grams = query.value(0).toInt();
+
+                    int reals = grams - gastats;
+
+                    return QString::number(reals);
+                }
+            }
+            else
+            {
+                qDebug() << "CansModel::data Query not ok";
+            }
+        }
+    }
+    else
+    {
+        return QSqlQueryModel::data(index, role);
     }
 
     return QVariant();
