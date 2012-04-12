@@ -20,7 +20,8 @@ SOURCES += src/main.cpp\
     src/cans.cpp \
     src/mycheckboxdelegate.cpp \
     src/mydateeditdelegate.cpp \
-    src/cashcontrolmodel.cpp
+    src/cashcontrolmodel.cpp \
+    src/cansmodel.cpp
 
 HEADERS  += src/mainwindow.h \
     src/databasemanager.h \
@@ -32,7 +33,8 @@ HEADERS  += src/mainwindow.h \
     src/cans.h \
     src/mycheckboxdelegate.h \
     src/mydateeditdelegate.h \
-    src/cashcontrolmodel.h
+    src/cashcontrolmodel.h \
+    src/cansmodel.h
 
 RESOURCES += \
     cannabis-qt.qrc

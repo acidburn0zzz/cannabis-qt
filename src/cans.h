@@ -16,6 +16,7 @@
 #include <QSqlError>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QSqlQuery>
 
 class Cans : public QWidget
 {
@@ -37,6 +38,7 @@ protected:
     bool isDirty;
 
     void setDirtyFlag(bool status);
+    void createModel(QSqlTableModel *model);
 
 signals:
 
