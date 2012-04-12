@@ -89,6 +89,7 @@ Cans::Cans(QWidget *parent) :
 
 void Cans::addToCan()
 {
+    // QInputDialog::getInt(this, tr(""),)
 }
 
 void Cans::onHelp()

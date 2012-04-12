@@ -15,6 +15,7 @@
 #include <QVBoxLayout>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QInputDialog>
 
 class Cans : public QWidget
 {
