@@ -2,6 +2,8 @@
 #define MYDATEEDIT_H
 
 #include <QDateEdit>
+#include <QPainter>
+#include <QFontMetrics>
 #include <QStyledItemDelegate>
 
 class MyDateEditDelegate : public QStyledItemDelegate
