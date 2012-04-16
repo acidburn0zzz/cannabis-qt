@@ -8,6 +8,8 @@
 #include <QDebug>
 #include <QSqlRecord>
 #include <QSqlTableModel>
+#include <QList>
+#include <QHash>
 
 class CashControlModel : public QSqlTableModel
 {
@@ -25,9 +27,9 @@ public:
     QDate dataInicial;
     QDate dataFinal;
 
-    QSqlQuery *query;
+    QHash < int, QString> mydata;
 
-    int querySize;
+    int queryRows;
 
 signals:
     

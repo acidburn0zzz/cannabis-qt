@@ -3,33 +3,21 @@
 CashControlModel::CashControlModel(QObject *parent) :
     QSqlTableModel(parent)
 {
-    query = NULL;
-    querySize = 0;
+    queryRows = 0;
 }
 
 CashControlModel::~CashControlModel()
 {
-    if (query != NULL)
-    {
-        delete query;
-    }
 }
 
 int CashControlModel::rowCount(const QModelIndex & /*parent*/) const
 {
-    if (query != NULL)
-    {
-        return querySize;
-    }
-    else
-    {
-        return 0;
-    }
+    return queryRows;
 }
 
  int CashControlModel::columnCount(const QModelIndex & /*parent*/) const
 {
-     return 5;
+    return 5;
 }
 
 QVariant CashControlModel::data(const QModelIndex &index, int role) const
@@ -101,32 +89,40 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
 {
     layoutAboutToBeChanged();
 
-    if (query == NULL)
-    {
-        query = new QSqlQuery();
-    }
+    QSqlQuery query;
 
-    query->clear();
-    query->prepare("SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis LEFT OUTER JOIN altres ON "
+    query.clear();
+    query.prepare("SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis LEFT OUTER JOIN altres ON "
                    "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal UNION ALL "
                    "SELECT altres.Data, cannabis.Grams, cannabis.Preu, altres.Diners FROM altres LEFT OUTER JOIN cannabis ON "
                    "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal AND "
                    "cannabis.data <> altres.Data ORDER BY cannabis.Data");
 
-    query->bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
-    query->bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+    query.bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+    query.bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
 
     querySize=0;
 
-    if (!query->exec())
+    if (!query.exec())
     {
         qDebug() << "Can't execute query!";
-        qDebug() << query->lastError().text();
+        qDebug() << query.lastError().text();
         return;
     }
 
-    while (query->next()) querySize++;
-    query->first();
+    QString s;
+
+    while (query.next())
+    {
+        for (int i=0; i<5; i++)
+        {
+            s = query->value(i).toString();
+
+
+
+        }
+        queryRows++;
+    }
 
     qDebug() << querySize;
 

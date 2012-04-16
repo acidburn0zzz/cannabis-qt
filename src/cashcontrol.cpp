@@ -25,10 +25,6 @@ CashControl::CashControl(QWidget *parent) :
     vbox22->addWidget(dataInicial);
     vbox22->addWidget(dataFinal);
 
-
-
-
-
     QHBoxLayout *hbox3 = new QHBoxLayout;
     hbox3->addLayout(vbox11);
     hbox3->addLayout(vbox22);
