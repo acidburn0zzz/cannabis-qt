@@ -24,6 +24,7 @@ QVariant CashControlModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole)
     {
+        /*
         if (query != NULL)
         {
             QDate tmpDate(dataInicial);
@@ -81,6 +82,7 @@ QVariant CashControlModel::data(const QModelIndex &index, int role) const
         {
             return QString("xxx");
         }
+        */
     }
     return QVariant();
 }
@@ -101,7 +103,7 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
     query.bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
     query.bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
 
-    querySize=0;
+    queryRows = 0;
 
     if (!query.exec())
     {
@@ -116,7 +118,7 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
     {
         for (int i=0; i<5; i++)
         {
-            s = query->value(i).toString();
+            s = query.value(i).toString();
 
 
 
@@ -124,7 +126,7 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
         queryRows++;
     }
 
-    qDebug() << querySize;
+    qDebug() << queryRows;
 
     layoutChanged();
 }

@@ -5,30 +5,31 @@ CashControl::CashControl(QWidget *parent) :
     QWidget(parent)
 {
     QLabel *dataInicialLabel = new QLabel(tr("Data inicial:"));
-    dataInicial = new QDateEdit(QDate::currentDate());
+    dataInicialLabel->setAlignment(Qt::AlignRight);
+
+    QDate currentDate(QDate::currentDate());
+
+    dataInicial = new QDateEdit(currentDate.addYears(-1));
     dataInicial->setDisplayFormat("dd/MM/yyyy");
     dataInicial->setCalendarPopup(true);
 
     QLabel *dataFinalLabel = new QLabel(tr("Data final:"));
-    dataFinal = new QDateEdit(QDate::currentDate());
+    dataFinalLabel->setAlignment(Qt::AlignRight);
+
+    dataFinal = new QDateEdit(currentDate);
     dataFinal->setDisplayFormat("dd/MM/yyyy");
     dataFinal->setCalendarPopup(true);
 
     QPushButton *showButton = new QPushButton(tr("Mostra els moviments!"));
     connect(showButton, SIGNAL(pressed()), this, SLOT(onShow()));
 
-    QVBoxLayout *vbox11 = new QVBoxLayout;
-    vbox11->addWidget(dataInicialLabel);
-    vbox11->addWidget(dataFinalLabel);
+    QHBoxLayout *hbox1 = new QHBoxLayout;
+    hbox1->addWidget(dataInicialLabel);
+    hbox1->addWidget(dataInicial);
 
-    QVBoxLayout *vbox22 = new QVBoxLayout;
-    vbox22->addWidget(dataInicial);
-    vbox22->addWidget(dataFinal);
-
-    QHBoxLayout *hbox3 = new QHBoxLayout;
-    hbox3->addLayout(vbox11);
-    hbox3->addLayout(vbox22);
-    hbox3->addWidget(showButton);
+    QHBoxLayout *hbox2 = new QHBoxLayout;
+    hbox2->addWidget(dataFinalLabel);
+    hbox2->addWidget(dataFinal);
 
     CashControlModel *model = new CashControlModel();
 
@@ -55,9 +56,9 @@ CashControl::CashControl(QWidget *parent) :
     hbox4->addWidget(printButton);
     hbox4->addWidget(buttonBox);
 
-
     QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addLayout(hbox3);
+    vbox->addLayout(hbox1);
+    vbox->addLayout(hbox2);
     vbox->addWidget(showButton);
     vbox->addWidget(tableView);
     vbox->addLayout(hbox4);
