@@ -12,7 +12,7 @@ ChooseOption::ChooseOption(QWidget *parent) :
     cashButton = new QPushButton(tr("Control de cai&xa"), this);
     quitButton = new QPushButton(tr("&Sortir"), this);
 
-    cashButton->setHidden(true);
+    // cashButton->setHidden(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(membersButton);
