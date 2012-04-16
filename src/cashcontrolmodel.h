@@ -27,7 +27,7 @@ public:
     QDate dataInicial;
     QDate dataFinal;
 
-    QHash < int, QString> mydata;
+    QHash < int, QString> myData;
 
     int queryRows;
 

@@ -24,66 +24,12 @@ QVariant CashControlModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        /*
-        if (query != NULL)
+        if (queryRows > 0)
         {
-            QDate tmpDate(dataInicial);
-            tmpDate.addDays(index.row());
-            QString tmpDateStr(tmpDate.toString("dd/MM/yyyy"));
-
-            if (index.row() == 0 && index.column() == 0)
-            {
-                // first row, rewind.
-                query->first();
-            }
-
-            int field;
-
-            switch(index.column())
-            {
-                case 0:
-                // mostra la data
-                field = query->record().indexOf("cannabis.Data");
-                return QDate::fromString(query->value(field).toString(), "yyyyMMdd").toString("dd/MM/yyyy");
-                break;
-
-                case 1:
-                // Mostra els grams
-                field = query->record().indexOf("cannabis.Grams");
-                return QString(query->value(field).toString());
-                break;
-
-                case 2:
-                // Mostra els ingressos per grams
-                field = query->record().indexOf("cannabis.Preu");
-                return QString(query->value(field).toString());
-                break;
-
-                case 3:
-                // Mostra els ingressos per altres conceptes
-                field = query->record().indexOf("altres.Diners");
-                return QString(query->value(field).toString());
-                break;
-
-                case 4:
-                // mostra el total d'ingressos
-                int field1 = query->record().indexOf("cannabis.Preu");
-                int field2 = query->record().indexOf("altres.Diners");
-                int val = query->value(field1).toInt() + query->value(field2).toInt();
-
-                query->next();
-
-                return QString::number(val);
-                break;
-
-            }
+            return myData[queryRows*index.row()+index.column()];
         }
-        else
-        {
-            return QString("xxx");
-        }
-        */
     }
+
     return QVariant();
 }
 
@@ -114,16 +60,32 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
 
     QString s;
 
+    // SQLite does not tell how many rows the query has...
+
     while (query.next())
     {
-        for (int i=0; i<5; i++)
-        {
-            s = query.value(i).toString();
-
-
-
-        }
         queryRows++;
+    }
+
+    query.first();
+
+    myData.clear();
+
+    while (query.next())
+    {
+        for (int y=0; y<queryRows; y++)
+        {
+            query.next();
+
+            myData[queryRows*y] = QDate::fromString(query.value(0).toString(), "yyyyMMdd").toString("dd/MM/yyyy");
+
+            for (int x=1; x<4; x++)
+            {
+                myData[queryRows*y+x] = query.value(x).toString();
+            }
+
+            myData[queryRows*y+4] = QString::number(myData[queryRows*y+2].toDouble() + myData[queryRows*y+3].toDouble());
+        }
     }
 
     qDebug() << queryRows;
