@@ -14,16 +14,25 @@ CashControl::CashControl(QWidget *parent) :
     dataFinal->setDisplayFormat("dd/MM/yyyy");
     dataFinal->setCalendarPopup(true);
 
-    QHBoxLayout *hbox1 = new QHBoxLayout;
-    hbox1->addWidget(dataInicialLabel);
-    hbox1->addWidget(dataInicial);
-
-    QHBoxLayout *hbox2 = new QHBoxLayout;
-    hbox2->addWidget(dataFinalLabel);
-    hbox2->addWidget(dataFinal);
-
-    QPushButton *showButton = new QPushButton(tr("Mostra els moviments entre les dates seleccionades!"));
+    QPushButton *showButton = new QPushButton(tr("Mostra els moviments!"));
     connect(showButton, SIGNAL(pressed()), this, SLOT(onShow()));
+
+    QVBoxLayout *vbox11 = new QVBoxLayout;
+    vbox11->addWidget(dataInicialLabel);
+    vbox11->addWidget(dataFinalLabel);
+
+    QVBoxLayout *vbox22 = new QVBoxLayout;
+    vbox22->addWidget(dataInicial);
+    vbox22->addWidget(dataFinal);
+
+
+
+
+
+    QHBoxLayout *hbox3 = new QHBoxLayout;
+    hbox3->addLayout(vbox11);
+    hbox3->addLayout(vbox22);
+    hbox3->addWidget(showButton);
 
     CashControlModel *model = new CashControlModel();
 
@@ -46,16 +55,16 @@ CashControl::CashControl(QWidget *parent) :
     QPushButton *printButton = new QPushButton(tr("Imprimeix"));
     connect(printButton, SIGNAL(pressed()), this, SLOT(onPrint()));
 
-    QHBoxLayout *hbox3 = new QHBoxLayout;
-    hbox3->addWidget(printButton);
-    hbox3->addWidget(buttonBox);
+    QHBoxLayout *hbox4 = new QHBoxLayout;
+    hbox4->addWidget(printButton);
+    hbox4->addWidget(buttonBox);
+
 
     QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addLayout(hbox1);
-    vbox->addLayout(hbox2);
+    vbox->addLayout(hbox3);
     vbox->addWidget(showButton);
     vbox->addWidget(tableView);
-    vbox->addLayout(hbox3);
+    vbox->addLayout(hbox4);
 
     setLayout(vbox);
 }
