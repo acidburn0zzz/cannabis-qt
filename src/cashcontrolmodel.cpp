@@ -3,7 +3,6 @@
 CashControlModel::CashControlModel(QObject *parent) :
     QSqlTableModel(parent)
 {
-    queryRows = 0;
 }
 
 CashControlModel::~CashControlModel()
@@ -12,7 +11,7 @@ CashControlModel::~CashControlModel()
 
 int CashControlModel::rowCount(const QModelIndex & /*parent*/) const
 {
-    return queryRows;
+    return myData.size();
 }
 
  int CashControlModel::columnCount(const QModelIndex & /*parent*/) const
@@ -24,9 +23,16 @@ QVariant CashControlModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (queryRows > 0)
+        if (index.isValid() && myData.size() > 0)
         {
-            return myData[queryRows*index.row()+index.column()];
+            /*
+            QStringList row = myData.at(index.row());
+
+            if (index.column() < row.size())
+            {
+                return row.at(index.column());
+            }
+            */
         }
     }
 
@@ -35,62 +41,91 @@ QVariant CashControlModel::data(const QModelIndex &index, int role) const
 
 void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
 {
-    layoutAboutToBeChanged();
-
-    QSqlQuery query;
-
     /*
-    query.prepare("SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis LEFT OUTER JOIN altres ON "
-                  "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal UNION ALL "
-                  "SELECT altres.Data, cannabis.Grams, cannabis.Preu, altres.Diners FROM altres LEFT OUTER JOIN cannabis ON "
-                  "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal AND "
-                  "cannabis.data <> altres.Data ORDER BY cannabis.Data");
-    */
+    qDebug() << dataInicialStr;
 
-    query.prepare("SELECT Data,Grams,Preu FROM cannabis WHERE Data >= :mydatainicial AND Data <= :mydatafinal ORDER BY Data");
+    QSqlQuery query1, query2;
 
-    query.bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
-    query.bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+    query1.prepare("SELECT Data,Grams,Preu FROM cannabis WHERE Data >= :mydatainicial AND Data <= :mydatafinal ORDER BY Data");
 
-    queryRows = 0;
+    query1.bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+    query1.bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
 
-    if (!query.exec())
+    if (!query1.exec())
     {
         qDebug() << "Can't execute query!";
-        qDebug() << query.lastError().text();
-        layoutChanged();
+        qDebug() << query1.lastError().text();
         return;
     }
 
-    // SQLite does not tell how many rows the query has...
+    query2.prepare("SELECT Data,Diners FROM altres WHERE Data >= :mydatainicial AND Data <= :mydatafinal ORDER BY Data");
 
-    while (query.next())
+    query2.bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+    query2.bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
+
+    if (!query2.exec())
     {
-        queryRows++;
+        qDebug() << "Can't execute query!";
+        qDebug() << query2.lastError().text();
+        return;
     }
 
-    query.first();
+    layoutAboutToBeChanged();
 
     myData.clear();
 
-    while (query.next())
+    bool next1=true, next2=true;
+
+    while (next1 || next2)
     {
-        for (int y=0; y<queryRows; y++)
+        qDebug() << "k2";
+
+        next1 = query1.next();
+        next2 = query2.next();
+
+        if (next1)
         {
-            query.next();
-
-            myData[queryRows*y] = QDate::fromString(query.value(0).toString(), "yyyyMMdd").toString("dd/MM/yyyy");
-
-            for (int x=1; x<4; x++)
+            if (myData.value(data, QStringList()))
             {
-                myData[queryRows*y+x] = query.value(x).toString();
-            }
 
-            myData[queryRows*y+4] = QString::number(myData[queryRows*y+2].toDouble() + myData[queryRows*y+3].toDouble());
+            QString data(query1.value(0).toString());
+
+            slist << QDate::fromString(query1.value(0).toString(), "yyyyMMdd").toString("dd/MM/yyyy");
+            slist << query1.value(1).toString();
+            slist << query1.value(2).toString();
+
+            myData[data] = slist;
+        }
+
+        if (next1 && !next2)
+        {
+            slist << QString("0");
+            slist << QString("");
+        }
+
+        if (!next1 && next2)
+        {
+            slist << QDate::fromString(query2.value(0).toString(), "yyyyMMdd").toString("dd/MM/yyyy");
+            slist << QString("");
+            slist << QString("");
+            slist << query2.value(1).toString();
+        }
+
+        if (next1 && next2)
+        {
+            slist << QDate::fromString(query1.value(0).toString(), "yyyyMMdd").toString("dd/MM/yyyy");
+            slist << query1.value(1).toString();
+            slist << query1.value(2).toString();
+            slist << query2.value(1).toString();
+        }
+
+        if (!slist.empty())
+        {
+            qDebug() << slist;
+            myData.append(slist);
         }
     }
 
-    qDebug() << queryRows;
-
     layoutChanged();
+    */
 }
