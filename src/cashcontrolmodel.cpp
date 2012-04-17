@@ -39,12 +39,15 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
 
     QSqlQuery query;
 
-    query.clear();
+    /*
     query.prepare("SELECT cannabis.Data,cannabis.Grams,cannabis.Preu,altres.Diners FROM cannabis LEFT OUTER JOIN altres ON "
-                   "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal UNION ALL "
-                   "SELECT altres.Data, cannabis.Grams, cannabis.Preu, altres.Diners FROM altres LEFT OUTER JOIN cannabis ON "
-                   "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal AND "
-                   "cannabis.data <> altres.Data ORDER BY cannabis.Data");
+                  "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal UNION ALL "
+                  "SELECT altres.Data, cannabis.Grams, cannabis.Preu, altres.Diners FROM altres LEFT OUTER JOIN cannabis ON "
+                  "cannabis.Data=altres.Data AND cannabis.Data >= :mydatainicial AND cannabis.Data <= :mydatafinal AND "
+                  "cannabis.data <> altres.Data ORDER BY cannabis.Data");
+    */
+
+    query.prepare("SELECT Data,Grams,Preu FROM cannabis WHERE Data >= :mydatainicial AND Data <= :mydatafinal ORDER BY Data");
 
     query.bindValue(":mydatainicial", QDate::fromString(dataInicialStr, "dd/MM/yyyy").toString("yyyyMMdd"));
     query.bindValue(":mydatafinal", QDate::fromString(dataFinalStr, "dd/MM/yyyy").toString("yyyyMMdd"));
@@ -55,10 +58,9 @@ void CashControlModel::setDates(QString dataInicialStr, QString dataFinalStr)
     {
         qDebug() << "Can't execute query!";
         qDebug() << query.lastError().text();
+        layoutChanged();
         return;
     }
-
-    QString s;
 
     // SQLite does not tell how many rows the query has...
 
