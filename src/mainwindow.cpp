@@ -199,7 +199,7 @@ void MainWindow::about()
 
 void MainWindow::onQuit()
 {
-    QMessageBox msgBox;
+    QMessageBox msgBox(this);
 
     msgBox.setText("Està segur ?");
 

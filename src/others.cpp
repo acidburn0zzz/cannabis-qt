@@ -127,7 +127,7 @@ void Others::deleteOrder()
 
         QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
 
         msgBox.setText(tr("Aquesta acció eliminarà la informació sobre el consum del soci!"));
         msgBox.setInformativeText(tr("Està segur ?"));
@@ -152,11 +152,11 @@ void Others::onFilter()
 {
     if (isDirty)
     {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
 
-        msgBox.setText("Abans de poder fer una cerca, s'han de guardar els canvis. "
-                       "Estàs segur de voler guardar-los ara?");
-        msgBox.setInformativeText("Està segur ?");
+        msgBox.setText(tr("Abans de poder fer una cerca, s'han de guardar els canvis. "
+                       "Estàs segur de voler guardar-los ara?"));
+        msgBox.setInformativeText(tr("Està segur ?"));
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);

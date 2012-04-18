@@ -18,6 +18,8 @@
 #include <QMessageBox>
 #include <QDateEdit>
 #include <QPrintDialog>
+#include <QTextDocument>
+#include <QPrinter>
 
 class CashControl : public QWidget
 {
@@ -37,6 +39,8 @@ protected:
     QDateEdit *dataFinal;
 
     QTableView *tableView;
+
+    QPushButton *printButton;
 
 signals:
     

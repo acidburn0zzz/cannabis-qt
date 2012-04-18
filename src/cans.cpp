@@ -214,7 +214,7 @@ void Cans::deleteCan()
 
         QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
 
         msgBox.setText("Aquesta acció eliminarà el pot."
         "(els seus consums quedaran registrats, però no podrà accedir-hi)");
@@ -241,7 +241,7 @@ void Cans::onFilter()
 {
     if (isDirty)
     {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
 
         msgBox.setText("Abans de poder fer una cerca, s'han de guardar els canvis. "
                        "Estàs segur de voler guardar-los ara?");

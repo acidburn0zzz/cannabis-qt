@@ -49,8 +49,9 @@ CashControl::CashControl(QWidget *parent) :
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Help);
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
-    QPushButton *printButton = new QPushButton(tr("Imprimeix"));
+    printButton = new QPushButton(tr("Imprimeix"));
     connect(printButton, SIGNAL(pressed()), this, SLOT(onPrint()));
+    printButton->setEnabled(false);
 
     QHBoxLayout *hbox4 = new QHBoxLayout;
     hbox4->addWidget(printButton);
@@ -91,9 +92,13 @@ void CashControl::onShow()
 
     model->setDates(dataInicial->date().toString("dd/MM/yyyy"), dataFinal->date().toString("dd/MM/yyyy"));
 
-
     tableView->resizeColumnsToContents();
     tableView->horizontalHeader()->setStretchLastSection(true);
+
+    if (printButton)
+    {
+        printButton->setEnabled(model->rowCount() > 0);
+    }
 }
 
 void CashControl::clear()
@@ -106,55 +111,76 @@ void CashControl::clear()
 void CashControl::onPrint()
 {
     QString strStream;
-    QTextStream out(&strStream);
+    QTextStream text(&strStream);
 
     CashControlModel *model = static_cast<CashControlModel *>(tableView->model());
 
     const int rowCount = model->rowCount();
     const int columnCount = model->columnCount();
 
-    QString strTitle(tr("Títol"));
+    if (rowCount <= 0)
+    {
+        return;
+    }
 
-    out <<  "<html>\n"
+    QString strTitle(tr("Cannabis-qt"));
+
+    text <<  "<html>\n"
         "<head>\n"
         "<meta Content=\"Text/html; charset=UTF8\">\n"
         <<  QString("<title>%1</title>\n").arg(strTitle)
         <<  "</head>\n"
-        "<body bgcolor=#ffffff link=#5000A0>\n"
-        "<table border=1 cellspacing=0 cellpadding=2>\n";
-/*
-        // headers
-        out << "<tr bgcolor=#f0f0f0>";
+        <<  "<body bgcolor=#ffffff link=#5000A0>\n";
+
+    text << QString("<h1>%1</h1>\n").arg(strTitle);
+    text << QString(tr("<h2>Del %1 al %2</h2><br/>\n")).arg(dataInicial->date().toString("dd/MM/yyyy"), dataFinal->date().toString("dd/MM/yyyy"));
+
+    text << "<table border=1 cellspacing=0 cellpadding=2>\n";
+
+    // draw headers
+    text << "<tr bgcolor=#f0f0f0>";
+
+    for (int column = 0; column < columnCount; column++)
+    {
+        if (!tableView->isColumnHidden(column))
+        {
+            text << QString("<th>%1</th>").arg(model->headerData(column, Qt::Horizontal).toString());
+        }
+    }
+
+    text << "</tr>\n";
+
+    // draw data table
+    for (int row = 0; row < rowCount; row++)
+    {
+        text << "<tr>";
         for (int column = 0; column < columnCount; column++)
-            if (!pPublic->tableView->isColumnHidden(column))
-                out << QString("<th>%1</th>").arg(pPublic->tableView->model()->headerData(column, Qt::Horizontal).toString());
-        out << "</tr>\n";
-
-        // data table
-        for (int row = 0; row < rowCount; row++) {
-            out << "<tr>";
-            for (int column = 0; column < columnCount; column++) {
-                if (!pPublic->tableView->isColumnHidden(column)) {
-                    QString data = pPublic->tableView->model()->data(pPublic->tableView->model()->index(row, column)).toString().simplified();
-                    out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-                }
+        {
+            if (!tableView->isColumnHidden(column))
+            {
+                QString data = model->data(model->index(row, column)).toString().simplified();
+                text << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
             }
-            out << "</tr>\n";
         }
-        out <<  "</table>\n"
-            "</body>\n"
-            "</html>\n";
+        text << "</tr>\n";
+    }
 
-        QTextDocument *document = new QTextDocument();
-        document->setHtml(strStream);
+    text <<  "</table>\n";
 
-        QPrinter printer;
+    text << "</body>\n</html>\n";
 
-        QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
-        if (dialog->exec() == QDialog::Accepted) {
-            document->print(&printer);
-        }
+    QTextDocument *document = new QTextDocument();
 
-        delete document;
-        */
+    document->setHtml(strStream);
+
+    QPrinter printer;
+
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+
+    if (dialog->exec() == QDialog::Accepted)
+    {
+        document->print(&printer);
+    }
+
+    delete document;
 }
