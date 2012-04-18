@@ -17,6 +17,7 @@
 #include <QSqlError>
 #include <QMessageBox>
 #include <QDateEdit>
+#include <QPrintDialog>
 
 class CashControl : public QWidget
 {

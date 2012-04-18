@@ -101,7 +101,7 @@ void Cans::addToCan()
 
         bool ok;
 
-        int gramsToAdd = QInputDialog::getInt(this, tr("Afegeix al pot nº ") + QString::number(idpot),
+        int gramsToAdd = QInputDialog::getInt(this, tr("Afegeix al pot nº %1").arg(idpot),
                                               QString(tr("Grams:")), 0, -2147483647, 2147483647, 1, &ok);
 
         if (ok)
@@ -276,7 +276,7 @@ void Cans::onFilter()
 
     if (!filterLineEdit->text().isEmpty())
     {
-        where = "Numero = '" + filterLineEdit->text() + "'";
+        where = QString("Numero = '%1'").arg(filterLineEdit->text());
     }
 
     model->setFilter(where);

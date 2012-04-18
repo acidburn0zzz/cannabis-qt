@@ -23,7 +23,7 @@ bool DatabaseManager::openDB()
         path = QDir::toNativeSeparators(path);
         db.setDatabaseName(path);
 
-        qDebug() << "Database file : " + path;
+        qDebug() << QString("Database file : %1").arg(path);
 
         QFile dbFile(db.databaseName());
 

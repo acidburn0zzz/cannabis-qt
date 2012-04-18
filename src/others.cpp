@@ -187,7 +187,7 @@ void Others::onFilter()
 
     if (!filterLineEdit->text().isEmpty())
     {
-        where = "Id = '" + filterLineEdit->text() + "'";
+        where = QString("Id = '%1").arg(filterLineEdit->text());
     }
 
     model->setFilter(where);
@@ -200,7 +200,7 @@ void Others::onFilter()
 
         QDate data(QDate::fromString(filterLineEdit->text(), "dd/MM/yyyy"));
 
-        where = "Data = '" + data.toString("yyyyMMdd") + "'";
+        where = QString("Data = '%1'").arg(data.toString("yyyyMMdd"));
 
         model->setFilter(where);
 

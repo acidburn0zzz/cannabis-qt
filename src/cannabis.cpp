@@ -197,7 +197,7 @@ void Cannabis::onFilter()
 
     if (!filterLineEdit->text().isEmpty())
     {
-        where = "Codi = '" + filterLineEdit->text() + "'";
+        where = QString("Codi = '%1'").arg(filterLineEdit->text());
     }
 
     model->setFilter(where);
@@ -210,7 +210,7 @@ void Cannabis::onFilter()
 
         QDate data(QDate::fromString(filterLineEdit->text(), "dd/MM/yyyy"));
 
-        where = "Data = '" + data.toString("yyyyMMdd") + "'";
+        where = QString("Data = '%1'").arg(data.toString("yyyyMMdd"));
 
         model->setFilter(where);
 

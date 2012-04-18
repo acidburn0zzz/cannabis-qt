@@ -105,4 +105,56 @@ void CashControl::clear()
 
 void CashControl::onPrint()
 {
+    QString strStream;
+    QTextStream out(&strStream);
+
+    CashControlModel *model = static_cast<CashControlModel *>(tableView->model());
+
+    const int rowCount = model->rowCount();
+    const int columnCount = model->columnCount();
+
+    QString strTitle(tr("Títol"));
+
+    out <<  "<html>\n"
+        "<head>\n"
+        "<meta Content=\"Text/html; charset=UTF8\">\n"
+        <<  QString("<title>%1</title>\n").arg(strTitle)
+        <<  "</head>\n"
+        "<body bgcolor=#ffffff link=#5000A0>\n"
+        "<table border=1 cellspacing=0 cellpadding=2>\n";
+/*
+        // headers
+        out << "<tr bgcolor=#f0f0f0>";
+        for (int column = 0; column < columnCount; column++)
+            if (!pPublic->tableView->isColumnHidden(column))
+                out << QString("<th>%1</th>").arg(pPublic->tableView->model()->headerData(column, Qt::Horizontal).toString());
+        out << "</tr>\n";
+
+        // data table
+        for (int row = 0; row < rowCount; row++) {
+            out << "<tr>";
+            for (int column = 0; column < columnCount; column++) {
+                if (!pPublic->tableView->isColumnHidden(column)) {
+                    QString data = pPublic->tableView->model()->data(pPublic->tableView->model()->index(row, column)).toString().simplified();
+                    out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                }
+            }
+            out << "</tr>\n";
+        }
+        out <<  "</table>\n"
+            "</body>\n"
+            "</html>\n";
+
+        QTextDocument *document = new QTextDocument();
+        document->setHtml(strStream);
+
+        QPrinter printer;
+
+        QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+        if (dialog->exec() == QDialog::Accepted) {
+            document->print(&printer);
+        }
+
+        delete document;
+        */
 }

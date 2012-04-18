@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
         QDir().mkpath(appDataDir);
     }
 
-    qDebug() << "Application data will be stored in : " + appDataDir;
+    qDebug() << QString("Application data will be stored in : %1").arg(appDataDir);
 
     // Open our database
     if (!dbManager.openDB())
@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createStatusBar();
     createCentralWidgets();
 
-    setWindowTitle(tr("Cannabis-qt  ") + QString(PROGRAM_VERSION));
+    setWindowTitle(tr("Cannabis-qt %1").arg(PROGRAM_VERSION));
 
     setCentralWidget(chooseOptionWidget);
 
@@ -192,7 +192,7 @@ void MainWindow::about()
     QMessageBox::about(this, tr("Sobre Cannabis-qt"),
              tr("The <b>Cannabis-qt</b> programa per gestionar "
                 "un club social de cànnabis.<br><br>"
-                "Versió ") + QString(PROGRAM_VERSION));
+                "Versió %1").arg(PROGRAM_VERSION));
 }
 
 // ---------------------------------------------------------------------------------------------------------

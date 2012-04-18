@@ -161,7 +161,7 @@ void Members::deleteMember()
         {
             QMessageBox msgBox(this);
 
-            msgBox.setText(tr("Aquesta acció eliminarà el soci número ") + QString::number(num_soci) +" !");
+            msgBox.setText(tr("Aquesta acció eliminarà el soci número %1 !").arg(num_soci));
             msgBox.setInformativeText(tr("Està segur ?"));
             msgBox.setIcon(QMessageBox::Warning);
             msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -194,12 +194,10 @@ void Members::deleteMember()
         }
         else
         {
-            QMessageBox::warning(this, "Cannabis-qt", "Ho sento, no trobo el soci nº " + QString::number(num_soci) + ". Comprova que realment existeix.");
+            QMessageBox::warning(this, "Cannabis-qt",
+                                 QString("Ho sento, no trobo el soci nº %1. Comprova que realment existeix.").arg(num_soci));
         }
     }
-
-
-
 
     /*
 
@@ -270,7 +268,7 @@ void Members::onFilter()
     {
         model->database().rollback();
         model->revertAll();
-        qDebug() << QString("Members::onFilter(): ") + model->lastError().text();
+        qDebug() << QString("Members::onFilter(): %1").arg(model->lastError().text());
         // QMessageBox::warning(this, tr("Customers"),
         // tr("Can't save your changes: %1").arg(model->lastError().text()));
     }
@@ -279,7 +277,7 @@ void Members::onFilter()
 
     if (!filterLineEdit->text().isEmpty())
     {
-        where = "Codi = '" + filterLineEdit->text() + "'";
+        where = QString("Codi = '%1'").arg(filterLineEdit->text());
     }
 
     model->setFilter(where);
@@ -290,7 +288,7 @@ void Members::onFilter()
     {
         // Try with Name
 
-        where = "Nom = '" + filterLineEdit->text() + "'";
+        where = QString("Nom = '%1'").arg(filterLineEdit->text());
 
         model->setFilter(where);
 
