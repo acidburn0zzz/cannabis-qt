@@ -65,15 +65,30 @@ void CashControlModel::setDates(QString dataInicial, QString dataFinal)
 
         QString data(query.value(0).toString());
 
-        slist << QDate::fromString(data, "yyyyMMdd").toString("dd/MM/yyyy");
-        slist << query.value(1).toString();
-        slist << query.value(2).toString();
+        QString grams(query.value(1).toString());
+        QString preu(query.value(2).toString());
 
-        slist << "0";
+        // comprovem que no hi hagi ja alguna entrada aquesta data
+        QStringList oldslist(myDataTmp.value(data, QStringList()));
+
+        if (!oldslist.isEmpty())
+        {
+            // recollim els valors que ja hi havien i els afegim als nous
+            // per anar acumulant el què s'ha consumit a la mateixa data
+            grams = QString::number(grams.toDouble() + oldslist.at(1).toDouble());
+            preu = QString::number(preu.toDouble() + oldslist.at(2).toDouble());
+        }
+
+        slist << QDate::fromString(data, "yyyyMMdd").toString("dd/MM/yyyy");
+        slist << grams;
+        slist << preu;
+
+        slist << "0";  // Diners
 
         // el total serà el mateix (de moment)
-        slist << query.value(2).toString();
+        slist << preu;
 
+        // si ja existeix el sobreescriu, o sigui que no ens n'hem de preocupar
         myDataTmp.insert(data, slist);
     }
 
@@ -110,9 +125,14 @@ void CashControlModel::setDates(QString dataInicial, QString dataFinal)
             // Tenim els tres camps, hem de calcular la suma
 
             slist.removeLast(); // treiem el total, ara no és correcte
-            slist.removeLast(); // treiem el zero que havíem afegit abans per omplir
 
-            slist << query.value(1).toString();
+            // agafem el valor de diners antic (si no hi havia cap agafarà el zero que hem posat abans).
+            QString oldDiners(slist.last());
+
+            // treiem el zero que havíem afegit abans per omplir (o el valor antic si ja teníem info d'aquesta data).
+            slist.removeLast();
+
+            slist << QString::number(oldDiners.toDouble() + query.value(1).toDouble());
 
             // calculem el total
 
