@@ -25,9 +25,6 @@ public:
 
     void setDates(QString dataInicial, QString dataFinal);
 
-    QDate dataInicial;
-    QDate dataFinal;
-
     QHash <int, QStringList> myData;
 
     void clear();
