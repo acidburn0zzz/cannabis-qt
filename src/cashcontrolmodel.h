@@ -9,6 +9,7 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QMap>
+#include <QList>
 #include <QStringList>
 
 class CashControlModel : public QSqlTableModel
@@ -22,12 +23,14 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
-    void setDates(QString dataInicialStr, QString dataFinalStr);
+    void setDates(QString dataInicial, QString dataFinal);
 
     QDate dataInicial;
     QDate dataFinal;
 
-    QMap <QString, QStringList> myData;
+    QHash <int, QStringList> myData;
+
+    void clear();
 
 signals:
     

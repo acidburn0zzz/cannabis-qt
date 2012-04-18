@@ -96,6 +96,13 @@ void CashControl::onShow()
     tableView->horizontalHeader()->setStretchLastSection(true);
 }
 
+void CashControl::clear()
+{
+    CashControlModel *model = static_cast<CashControlModel *>(tableView->model());
+
+    model->clear();
+}
+
 void CashControl::onPrint()
 {
 }

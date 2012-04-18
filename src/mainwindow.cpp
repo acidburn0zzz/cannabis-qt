@@ -279,5 +279,10 @@ void MainWindow::onCashControl()
 
 void MainWindow::onSaveCashControl()
 {
+    // No hem de guardar res, però esborrem les dades per no confondre a l'usuari quan torni
+    // a entrar a aquest widget
+
+    cashControlWidget->clear();
+
     onMainMenu();
 }

@@ -28,7 +28,8 @@ public:
 
     void resizeTableViewToContents(void);
 
-    bool save(void);
+    // bool save(void);
+    void clear(void);
 
 protected:
     QDateEdit *dataInicial;
