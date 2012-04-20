@@ -1,4 +1,4 @@
-#define PROGRAM_VERSION "0.2alfa"
+#define PROGRAM_VERSION "0.3alfa"
 
 #include "mainwindow.h"
 
