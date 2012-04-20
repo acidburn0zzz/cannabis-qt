@@ -190,9 +190,18 @@ void MainWindow::print()
 void MainWindow::about()
 {
     QMessageBox::about(this, tr("Sobre Cannabis-qt"),
-             tr("The <b>Cannabis-qt</b> programa per gestionar "
-                "un club social de cànnabis.<br><br>"
-                "Versió %1").arg(PROGRAM_VERSION));
+        tr("<b>Cannabis-qt</b> és un senzill programa de gestió d'un local social "
+           "on es pugui dispensar cànnabis mitjançant un control estricte.<br/><br/>"
+           "El programa està fet amb les llibreríes QT : <a href='http://qt.nokia.com'>qt.nokia.com</a><br/><br/>"
+           "La web del programa : <a href='http://karasu.github.com/cannabis-qt'>karasu.github.com/cannabis-qt</a><br/><br/>"
+           "El programa permet:<br/><br/>"
+           "\t- Gestionar els socis<br/>"
+           "\t- Gestionar els pots de cànnabis<br/>"
+           "\t- Gestionar el consum dels socis (ja sigui del consum propi de cànnabis o d'altres col·laboracions amb l'associació<br/>"
+           "\t- Controlar els ingressos de l'associació i imprimir informes per portar al gestor<br/>"
+           "\t- Importació i exportació de les dades (SQLITE)<br/><br/>"
+           "Versió %1<br/>"
+           "Fet per Karasu.").arg(PROGRAM_VERSION));
 }
 
 // ---------------------------------------------------------------------------------------------------------

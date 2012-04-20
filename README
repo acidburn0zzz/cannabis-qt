@@ -1,8 +1,15 @@
-QT program to manage a little cannabis social club
-
 Cannabis-qt és un senzill programa de gestió d'un local social on es pugui dispensar cànnabis mitjançant un control estricte.
+
+El programa està fet amb les llibreríes QT (http://qt.nokia.com)
+
+La web del programa : http://karasu.github.com/cannabis-qt
 
 El programa permet:
 
 - Gestionar els socis
-- Gestionar el consum de 
+- Gestionar els pots de cànnabis
+- Gestionar el consum dels socis (ja sigui del consum propi de cànnabis o d'altres col·laboracions amb l'associació
+- Controlar els ingressos de l'associació i imprimir informes per portar al gestor
+- Importació i exportació de les dades (SQLITE)
+
+Fet per Karasu.
