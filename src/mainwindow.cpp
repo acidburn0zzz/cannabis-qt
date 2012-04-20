@@ -62,70 +62,66 @@ void MainWindow::setMyCentralWidget(QWidget *widget)
 
 void MainWindow::createActions()
 {
-    aboutAct = new QAction(tr("&Sobre el programa"), this);
-    aboutAct->setStatusTip(tr("Mostra informació sobre el programa"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+    actions["about"] = new QAction(tr("&Sobre el programa"), this);
+    actions["about"]->setStatusTip(tr("Mostra informació sobre el programa"));
+    connect(actions["about"], SIGNAL(triggered()), this, SLOT(about()));
 
-    aboutQtAct = new QAction(tr("Sobre les &Qt"), this);
-    aboutQtAct->setStatusTip(tr("Mostra informació sobre Qt"));
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    actions["aboutQt"] = new QAction(tr("Sobre les &Qt"), this);
+    actions["aboutQt"]->setStatusTip(tr("Mostra informació sobre Qt"));
+    connect(actions["aboutQt"], SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
-    manageMembersAct = new QAction(tr("Gestiona els &socis"), this);
-    manageMembersAct->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
-    connect( manageMembersAct, SIGNAL( triggered() ), this, SLOT( onManageMembers()));
+    actions["manageMembers"] = new QAction(tr("Gestiona els &socis"), this);
+    actions["manageMembers"]->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
+    connect(actions["manageMembers"], SIGNAL( triggered() ), this, SLOT( onManageMembers()));
 
-    manageCannabisAct = new QAction(tr("Consum de &cànnabis"), this);
-    manageCannabisAct->setStatusTip(tr("Afegeix o edita la informació del cànnabis que demanen els socis"));
-    connect( manageCannabisAct, SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
+    actions["manageCannabis"] = new QAction(tr("Consum de &cànnabis"), this);
+    actions["manageCannabis"]->setStatusTip(tr("Afegeix o edita la informació del cànnabis que demanen els socis"));
+    connect(actions["manageCannabis"], SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
 
-    manageCansAct = new QAction(tr("Control dels pots de cànnabis"), this);
-    manageCansAct->setStatusTip(tr("Afegeix o edita la informació dels pots contenidors de cànnabis"));
-    connect(manageCansAct, SIGNAL(triggered()), this, SLOT(onManageCans()));
+    actions["manageCans"] = new QAction(tr("Control dels pots de cànnabis"), this);
+    actions["manageCans"]->setStatusTip(tr("Afegeix o edita la informació dels pots contenidors de cànnabis"));
+    connect(actions["manageCans"], SIGNAL(triggered()), this, SLOT(onManageCans()));
 
-    otherBenefitsAct = new QAction(tr("&Altres consums"), this);
-    otherBenefitsAct->setStatusTip(tr("Afegeix o edita la informació de les donacions"));
-    connect( otherBenefitsAct, SIGNAL( triggered() ), this, SLOT( onManageOthers()));
+    actions["otherBenefits"] = new QAction(tr("&Altres consums"), this);
+    actions["otherBenefits"]->setStatusTip(tr("Afegeix o edita la informació de les donacions"));
+    connect(actions["otherBenefits"], SIGNAL( triggered() ), this, SLOT( onManageOthers()));
 
-    cashControlAct = new QAction(tr("Control de &caixa"), this);
-    cashControlAct->setStatusTip(tr("Mostra un resum de l'estat de caixa."));
-    connect( cashControlAct, SIGNAL( triggered() ), this, SLOT( onCashControl()));
+    actions["cashControl"] = new QAction(tr("Control de &caixa"), this);
+    actions["cashControl"]->setStatusTip(tr("Mostra un resum de l'estat de caixa."));
+    connect(actions["cashControl"], SIGNAL( triggered() ), this, SLOT( onCashControl()));
 
-    exportDatabaseAct = new QAction(tr("&Guarda com..."), this);
-    exportDatabaseAct->setStatusTip(tr("Guarda les dades del programa en un fitxer"));
-    connect(exportDatabaseAct, SIGNAL(triggered()), this, SLOT(onExportDB()));
+    actions["importDatabase"] = new QAction(tr("&Carrega..."), this);
+    actions["importDatabase"]->setStatusTip(tr("Importa les dades d'un fitxer SQLITE"));
+    connect(actions["importDatabase"], SIGNAL(triggered()), this, SLOT(onImportDB()));
 
-    quitAct = new QAction(tr("&Sortir"), this);
-    quitAct->setShortcuts(QKeySequence::Quit);
-    quitAct->setStatusTip(tr("Surt de l'aplicació"));
-    connect(quitAct, SIGNAL(triggered()), this, SLOT(onQuit()));
-}
+    actions["exportDatabase"] = new QAction(tr("&Guarda com..."), this);
+    actions["exportDatabase"]->setStatusTip(tr("Guarda les dades del programa en un fitxer SQLITE"));
+    connect(actions["exportDatabase"], SIGNAL(triggered()), this, SLOT(onExportDB()));
 
-void MainWindow::onExportDB()
-{
-    QString dstFile = QFileDialog::getSaveFileName(this, tr("Cannabis-qt - Export your database"));
-
-    QSqlDatabase db = QSqlDatabase::database();
-
-    QFile::copy(db.databaseName(), dstFile);
+    actions["quit"] = new QAction(tr("&Sortir"), this);
+    actions["quit"]->setShortcuts(QKeySequence::Quit);
+    actions["quit"]->setStatusTip(tr("Surt de l'aplicació"));
+    connect(actions["quit"], SIGNAL(triggered()), this, SLOT(onQuit()));
 }
 
 void MainWindow::createMenus()
 {
     dataMenu = menuBar()->addMenu(tr("&Dades"));
-    dataMenu->addAction(exportDatabaseAct);
+    dataMenu->addAction(actions["importDatabase"]);
+    dataMenu->addAction(actions["exportDatabase"]);
     dataMenu->addSeparator();
-    dataMenu->addAction(quitAct);
+    dataMenu->addAction(actions["quit"]);
 
     actionsMenu = menuBar()->addMenu(tr("&Accions"));
-    actionsMenu->addAction(manageMembersAct);
-    actionsMenu->addAction(manageCannabisAct);
-    actionsMenu->addAction(manageCansAct);
-    actionsMenu->addAction(otherBenefitsAct);
-    // actionsMenu->addAction(cashControlAct);
+    actionsMenu->addAction(actions["manageMembers"]);
+    actionsMenu->addAction(actions["manageCannabis"]);
+    actionsMenu->addAction(actions["manageCans"]);
+    actionsMenu->addAction(actions["otherBenefits"]);
+    actionsMenu->addAction(actions["cashControl"]);
 
     helpMenu = menuBar()->addMenu(tr("&Ajuda"));
-    helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
+    helpMenu->addAction(actions["about"]);
+    helpMenu->addAction(actions["aboutQt"]);
 }
 
 void MainWindow::createToolBars()
@@ -294,4 +290,37 @@ void MainWindow::onSaveCashControl()
     cashControlWidget->clear();
 
     onMainMenu();
+}
+
+void MainWindow::onExportDB()
+{
+    QString dstFile = QFileDialog::getSaveFileName(this, tr("Cannabis-qt - Export your database"));
+
+    QSqlDatabase db = QSqlDatabase::database();
+
+    QFile::copy(db.databaseName(), dstFile);
+}
+
+void MainWindow::onImportDB()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Cannabis-qt - Import your database"));
+
+    qDebug() << filePath;
+
+    QSqlDatabase db = QSqlDatabase::database();
+
+    // save changes before replacing our database
+    db.commit();
+    db.close();
+    QString connectionName = QSqlDatabase::database().connectionName();
+    db.removeDatabase(connectionName);
+    // QSqlDatabase::removeDatabase(connectionName);
+
+    // open our new database
+    if (!dbManager.openDB(filePath))
+    {
+        qDebug() << QString("Error: can't open database.").arg(filePath);
+        QMessageBox::critical(this, tr("Cannabis-qt"),
+                              tr("Error crític: No puc obrir la base de dades %1.").arg(filePath));
+    }
 }

@@ -24,7 +24,7 @@ public:
     ~DatabaseManager();
 
     bool createDB(void);
-    bool openDB(void);
+    bool openDB(QString filePath="");
     void closeDB();
 
 signals:

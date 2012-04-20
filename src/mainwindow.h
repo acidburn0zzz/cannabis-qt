@@ -5,16 +5,14 @@
 #include <QMainWindow>
 #include <QTextCodec>
 #include <QDebug>
-
 #include <QAction>
 #include <QMenu>
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QScrollArea>
-
 #include <QDesktopServices>
-
 #include <QFileDialog>
+#include <QMap>
 
 #include "databasemanager.h"
 
@@ -56,15 +54,7 @@ private:
      QMenu *dataMenu;
      QMenu *helpMenu;
 
-     QAction *aboutAct;
-     QAction *aboutQtAct;
-     QAction *quitAct;
-     QAction *manageMembersAct;
-     QAction *manageCannabisAct;
-     QAction *manageCansAct;
-     QAction *otherBenefitsAct;
-     QAction *cashControlAct;
-     QAction *exportDatabaseAct;
+     QMap <QString, QAction *> actions;
 
      ChooseOption *chooseOptionWidget;
      Members *membersWidget;
@@ -93,6 +83,7 @@ public slots:
 
      void onMainMenu();
 
+     void onImportDB();
      void onExportDB();
 
 };

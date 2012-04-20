@@ -10,20 +10,24 @@ DatabaseManager::~DatabaseManager()
     closeDB();
 }
 
-bool DatabaseManager::openDB()
+bool DatabaseManager::openDB(QString filePath)
 {
     if (!QSqlDatabase::contains())
     {
         // Find QSLite driver
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
-        // Set database file name and path
-        QString path(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
-        path.append(QDir::separator()).append("cannabis-qt.sqlite3");
-        path = QDir::toNativeSeparators(path);
-        db.setDatabaseName(path);
+        if (filePath.isEmpty())
+        {
+            // Set database file name and path
+            filePath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+            filePath.append(QDir::separator()).append("cannabis-qt.sqlite3");
+        }
 
-        qDebug() << QString("Database file : %1").arg(path);
+        filePath = QDir::toNativeSeparators(filePath);
+        db.setDatabaseName(filePath);
+
+        qDebug() << QString("Database file : %1").arg(filePath);
 
         QFile dbFile(db.databaseName());
 
