@@ -1,6 +1,7 @@
 #include "members.h"
 #include "mydateeditdelegate.h"
 #include "mycheckboxdelegate.h"
+#include "constants.h"
 
 Members::Members(QWidget *parent) :
     QWidget(parent)
@@ -26,7 +27,9 @@ Members::Members(QWidget *parent) :
     hbox->addWidget(filterButton);
     hbox->addWidget(clearFilterButton);
 
-    QSqlTableModel *model = new QSqlTableModel;
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+    QSqlTableModel *model = new QSqlTableModel(NULL, db);
     createModel(model);
 
     tableView = new QTableView;
@@ -142,7 +145,9 @@ void Members::deleteMember()
 
     if (ok)
     {
-        QSqlQuery *query = new QSqlQuery;
+        QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+        QSqlQuery *query = new QSqlQuery(db);
 
         query->prepare("SELECT Codi,Nom,Cognom1,Cognom2 FROM socis WHERE Codi = :mycode");
         query->bindValue(":mycode", num_soci);
@@ -185,7 +190,9 @@ void Members::deleteMember()
 
                 tableView->setModel(NULL);
 
-                QSqlTableModel *model = new QSqlTableModel;
+                QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+                QSqlTableModel *model = new QSqlTableModel(NULL, db);
                 createModel(model);
 
                 tableView->setModel(model);
@@ -209,7 +216,7 @@ void Members::deleteMember()
     {
         int row = index.row();
 
-        t *model = (QSqlTableModel *)tableView->model();
+        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
         QMessageBox msgBox(this);
 

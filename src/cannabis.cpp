@@ -1,5 +1,6 @@
 #include "cannabis.h"
 #include "mydateeditdelegate.h"
+#include "constants.h"
 
 Cannabis::Cannabis(QWidget *parent) :
     QWidget(parent)
@@ -26,7 +27,10 @@ Cannabis::Cannabis(QWidget *parent) :
     hbox->addWidget(filterButton);
     hbox->addWidget(clearFilterButton);
 
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel;
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(NULL, db);
+
     model->setTable("Cannabis");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 

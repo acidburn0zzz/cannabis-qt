@@ -1,5 +1,6 @@
 #include "cans.h"
 #include "cansmodel.h"
+#include "constants.h"
 
 Cans::Cans(QWidget *parent) :
     QWidget(parent)
@@ -106,7 +107,8 @@ void Cans::addToCan()
 
         if (ok)
         {
-            QSqlQuery *query = new QSqlQuery;
+            QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+            QSqlQuery *query = new QSqlQuery(db);
 
             query->prepare("SELECT grams FROM pots WHERE Id=:idpot");
             query->bindValue(":idpot", idpot);
@@ -153,12 +155,10 @@ void Cans::addToCan()
 
 void Cans::createModel(QSqlQueryModel *model)
 {
-    model->setQuery("SELECT Id,Grams FROM Pots");
-    // model->setTable("pots");
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
 
+    model->setQuery("SELECT Id,Grams FROM Pots", db);
 
-
-    // model->removeColumn(0); // don't show the ID
     model->setHeaderData(0, Qt::Horizontal, tr("Número de pot"));
     model->setHeaderData(1, Qt::Horizontal, tr("Grams"));
 }

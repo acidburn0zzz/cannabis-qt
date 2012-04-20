@@ -1,4 +1,5 @@
 #include "databasemanager.h"
+#include "constants.h"
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -15,7 +16,7 @@ bool DatabaseManager::openDB(QString filePath)
     if (!QSqlDatabase::contains())
     {
         // Find QSLite driver
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", DB_CONNECTION_NAME);
 
         if (filePath.isEmpty())
         {
@@ -61,7 +62,7 @@ bool DatabaseManager::openDB(QString filePath)
 
 bool DatabaseManager::createDB()
 {
-    QSqlDatabase db = QSqlDatabase::database();
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
 
     // Db does not exist, or is corrupted. Open a new one and fill it.
     if (!db.open())
@@ -76,7 +77,7 @@ bool DatabaseManager::createDB()
     {
         QString sql = "";
         QTextStream in(&sqlFile);
-        QSqlQuery qry;
+        QSqlQuery qry(db);
 
         // qry.prepare(in.readAll());
 

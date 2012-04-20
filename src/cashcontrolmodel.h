@@ -11,12 +11,13 @@
 #include <QMap>
 #include <QList>
 #include <QStringList>
+#include <QSqlDatabase>
 
 class CashControlModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
-    explicit CashControlModel(QObject *parent = 0);
+    explicit CashControlModel(QObject *parent = 0, QSqlDatabase db = QSqlDatabase());
     ~CashControlModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const ;

@@ -1,4 +1,5 @@
 #include "cansmodel.h"
+#include "constants.h"
 
 CansModel::CansModel(QObject *parent) :
     QSqlQueryModel(parent)
@@ -12,7 +13,9 @@ CansModel::~CansModel()
 
 int CansModel::rowCount(const QModelIndex & /*parent*/) const
 {
-    QSqlQuery query;
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+    QSqlQuery query(db);
 
     query.prepare("SELECT Id FROM pots");
 
@@ -50,7 +53,9 @@ QVariant CansModel::data(const QModelIndex &index, int role) const
         }
         else if (index.column() == 1)
         {
-            QSqlQuery query;
+            QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+            QSqlQuery query(db);
 
             query.prepare("SELECT SUM(Grams) AS gramsgastats FROM cannabis WHERE cannabis.IdPot = :idpot");
             query.bindValue(":idpot", ids->value(index.row(), 0));

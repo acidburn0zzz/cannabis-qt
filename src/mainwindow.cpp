@@ -1,6 +1,5 @@
-#define PROGRAM_VERSION "0.3alfa"
-
 #include "mainwindow.h"
+#include "constants.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -56,7 +55,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::setMyCentralWidget(QWidget *widget)
 {
-    centralWidget()->setParent( NULL );
+    if (centralWidget() != 0)
+    {
+        centralWidget()->setParent(NULL);
+    }
+
     setCentralWidget(widget);
 }
 
@@ -165,22 +168,27 @@ void MainWindow::createCentralWidgets()
     connect(cashControlWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 }
 
-void MainWindow::print()
+void MainWindow::destroyCentralWidgets()
 {
-    /*
-    #ifndef QT_NO_PRINTDIALOG
-    QTextDocument *document = textEdit->document();
-    QPrinter printer;
+    setMyCentralWidget(NULL);
 
-    QPrintDialog *dlg = new QPrintDialog(&printer, this);
-    if (dlg->exec() != QDialog::Accepted)
-     return;
+    delete chooseOptionWidget;
+    chooseOptionWidget = NULL;
 
-    document->print(&printer);
+    delete membersWidget;
+    membersWidget = NULL;
 
-    statusBar()->showMessage(tr("Ready"), 2000);
-    #endif
-    */
+    delete cannabisWidget;
+    cannabisWidget = NULL;
+
+    delete cansWidget;
+    cansWidget = NULL;
+
+    delete othersWidget;
+    othersWidget = NULL;
+
+    delete cashControlWidget;
+    cashControlWidget = NULL;
 }
 
 void MainWindow::about()
@@ -206,7 +214,7 @@ void MainWindow::onQuit()
 {
     QMessageBox msgBox(this);
 
-    msgBox.setText("Està segur ?");
+    msgBox.setText(tr("Està segur ?"));
 
     msgBox.setIcon(QMessageBox::Information);
 
@@ -307,14 +315,11 @@ void MainWindow::onImportDB()
 
     qDebug() << filePath;
 
-    QSqlDatabase db = QSqlDatabase::database();
+    destroyCentralWidgets();
 
-    // save changes before replacing our database
-    db.commit();
-    db.close();
+    QSqlDatabase::database().close();
     QString connectionName = QSqlDatabase::database().connectionName();
-    db.removeDatabase(connectionName);
-    // QSqlDatabase::removeDatabase(connectionName);
+    QSqlDatabase::removeDatabase(connectionName);
 
     // open our new database
     if (!dbManager.openDB(filePath))
@@ -323,4 +328,8 @@ void MainWindow::onImportDB()
         QMessageBox::critical(this, tr("Cannabis-qt"),
                               tr("Error crític: No puc obrir la base de dades %1.").arg(filePath));
     }
+
+    createCentralWidgets();
+
+    setMyCentralWidget(chooseOptionWidget);
 }

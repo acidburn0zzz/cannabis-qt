@@ -1,7 +1,8 @@
 #include "cashcontrolmodel.h"
+#include "constants.h"
 
-CashControlModel::CashControlModel(QObject *parent) :
-    QSqlTableModel(parent)
+CashControlModel::CashControlModel(QObject *parent, QSqlDatabase db) :
+    QSqlTableModel(parent, db)
 {
 }
 
@@ -44,7 +45,9 @@ void CashControlModel::setDates(QString dataInicial, QString dataFinal)
     dataInicial = QDate::fromString(dataInicial, "dd/MM/yyyy").toString("yyyyMMdd");
     dataFinal = QDate::fromString(dataFinal, "dd/MM/yyyy").toString("yyyyMMdd");
 
-    QSqlQuery query;
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+    QSqlQuery query(db);
 
     query.prepare("SELECT Data,Grams,Preu FROM cannabis WHERE Data >= :mydatainicial AND Data <= :mydatafinal ORDER BY Data");
     query.bindValue(":mydatainicial", dataInicial);

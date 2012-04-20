@@ -34,7 +34,8 @@ HEADERS  += src/mainwindow.h \
     src/mycheckboxdelegate.h \
     src/mydateeditdelegate.h \
     src/cashcontrolmodel.h \
-    src/cansmodel.h
+    src/cansmodel.h \
+    src/constants.h
 
 RESOURCES += \
     cannabis-qt.qrc

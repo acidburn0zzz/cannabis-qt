@@ -1,5 +1,6 @@
 #include "cashcontrol.h"
 #include "cashcontrolmodel.h"
+#include "constants.h"
 
 CashControl::CashControl(QWidget *parent) :
     QWidget(parent)
@@ -31,7 +32,9 @@ CashControl::CashControl(QWidget *parent) :
     hbox2->addWidget(dataFinalLabel);
     hbox2->addWidget(dataFinal);
 
-    CashControlModel *model = new CashControlModel();
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+    CashControlModel *model = new CashControlModel(NULL, db);
 
     model->setHeaderData(0, Qt::Horizontal, tr("Data"));
     model->setHeaderData(1, Qt::Horizontal, tr("Grams"));

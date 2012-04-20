@@ -1,5 +1,6 @@
 #include "others.h"
 #include "mydateeditdelegate.h"
+#include "constants.h"
 
 Others::Others(QWidget *parent) :
     QWidget(parent)
@@ -28,7 +29,9 @@ Others::Others(QWidget *parent) :
 
     // CREATE TABLE "Altres" ( "Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Data" TEXT, "Diners" REAL);
 
-    QSqlTableModel *model = new QSqlTableModel;
+    QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
+
+    QSqlTableModel *model = new QSqlTableModel(NULL, db);
     model->setTable("Altres");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 

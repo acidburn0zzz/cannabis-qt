@@ -38,7 +38,6 @@ public:
     DatabaseManager dbManager;
 
 private slots:
-    void print();
     void about();
 
 private:
@@ -47,6 +46,7 @@ private:
      void createToolBars();
      void createStatusBar();
      void createCentralWidgets();
+     void destroyCentralWidgets();
 
      void setMyCentralWidget(QWidget *widget);
 
