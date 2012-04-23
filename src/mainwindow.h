@@ -13,6 +13,7 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QMap>
+#include <QSettings>
 
 #include "databasemanager.h"
 

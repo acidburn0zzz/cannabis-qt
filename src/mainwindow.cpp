@@ -39,18 +39,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setCentralWidget(chooseOptionWidget);
 
-    resize( QSize(860, 500).expandedTo(minimumSizeHint()) );
+    QSettings settings;
 
-    setMinimumSize(600, 400);
+    QSize size(settings.value("MainWindow/size", QSize(850, 500)).toSize());
+    resize( size.expandedTo(minimumSizeHint()) );
+
+    move(settings.value("MainWindow/pos", QPoint(200, 200)).toPoint());
+
+    setMinimumSize(600,400);
 }
 
 MainWindow::~MainWindow()
 {
-    /*
-    qDebug() << "Closing database";
-    dbManager.closeDB();
-    qDebug() << "Database closed";
-    */
+    QSettings settings;
+
+    settings.setValue("MainWindow/size", size());
+    settings.setValue("MainWindow/pos", pos());
 }
 
 void MainWindow::setMyCentralWidget(QWidget *widget)
