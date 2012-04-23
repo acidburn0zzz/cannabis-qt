@@ -93,6 +93,10 @@ Cannabis::Cannabis(QWidget *parent) :
     setLayout(vbox);
 
     setDirtyFlag(false);
+
+    QSettings settings;
+
+    maxPerDay = settings.value("Cannabis/max", 100).toInt();
 }
 
 void Cannabis::onHelp()

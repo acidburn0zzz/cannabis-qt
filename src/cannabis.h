@@ -17,6 +17,7 @@
 #include <QVBoxLayout>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QSettings>
 
 class Cannabis : public QWidget
 {
@@ -38,6 +39,8 @@ protected:
     bool isDirty;
 
     void setDirtyFlag(bool status);
+
+    int maxPerDay;
 
 signals:
     
