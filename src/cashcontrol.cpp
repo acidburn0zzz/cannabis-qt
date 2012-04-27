@@ -67,8 +67,9 @@ CashControl::CashControl(QWidget *parent) :
     tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Help);
-    connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
+    // buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Help);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+    //connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
     printButton = new QPushButton(tr("Imprimeix"));
     connect(printButton, SIGNAL(pressed()), this, SLOT(onPrint()));
