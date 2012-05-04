@@ -31,7 +31,8 @@ Members::Members(QWidget *parent) :
     */
 
 
-    QPushButton *clearFilterButton = new QPushButton(tr("Neteja el filtre cerca"));
+    QPushButton *clearFilterButton = new QPushButton;
+    clearFilterButton->setIcon(QIcon(":/icons/clear"));
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
@@ -42,8 +43,8 @@ Members::Members(QWidget *parent) :
 
     QHBoxLayout *hbox = new QHBoxLayout;
     hbox->addWidget(filterLineEdit);
-    hbox->addWidget(filterButton);
     hbox->addWidget(clearFilterButton);
+    hbox->addWidget(filterButton);
 
     QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
 
@@ -71,7 +72,7 @@ Members::Members(QWidget *parent) :
 //    groupBox->setLayout(layout);
 
     // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Close | QDialogButtonBox::Cancel);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
     QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
     connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));

@@ -65,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
     move(settings.value("MainWindow/pos", QPoint(200, 200)).toPoint());
 
     setMinimumSize(600,400);
+
+    // QIcon::fromTheme()
 }
 
 MainWindow::~MainWindow()

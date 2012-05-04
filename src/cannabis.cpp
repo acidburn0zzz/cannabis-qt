@@ -31,7 +31,7 @@ Cannabis::Cannabis(QWidget *parent) :
 
     // name cif address phone email
 
-    QPushButton *clearFilterButton = new QPushButton(tr(""));
+    QPushButton *clearFilterButton = new QPushButton;
     clearFilterButton->setIcon(QIcon(":/icons/clear"));
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
