@@ -23,48 +23,41 @@ ChooseOption::ChooseOption(QWidget *parent) :
 {
     setMyStyleSheet();
 
-    membersButton = new QPushButton(tr("Modifica la informació dels &socis o afegeix-ne de nous"), this);
+    QLabel *questionLabel = new QLabel(tr(""));
+
+    membersButton = new QPushButton;
+    membersButton->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
+    membersButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QLabel *membersLabel = new QLabel(tr("Modifica la informació dels &socis o afegeix-ne de nous"));
+
     cannabisButton = new QPushButton(tr("Consum de &cànnabis"), this);
+    cannabisButton->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
+
     cansButton = new QPushButton(tr("Pots de &cànnabis"), this);
+    cansButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/16x16/edit-clear-symbolic")));
+
     othersButton = new QPushButton(tr("&Altres consums"), this);
+    othersButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/16x16/edit-clear-symbolic")));
+
     cashButton = new QPushButton(tr("Control de cai&xa"), this);
+    cashButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/16x16/edit-clear-symbolic")));
+
     quitButton = new QPushButton(tr("&Sortir"), this);
+    quitButton->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/48x48/application-exit")));
 
-    // cashButton->setHidden(true);
+    QGridLayout *gridLayout = new QGridLayout;
 
-    QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addWidget(membersButton);
-    vbox->addWidget(cannabisButton);
-    vbox->addWidget(cansButton);
-    vbox->addWidget(othersButton);
-    vbox->addWidget(cashButton);
-    vbox->addWidget(quitButton);
+    gridLayout->addWidget(questionLabel, 0, 0, 0, 1);
+    gridLayout->addWidget(membersButton, 1, 0);
+    gridLayout->addWidget(membersLabel, 1, 1);
 
-    QGroupBox *groupBox = new QGroupBox;
-    groupBox->setLayout(vbox);
-
-    QVBoxLayout *vbox2 = new QVBoxLayout;
-    vbox2->addWidget(groupBox);
-
-    setLayout(vbox2);
+    setLayout(gridLayout);
 }
 
 void ChooseOption::setMyStyleSheet()
 {
-    setStyleSheet("QPushButton {"
-            // "color: white;"
-            // "background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #44d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);"
-            // "border-width: 1px;"
-            // "border-color: #339;"
-            // "border-style: solid;"
-            // "border-radius: 7;"
-            // "padding: 3px;"
-            "font-size: 18px;"
-            // "padding-left: 5px;"
-            // "padding-right: 5px;"
-            "min-width: 50px;"
-            // "max-width: 10px;"
-            "min-height: 30px;"
-            "max-height: 60px; }"
+    setStyleSheet(
+        "QPushButton { font-size: 18px; min-width: 50px; min-height: 30px; max-height: 60px; }"
+        "QLabel { font-size: 18px; }"
         "QGroupBox { border: 2px solid gray; border-radius: 6px; }");
 }

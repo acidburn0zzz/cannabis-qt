@@ -32,7 +32,7 @@ Members::Members(QWidget *parent) :
 
 
     QPushButton *clearFilterButton = new QPushButton;
-    clearFilterButton->setIcon(QIcon(":/icons/clear"));
+    clearFilterButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/16x16/edit-clear-symbolic")));
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));

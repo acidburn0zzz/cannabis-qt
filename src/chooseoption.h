@@ -21,8 +21,9 @@
 
 #include <QWidget>
 #include <QPushButton>
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include <QGroupBox>
+#include <QLabel>
 
 class ChooseOption : public QWidget
 {
