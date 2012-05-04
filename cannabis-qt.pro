@@ -38,4 +38,5 @@ HEADERS  += src/mainwindow.h \
     src/constants.h
 
 RESOURCES += \
-    cannabis-qt.qrc
+    cannabis-qt.qrc \
+    elementary.qrc

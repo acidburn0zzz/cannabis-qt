@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="icons/elementary">
+    <file alias="index.theme">icons/elementary/index.theme</file>
+    <file alias="16x16/application-exit.png">icons/elementary/stop.png</file>
+    <file alias="16x16/document-open.png">icons/elementary/folder_page.png</file>
+</qresource>
+</RCC>
