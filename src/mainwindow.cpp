@@ -47,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
         qApp->quit();
     }
 
+    qApp->setAttribute(Qt::AA_DontShowIconsInMenus, false);
+
     createActions();
     createMenus();
     createToolBars();
@@ -66,7 +68,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setMinimumSize(600,400);
 
-    // QIcon::fromTheme()
+    if (!QIcon::hasThemeIcon("document-open"))
+    {
+        //If there is no default working icon theme then we should
+        //use an icon theme that we provide via a .qrc file
+        //This case happens under Windows and Mac OS X
+        //This does not happen under GNOME or KDE
+        QIcon::setThemeName("elementary");
+    }
 }
 
 MainWindow::~MainWindow()
@@ -128,6 +137,10 @@ void MainWindow::createActions()
     actions["quit"] = new QAction(tr("&Sortir"), this);
     actions["quit"]->setShortcuts(QKeySequence::Quit);
     actions["quit"]->setStatusTip(tr("Surt de l'aplicació"));
+    actions["quit"]->setIcon(QIcon::fromTheme("application-exit"));
+    // actions["quit"]->setIcon(QIcon(":/icons/elementary/16x16/application-exit.svg"));
+    actions["quit"]->setIconVisibleInMenu(true);
+
     connect(actions["quit"], SIGNAL(triggered()), this, SLOT(onQuit()));
 }
 

@@ -33,6 +33,8 @@
 #include <QMap>
 #include <QSettings>
 
+#include <QtSvg>
+
 #include "databasemanager.h"
 
 #include "chooseoption.h"

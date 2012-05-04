@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql svg
 
 TARGET = cannabis-qt
 TEMPLATE = app

@@ -2,8 +2,4 @@
     <qresource prefix="/">
         <file>cannabis-qt.sql</file>
     </qresource>
-    <qresource prefix="/icons">
-        <file alias="clear">icons/Actions-edit-clear-locationbar-rtl-icon.png</file>
-        <file alias="cannabis-qt">icons/cannabis-qt.jpg</file>
-    </qresource>
 </RCC>
