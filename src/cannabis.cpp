@@ -31,7 +31,8 @@ Cannabis::Cannabis(QWidget *parent) :
 
     // name cif address phone email
 
-    QPushButton *clearFilterButton = new QPushButton(tr("Neteja el filtre de cerca"));
+    QPushButton *clearFilterButton = new QPushButton(tr(""));
+    clearFilterButton->setIcon(QIcon(":/icons/clear"));
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
@@ -42,8 +43,8 @@ Cannabis::Cannabis(QWidget *parent) :
 
     QHBoxLayout *hbox = new QHBoxLayout;
     hbox->addWidget(filterLineEdit);
-    hbox->addWidget(filterButton);
     hbox->addWidget(clearFilterButton);
+    hbox->addWidget(filterButton);
 
     QSqlDatabase db = QSqlDatabase::database(DB_CONNECTION_NAME);
 
