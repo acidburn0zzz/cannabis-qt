@@ -36,6 +36,7 @@ Cannabis::Cannabis(QWidget *parent) :
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
+    filterButton->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find")));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
 
     filterLineEdit = new QLineEdit;
@@ -87,7 +88,7 @@ Cannabis::Cannabis(QWidget *parent) :
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
 
     // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Close);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
     QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
     connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
@@ -95,9 +96,11 @@ Cannabis::Cannabis(QWidget *parent) :
     // connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou consum"));
+    addNewCustomerPushButton->setIcon(QIcon::fromTheme("contact-new", QIcon(":/icons/22x22/contact-new")));
     connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewOrder()));
 
     QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar consum"));
+    deleteCustomerPushButton->setIcon(QIcon::fromTheme("edit-delete", QIcon(":/icons/16x16/edit-delete")));
     connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteOrder()));
 
     QHBoxLayout *hbox2 = new QHBoxLayout;

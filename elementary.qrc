@@ -29,7 +29,7 @@
         <file>icons/elementary/actions/16/document-save-as.svg</file>
         <file>icons/elementary/actions/16/document-save.svg</file>
         <file alias="16x16/edit-clear-symbolic">icons/elementary/actions/16/edit-clear-symbolic.svg</file>
-        <file>icons/elementary/actions/16/edit-delete.svg</file>
+        <file alias="16x16/edit-delete">icons/elementary/actions/16/edit-delete.svg</file>
         <file>icons/elementary/actions/16/edit-find-option-symbolic.svg</file>
         <file>icons/elementary/actions/16/edit-find-symbolic.svg</file>
         <file alias="16x16/edit-find">icons/elementary/actions/16/edit-find.svg</file>
@@ -98,7 +98,7 @@
         <file>icons/elementary/actions/22/address-book-new.svg</file>
         <file>icons/elementary/actions/22/appointment-new.svg</file>
         <file>icons/elementary/actions/22/bookmark-new.svg</file>
-        <file>icons/elementary/actions/22/contact-new.svg</file>
+        <file alias="22x22/contact-new">icons/elementary/actions/22/contact-new.svg</file>
         <file>icons/elementary/actions/22/dialog-apply.svg</file>
         <file>icons/elementary/actions/22/document-new.svg</file>
         <file>icons/elementary/actions/22/document-open-recent.svg</file>

@@ -73,7 +73,7 @@ Members::Members(QWidget *parent) :
 //    groupBox->setLayout(layout);
 
     // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Close);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
     QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
     connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
@@ -81,9 +81,11 @@ Members::Members(QWidget *parent) :
     // connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou soci"));
+    addNewCustomerPushButton->setIcon(QIcon::fromTheme("contact-new", QIcon(":/icons/22x22/contact-new")));
     connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewMember()));
 
     QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar soci"));
+    deleteCustomerPushButton->setIcon(QIcon::fromTheme("edit-delete", QIcon(":/icons/16x16/edit-delete")));
     connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteMember()));
 
     QHBoxLayout *hbox2 = new QHBoxLayout;

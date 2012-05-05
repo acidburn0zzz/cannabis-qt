@@ -36,6 +36,7 @@ Others::Others(QWidget *parent) :
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
+    filterButton->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find")));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
 
     filterLineEdit = new QLineEdit;
@@ -81,7 +82,7 @@ Others::Others(QWidget *parent) :
 //    groupBox->setLayout(layout);
 
     // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Close);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
     QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
     connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
