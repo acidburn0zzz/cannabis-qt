@@ -87,7 +87,7 @@ Cannabis::Cannabis(QWidget *parent) :
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
 
     // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Close | QDialogButtonBox::Cancel);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
     QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
     connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
