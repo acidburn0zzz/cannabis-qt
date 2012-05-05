@@ -41,25 +41,25 @@ ChooseOption::ChooseOption(QWidget *parent) :
     labels["members"] = new QLabel(html.arg(tr("Socis"), tr("Modifica la informació dels socis")), this);
 
     buttons["cannabis"] = new QPushButton(this);
-    buttons["cannabis"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
+    buttons["cannabis"]->setIcon(QIcon(":/icons/leaf-icon"));
     buttons["cannabis"]->setIconSize(QSize(48,48));
     buttons["cannabis"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["cannabis"] = new QLabel(html.arg(tr("Cànnabis"), tr("Controla el consum de cànnabis")), this);
 
     buttons["cans"] = new QPushButton(this);
-    buttons["cans"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
+    buttons["cans"]->setIcon(QIcon(":/icons/container"));
     buttons["cans"]->setIconSize(QSize(48,48));
     buttons["cans"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["cans"] = new QLabel(html.arg(tr("Pots"), tr("Controla els pots de cànnabis")), this);
 
     buttons["others"] = new QPushButton(this);
-    buttons["others"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
+    buttons["others"]->setIcon(QIcon(":/icons/others"));
     buttons["others"]->setIconSize(QSize(48,48));
     buttons["others"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["others"] = new QLabel(html.arg(tr("Altres"), tr("Registra altres consums")), this);
 
     buttons["cash"] = new QPushButton(this);
-    buttons["cash"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
+    buttons["cash"]->setIcon(QIcon(":/icons/cashbox"));
     buttons["cash"]->setIconSize(QSize(48,48));
     buttons["cash"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["cash"] = new QLabel(html.arg(tr("Caixa"), tr("Extreu un resum de l'estat de la caixa")), this);

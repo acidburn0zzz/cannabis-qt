@@ -114,31 +114,31 @@ void MainWindow::createActions()
 
     actions["manageMembers"] = new QAction(tr("Gestiona els &socis"), this);
     actions["manageMembers"]->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
-    actions["manageMembers"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about")));
+    actions["manageMembers"]->setIcon(QIcon::fromTheme("notification-message-im", QIcon(":/icons/48x48/notification-message-im")));
     actions["manageMembers"]->setIconVisibleInMenu(true);
     connect(actions["manageMembers"], SIGNAL( triggered() ), this, SLOT( onManageMembers()));
 
     actions["manageCannabis"] = new QAction(tr("Consum de &cànnabis"), this);
     actions["manageCannabis"]->setStatusTip(tr("Afegeix o edita la informació del cànnabis que demanen els socis"));
-    actions["manageCannabis"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about")));
+    actions["manageCannabis"]->setIcon(QIcon(":/icons/leaf-icon"));
     actions["manageCannabis"]->setIconVisibleInMenu(true);
     connect(actions["manageCannabis"], SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
 
     actions["manageCans"] = new QAction(tr("Control dels pots de cànnabis"), this);
     actions["manageCans"]->setStatusTip(tr("Afegeix o edita la informació dels pots contenidors de cànnabis"));
-    actions["manageCans"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about")));
+    actions["manageCans"]->setIcon(QIcon(":/icons/container"));
     actions["manageCans"]->setIconVisibleInMenu(true);
     connect(actions["manageCans"], SIGNAL(triggered()), this, SLOT(onManageCans()));
 
     actions["otherBenefits"] = new QAction(tr("&Altres consums"), this);
     actions["otherBenefits"]->setStatusTip(tr("Afegeix o edita la informació de les donacions"));
-    actions["otherBenefits"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about")));
+    actions["otherBenefits"]->setIcon(QIcon(":/icons/others"));
     actions["otherBenefits"]->setIconVisibleInMenu(true);
     connect(actions["otherBenefits"], SIGNAL( triggered() ), this, SLOT( onManageOthers()));
 
     actions["cashControl"] = new QAction(tr("Control de &caixa"), this);
     actions["cashControl"]->setStatusTip(tr("Mostra un resum de l'estat de caixa."));
-    actions["cashControl"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about")));
+    actions["cashControl"]->setIcon(QIcon(":/icons/cashbox"));
     actions["cashControl"]->setIconVisibleInMenu(true);
     connect(actions["cashControl"], SIGNAL( triggered() ), this, SLOT( onCashControl()));
 
@@ -150,7 +150,7 @@ void MainWindow::createActions()
 
     actions["exportDatabase"] = new QAction(tr("&Guarda com..."), this);
     actions["exportDatabase"]->setStatusTip(tr("Guarda les dades del programa en un fitxer SQLITE"));
-    actions["exportDatabase"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about")));
+    actions["exportDatabase"]->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/16x16/document-save-as")));
     actions["exportDatabase"]->setIconVisibleInMenu(true);
     connect(actions["exportDatabase"], SIGNAL(triggered()), this, SLOT(onExportDB()));
 
