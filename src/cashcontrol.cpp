@@ -40,6 +40,7 @@ CashControl::CashControl(QWidget *parent) :
     dataFinal->setCalendarPopup(true);
 
     QPushButton *showButton = new QPushButton(tr("Mostra els moviments!"));
+    showButton->setIcon(QIcon::fromTheme("view-refresh", QIcon(":/icons/16x16/view-refresh")));
     connect(showButton, SIGNAL(pressed()), this, SLOT(onShow()));
 
     QHBoxLayout *hbox1 = new QHBoxLayout;
@@ -68,10 +69,11 @@ CashControl::CashControl(QWidget *parent) :
     tableView->show();
 
     // buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     //connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
     printButton = new QPushButton(tr("Imprimeix"));
+    printButton->setIcon(QIcon::fromTheme("document-print", QIcon(":/icons/16x16/document-print")));
     connect(printButton, SIGNAL(pressed()), this, SLOT(onPrint()));
     printButton->setEnabled(false);
 

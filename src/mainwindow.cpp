@@ -144,7 +144,7 @@ void MainWindow::createActions()
 
     actions["importDatabase"] = new QAction(tr("&Carrega..."), this);
     actions["importDatabase"]->setStatusTip(tr("Importa les dades d'un fitxer SQLITE"));
-    actions["importDatabase"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/16x16/help-about")));
+    actions["importDatabase"]->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/16x16/document-open")));
     actions["importDatabase"]->setIconVisibleInMenu(true);
     connect(actions["importDatabase"], SIGNAL(triggered()), this, SLOT(onImportDB()));
 
@@ -196,12 +196,12 @@ void MainWindow::createCentralWidgets()
 {
     // Main menu
     chooseOptionWidget = new ChooseOption();
-    connect( chooseOptionWidget->membersButton, SIGNAL(pressed()), this, SLOT(onManageMembers()));
-    connect( chooseOptionWidget->cannabisButton, SIGNAL(pressed()), this, SLOT(onManageCannabis()));
-    connect( chooseOptionWidget->cansButton, SIGNAL(pressed()), this, SLOT(onManageCans()));
-    connect( chooseOptionWidget->othersButton, SIGNAL(pressed()), this, SLOT(onManageOthers()));
-    connect( chooseOptionWidget->cashButton, SIGNAL(pressed()), this, SLOT(onCashControl()));
-    connect( chooseOptionWidget->quitButton, SIGNAL(pressed()), this, SLOT(onQuit()));
+    connect( chooseOptionWidget->buttons["members"], SIGNAL(pressed()), this, SLOT(onManageMembers()));
+    connect( chooseOptionWidget->buttons["cannabis"], SIGNAL(pressed()), this, SLOT(onManageCannabis()));
+    connect( chooseOptionWidget->buttons["cans"], SIGNAL(pressed()), this, SLOT(onManageCans()));
+    connect( chooseOptionWidget->buttons["others"], SIGNAL(pressed()), this, SLOT(onManageOthers()));
+    connect( chooseOptionWidget->buttons["cash"], SIGNAL(pressed()), this, SLOT(onCashControl()));
+    connect( chooseOptionWidget->buttons["quit"], SIGNAL(pressed()), this, SLOT(onQuit()));
 
     membersWidget = new Members();
     connect(membersWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveMembers()));

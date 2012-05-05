@@ -21,9 +21,9 @@
         <file>icons/elementary/actions/16/bookmark-new.svg</file>
         <file>icons/elementary/actions/16/dialog-apply.svg</file>
         <file>icons/elementary/actions/16/document-new.svg</file>
-        <file>icons/elementary/actions/16/document-open.svg</file>
+        <file alias="16x16/document-open">icons/elementary/actions/16/document-open.svg</file>
         <file>icons/elementary/actions/16/document-print-preview.svg</file>
-        <file>icons/elementary/actions/16/document-print.svg</file>
+        <file alias="16x16/document-print">icons/elementary/actions/16/document-print.svg</file>
         <file>icons/elementary/actions/16/document-properties.svg</file>
         <file>icons/elementary/actions/16/document-revert.svg</file>
         <file>icons/elementary/actions/16/document-save-as.svg</file>
@@ -32,7 +32,7 @@
         <file>icons/elementary/actions/16/edit-delete.svg</file>
         <file>icons/elementary/actions/16/edit-find-option-symbolic.svg</file>
         <file>icons/elementary/actions/16/edit-find-symbolic.svg</file>
-        <file>icons/elementary/actions/16/edit-find.svg</file>
+        <file alias="16x16/edit-find">icons/elementary/actions/16/edit-find.svg</file>
         <file>icons/elementary/actions/16/folder-new.svg</file>
         <file>icons/elementary/actions/16/go-bottom.svg</file>
         <file>icons/elementary/actions/16/go-down.svg</file>
@@ -92,7 +92,7 @@
         <file>icons/elementary/actions/16/view-list-coverflow-symbolic.svg</file>
         <file>icons/elementary/actions/16/view-list-details-symbolic.svg</file>
         <file>icons/elementary/actions/16/view-list-icons-symbolic.svg</file>
-        <file>icons/elementary/actions/16/view-refresh.svg</file>
+        <file alias="16x16/view-refresh">icons/elementary/actions/16/view-refresh.svg</file>
         <file>icons/elementary/actions/16/window-close.svg</file>
         <file>icons/elementary/actions/16/window-new.svg</file>
         <file>icons/elementary/actions/22/address-book-new.svg</file>
@@ -342,7 +342,7 @@
         <file>icons/elementary/actions/48/tab-new.svg</file>
         <file>icons/elementary/actions/48/tag-new.svg</file>
         <file>icons/elementary/actions/48/transform-rotate.svg</file>
-        <file>icons/elementary/actions/48/view-refresh.svg</file>
+        <file alias="48x48/view-refresh">icons/elementary/actions/48/view-refresh.svg</file>
         <file>icons/elementary/actions/48/window-close.svg</file>
         <file>icons/elementary/actions/48/window-new.svg</file>
         <file>icons/elementary/actions/64/address-book-new.svg</file>
@@ -1215,7 +1215,7 @@
         <file>icons/elementary/notifications/48/notification-display-brightness-low.svg</file>
         <file>icons/elementary/notifications/48/notification-display-brightness-medium.svg</file>
         <file>icons/elementary/notifications/48/notification-display-brightness-off.svg</file>
-        <file>icons/elementary/notifications/48/notification-message-im.svg</file>
+        <file alias="48x48/notification-message-im">icons/elementary/notifications/48/notification-message-im.svg</file>
         <file>icons/elementary/notifications/48/notification-network-ethernet-connected.svg</file>
         <file>icons/elementary/notifications/48/notification-network-ethernet-disconnected.svg</file>
         <file>icons/elementary/notifications/48/notification-network-wireless-disconnected.svg</file>

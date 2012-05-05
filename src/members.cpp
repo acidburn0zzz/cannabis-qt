@@ -36,6 +36,7 @@ Members::Members(QWidget *parent) :
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
+    filterButton->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find")));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
 
     filterLineEdit = new QLineEdit;

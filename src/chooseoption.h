@@ -20,10 +20,12 @@
 #define CHOOSEOPTION_H
 
 #include <QWidget>
-#include <QPushButton>
+// #include <QPushButton>
+#include <QToolButton>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QMap>
 
 class ChooseOption : public QWidget
 {
@@ -31,12 +33,8 @@ class ChooseOption : public QWidget
 public:
     explicit ChooseOption(QWidget *parent = 0);
 
-    QPushButton *membersButton;
-    QPushButton *quitButton;
-    QPushButton *cannabisButton;
-    QPushButton *othersButton;
-    QPushButton *cashButton;
-    QPushButton *cansButton;
+    QMap <QString, QToolButton *> buttons;
+    QMap <QString, QLabel *> labels;
 
 protected:
     void setMyStyleSheet(void);
