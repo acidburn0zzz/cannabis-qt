@@ -373,32 +373,38 @@ void MainWindow::onExportDB()
 {
     QString dstFile = QFileDialog::getSaveFileName(this, tr("Cannabis-qt - Export your database"));
 
-    QSqlDatabase db = QSqlDatabase::database();
+    if (!dstFile.isEmpty())
+    {
+        QSqlDatabase db = QSqlDatabase::database();
 
-    QFile::copy(db.databaseName(), dstFile);
+        QFile::copy(db.databaseName(), dstFile);
+    }
 }
 
 void MainWindow::onImportDB()
 {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Cannabis-qt - Import your database"));
 
-    qDebug() << filePath;
-
-    destroyCentralWidgets();
-
-    QSqlDatabase::database().close();
-    QString connectionName = QSqlDatabase::database().connectionName();
-    QSqlDatabase::removeDatabase(connectionName);
-
-    // open our new database
-    if (!dbManager.openDB(filePath))
+    if (!filePath.isEmpty())
     {
-        qDebug() << QString("Error: can't open database.").arg(filePath);
-        QMessageBox::critical(this, tr("Cannabis-qt"),
-                              tr("Error crític: No puc obrir la base de dades %1.").arg(filePath));
+        qDebug() << filePath;
+
+        destroyCentralWidgets();
+
+        QSqlDatabase::database().close();
+        QString connectionName = QSqlDatabase::database().connectionName();
+        QSqlDatabase::removeDatabase(connectionName);
+
+        // open our new database
+        if (!dbManager.openDB(filePath))
+        {
+            qDebug() << QString("Error: can't open database.").arg(filePath);
+            QMessageBox::critical(this, tr("Cannabis-qt"),
+                                  tr("Error crític: No puc obrir la base de dades %1.").arg(filePath));
+        }
+
+        createCentralWidgets();
+
+        setMyCentralWidget(chooseOptionWidget);
     }
-
-    createCentralWidgets();
-
-    setMyCentralWidget(chooseOptionWidget);
 }

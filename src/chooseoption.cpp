@@ -30,42 +30,83 @@ ChooseOption::ChooseOption(QWidget *parent) :
 
     QLabel *questionLabel = new QLabel(htmlTitle.arg(tr("Benvingut a Cannabis-qt!"), tr("Què vols fer?")), this);
     questionLabel->setAlignment(Qt::AlignCenter);
-    questionLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //questionLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QString html("<h2>%1</h2>\n<h4><font color='grey'>%2</font></h4>");
 
-    buttons["members"] = new QToolButton(this);
+    buttons["members"] = new QPushButton(this);
     buttons["members"]->setIcon(QIcon::fromTheme("notification-message-im", QIcon(":/icons/48x48/notification-message-im")));
     buttons["members"]->setIconSize(QSize(48,48));
-    //buttons["members"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    buttons["members"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    labels["members"] = new QLabel(html.arg(tr("Socis"), tr("Modifica la informació dels socis")), this);
 
-    labels["members"] = new QLabel(html.arg(tr("Socis"), tr("Modifica la informació dels socis o afegeix-ne de nous")), this);
-
-    buttons["cannabis"] = new QToolButton(this);
+    buttons["cannabis"] = new QPushButton(this);
     buttons["cannabis"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
     buttons["cannabis"]->setIconSize(QSize(48,48));
+    buttons["cannabis"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["cannabis"] = new QLabel(html.arg(tr("Cànnabis"), tr("Controla el consum de cànnabis")), this);
 
-    buttons["cans"] = new QToolButton(this);
+    buttons["cans"] = new QPushButton(this);
     buttons["cans"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
     buttons["cans"]->setIconSize(QSize(48,48));
+    buttons["cans"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["cans"] = new QLabel(html.arg(tr("Pots"), tr("Controla els pots de cànnabis")), this);
 
-    buttons["others"] = new QToolButton(this);
+    buttons["others"] = new QPushButton(this);
     buttons["others"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
     buttons["others"]->setIconSize(QSize(48,48));
+    buttons["others"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["others"] = new QLabel(html.arg(tr("Altres"), tr("Registra altres consums")), this);
 
-    buttons["cash"] = new QToolButton(this);
+    buttons["cash"] = new QPushButton(this);
     buttons["cash"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/64x64/help-about")));
     buttons["cash"]->setIconSize(QSize(48,48));
+    buttons["cash"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["cash"] = new QLabel(html.arg(tr("Caixa"), tr("Extreu un resum de l'estat de la caixa")), this);
 
-    buttons["quit"] = new QToolButton(this);
+    buttons["quit"] = new QPushButton(this);
     buttons["quit"]->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/48x48/application-exit")));
     buttons["quit"]->setIconSize(QSize(48,48));
+    buttons["quit"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["quit"] = new QLabel(html.arg(tr("Sortir"), tr("Tanca l'aplicació")), this);
 
+    QVBoxLayout *layout = new QVBoxLayout;
+
+    layout->addWidget(questionLabel, 0, Qt::AlignCenter);
+
+    QHBoxLayout *hbox;
+
+    hbox = new QHBoxLayout;
+    hbox->addWidget(buttons["members"]);
+    hbox->addWidget( labels["members"]);
+    layout->addLayout(hbox);
+
+    hbox = new QHBoxLayout;
+    hbox->addWidget(buttons["cannabis"]);
+    hbox->addWidget( labels["cannabis"]);
+    layout->addLayout(hbox);
+
+    hbox = new QHBoxLayout;
+    hbox->addWidget(buttons["cans"]);
+    hbox->addWidget( labels["cans"]);
+    layout->addLayout(hbox);
+
+    hbox = new QHBoxLayout;
+    hbox->addWidget(buttons["others"]);
+    hbox->addWidget( labels["others"]);
+    layout->addLayout(hbox);
+
+    hbox = new QHBoxLayout;
+    hbox->addWidget(buttons["cash"]);
+    hbox->addWidget( labels["cash"]);
+    layout->addLayout(hbox);
+
+    hbox = new QHBoxLayout;
+    hbox->addWidget(buttons["quit"]);
+    hbox->addWidget( labels["quit"]);
+    layout->addLayout(hbox);
+
+    /*
     QGridLayout *layout = new QGridLayout(this);
 
     layout->addWidget(questionLabel, 0, 0, 1, -1, Qt::AlignCenter);
@@ -91,6 +132,7 @@ ChooseOption::ChooseOption(QWidget *parent) :
     layout->setRowStretch(4, 1);
     layout->setRowStretch(5, 1);
     layout->setRowStretch(6, 1);
+    */
 
     /*
     QMap <QString, QPushButton *>::const_iterator button = buttons.constBegin();
@@ -103,7 +145,15 @@ ChooseOption::ChooseOption(QWidget *parent) :
     }
     */
 
-    setLayout(layout);
+    // center our layout
+    QHBoxLayout *hbox0 = new QHBoxLayout;
+
+    hbox0->addStretch(1);
+    hbox0->addLayout(layout);
+    hbox0->addStretch(1);
+    setLayout(hbox0);
+
+    // setLayout(layout);
 }
 
 void ChooseOption::setMyStyleSheet()
