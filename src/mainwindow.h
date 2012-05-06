@@ -32,6 +32,7 @@
 #include <QFileDialog>
 #include <QMap>
 #include <QSettings>
+#include <QToolBar>
 
 #include <QtSvg>
 
@@ -44,8 +45,9 @@
 #include "cashcontrol.h"
 #include "cans.h"
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -64,7 +66,7 @@ private slots:
 private:
      void createActions();
      void createMenus();
-     void createToolBars();
+     void createToolBar();
      void createStatusBar();
      void createCentralWidgets();
      void destroyCentralWidgets();
@@ -74,6 +76,10 @@ private:
      QMenu *actionsMenu;
      QMenu *dataMenu;
      QMenu *helpMenu;
+
+     QToolBar *toolbar;
+
+     QPushButton *menuButton;
 
      QMap <QString, QAction *> actions;
 

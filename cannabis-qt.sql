@@ -2,7 +2,7 @@ PRAGMA foreign_keys=OFF;
 
 BEGIN TRANSACTION;
 
-CREATE TABLE "Socis" ("Codi" INTEGER PRIMARY KEY, "DataAlta" TEXT NOT NULL, "DNI" TEXT NOT NULL, "Nom" TEXT NOT NULL, "Cognom1" TEXT, "Cognom2" TEXT, "Adreça" TEXT, "Telefon" TEXT, "CodiPostal" TEXT, "Poblacio" TEXT, "Email" TEXT, "Pagat" INTEGER NOT NULL);
+CREATE TABLE "Socis" ("Codi" INTEGER PRIMARY KEY, "DataAlta" TEXT NOT NULL, "DNI" TEXT NOT NULL, "Nom" TEXT NOT NULL, "Cognom1" TEXT, "Cognom2" TEXT, "Adreça" TEXT, "Telefon" TEXT, "CodiPostal" TEXT, "Poblacio" TEXT, "Email" TEXT, "Pagat" INTEGER);
 
 CREATE TABLE "Cannabis" ("Id" INTEGER PRIMARY KEY AUTOINCREMENT, "CodiSoci" INTEGER NOT NULL, "Data" TEXT NOT NULL, "IdPot" INTEGER NOT NULL, "Grams" INTEGER NOT NULL, "Preu" REAL NOT NULL);
 

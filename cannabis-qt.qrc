@@ -2,4 +2,12 @@
     <qresource prefix="/">
         <file>cannabis-qt.sql</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file alias="others">icons/can_archigraphs.png</file>
+        <file alias="cashbox">icons/cashbox.png</file>
+        <file alias="container">icons/glass_container.png</file>
+        <file alias="leaf-icon">icons/leaf-icon.png</file>
+        <file alias="qtlogo">icons/qtlogo.png</file>
+        <file alias="cannabis-qt">icons/pot-leaf.png</file>
+    </qresource>
 </RCC>

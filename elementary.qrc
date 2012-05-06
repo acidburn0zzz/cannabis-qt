@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/icons">
-        <file alias="cannabis-qt">icons/cannabis-qt.jpg</file>
         <file>icons/elementary/actions/128/address-book-new.svg</file>
         <file>icons/elementary/actions/128/bookmark-new.svg</file>
         <file>icons/elementary/actions/128/document-new.svg</file>
@@ -1644,9 +1643,5 @@
         <file>icons/elementary/stock/32/SC-categories-fonts.svg</file>
         <file>icons/elementary/stock/32/stock_person.svg</file>
         <file>icons/elementary/stock/48/stock_person.svg</file>
-        <file alias="leaf-icon">icons/leaf-icon.png</file>
-        <file alias="others">icons/can_archigraphs.png</file>
-        <file alias="container">icons/glass_container.png</file>
-        <file alias="cashbox">icons/cashbox.png</file>
     </qresource>
 </RCC>

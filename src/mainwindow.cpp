@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createActions();
     createMenus();
-    createToolBars();
+    createToolBar();
     createStatusBar();
     createCentralWidgets();
 
@@ -110,6 +110,8 @@ void MainWindow::createActions()
 
     actions["aboutQt"] = new QAction(tr("Sobre les &Qt"), this);
     actions["aboutQt"]->setStatusTip(tr("Mostra informació sobre Qt"));
+    actions["aboutQt"]->setIcon(QIcon(":/icons/qtlogo"));
+    actions["aboutQt"]->setIconVisibleInMenu(true);
     connect(actions["aboutQt"], SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     actions["manageMembers"] = new QAction(tr("Gestiona els &socis"), this);
@@ -183,8 +185,26 @@ void MainWindow::createMenus()
     helpMenu->addAction(actions["aboutQt"]);
 }
 
-void MainWindow::createToolBars()
+void MainWindow::createToolBar()
 {
+    toolbar = addToolBar("Cannabis-qt");
+    toolbar->addAction(actions["importDatabase"]);
+    toolbar->addAction(actions["exportDatabase"]);
+    toolbar->addSeparator();
+    toolbar->addAction(actions["manageMembers"]);
+    toolbar->addAction(actions["manageCannabis"]);
+    toolbar->addAction(actions["manageCans"]);
+    toolbar->addAction(actions["otherBenefits"]);
+    toolbar->addAction(actions["cashControl"]);
+    toolbar->addSeparator();
+    // toolbar->addAction(actions["about"]);
+    // toolbar->addAction(actions["aboutQt"]);
+    // toolbar->addSeparator();
+    toolbar->addAction(actions["quit"]);
+
+    // menuButton = new QPushButton(tr("Menú"));
+    // toolbar->addSeparator();
+    // toolbar->addWidget(menuButton);
 }
 
 void MainWindow::createStatusBar()
