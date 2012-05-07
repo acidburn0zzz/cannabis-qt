@@ -105,7 +105,7 @@ void MainWindow::createActions()
 {
     actions["about"] = new QAction(tr("&Sobre el programa"), this);
     actions["about"]->setStatusTip(tr("Mostra informació sobre el programa"));
-    actions["about"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/elementary/16x16/actions/help-about")));
+    actions["about"]->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/elementary/actions/16/help-about")));
     actions["about"]->setIconVisibleInMenu(true);
     connect(actions["about"], SIGNAL(triggered()), this, SLOT(about()));
 
@@ -117,7 +117,7 @@ void MainWindow::createActions()
 
     actions["manageMembers"] = new QAction(tr("Gestiona els &socis"), this);
     actions["manageMembers"]->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
-    actions["manageMembers"]->setIcon(QIcon::fromTheme("notification-message-im", QIcon(":/icons/elementary/48x48/actions/notification-message-im")));
+    actions["manageMembers"]->setIcon(QIcon::fromTheme("notification-message-im", QIcon(":/icons/elementary/notifications/48/notification-message-im")));
     actions["manageMembers"]->setIconVisibleInMenu(true);
     connect(actions["manageMembers"], SIGNAL( triggered() ), this, SLOT( onManageMembers()));
 
@@ -153,14 +153,14 @@ void MainWindow::createActions()
 
     actions["exportDatabase"] = new QAction(tr("&Guarda com..."), this);
     actions["exportDatabase"]->setStatusTip(tr("Guarda les dades del programa en un fitxer SQLITE"));
-    actions["exportDatabase"]->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/elementary/16x16/actions/document-save-as")));
+    actions["exportDatabase"]->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/elementary/actions/16/document-save-as")));
     actions["exportDatabase"]->setIconVisibleInMenu(true);
     connect(actions["exportDatabase"], SIGNAL(triggered()), this, SLOT(onExportDB()));
 
     actions["quit"] = new QAction(tr("&Sortir"), this);
     actions["quit"]->setShortcuts(QKeySequence::Quit);
     actions["quit"]->setStatusTip(tr("Surt de l'aplicació"));
-    actions["quit"]->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/elementary/16x16/actions/application-exit")));
+    actions["quit"]->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/elementary/actions/16/application-exit")));
     actions["quit"]->setIconVisibleInMenu(true);
 
     connect(actions["quit"], SIGNAL(triggered()), this, SLOT(onQuit()));
