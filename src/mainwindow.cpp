@@ -68,7 +68,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setMinimumSize(600,400);
 
-    //QIcon::setThemeName("Faenza-Cupertino");
+    // QIcon::setThemeName("Faenza-Cupertino");
+    // QIcon::setThemeName("Faenza");
 
     if (!QIcon::hasThemeIcon("document-open"))
     {
@@ -76,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
         "use an icon theme that we provide via a .qrc file\n"
         "This case happens under Windows and Mac OS X "
         "but not under GNOME or KDE";
-        QIcon::setThemeName("elementary");
+        // QIcon::setThemeName("elementary");
     }
 
     qDebug() << tr("Using '%1' icon theme").arg(QIcon::themeName());
@@ -146,7 +147,7 @@ void MainWindow::createActions()
 
     actions["importDatabase"] = new QAction(tr("&Carrega..."), this);
     actions["importDatabase"]->setStatusTip(tr("Importa les dades d'un fitxer SQLITE"));
-    actions["importDatabase"]->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/16x16/document-open")));
+    actions["importDatabase"]->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/elementary/16x16/document-open")));
     actions["importDatabase"]->setIconVisibleInMenu(true);
     connect(actions["importDatabase"], SIGNAL(triggered()), this, SLOT(onImportDB()));
 

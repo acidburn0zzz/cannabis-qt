@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/icons">
+    <qresource prefix="/icons/elementary">
         <file>icons/elementary/actions/128/address-book-new.svg</file>
         <file>icons/elementary/actions/128/bookmark-new.svg</file>
         <file>icons/elementary/actions/128/document-new.svg</file>
@@ -20,18 +20,18 @@
         <file>icons/elementary/actions/16/bookmark-new.svg</file>
         <file>icons/elementary/actions/16/dialog-apply.svg</file>
         <file>icons/elementary/actions/16/document-new.svg</file>
-        <file alias="16x16/document-open">icons/elementary/actions/16/document-open.svg</file>
+        <file alias="16x16/actions/document-open">icons/elementary/actions/16/document-open.svg</file>
         <file>icons/elementary/actions/16/document-print-preview.svg</file>
-        <file alias="16x16/document-print">icons/elementary/actions/16/document-print.svg</file>
+        <file alias="16x16/actions/document-print">icons/elementary/actions/16/document-print.svg</file>
         <file>icons/elementary/actions/16/document-properties.svg</file>
         <file>icons/elementary/actions/16/document-revert.svg</file>
-        <file alias="16x16/document-save-as">icons/elementary/actions/16/document-save-as.svg</file>
+        <file alias="16x16/actions/document-save-as">icons/elementary/actions/16/document-save-as.svg</file>
         <file>icons/elementary/actions/16/document-save.svg</file>
-        <file alias="16x16/edit-clear-symbolic">icons/elementary/actions/16/edit-clear-symbolic.svg</file>
+        <file alias="16x16/actions/edit-clear-symbolic">icons/elementary/actions/16/edit-clear-symbolic.svg</file>
         <file alias="16x16/edit-delete">icons/elementary/actions/16/edit-delete.svg</file>
         <file>icons/elementary/actions/16/edit-find-option-symbolic.svg</file>
         <file>icons/elementary/actions/16/edit-find-symbolic.svg</file>
-        <file alias="16x16/edit-find">icons/elementary/actions/16/edit-find.svg</file>
+        <file alias="16x16/actions/edit-find">icons/elementary/actions/16/edit-find.svg</file>
         <file>icons/elementary/actions/16/folder-new.svg</file>
         <file>icons/elementary/actions/16/go-bottom.svg</file>
         <file>icons/elementary/actions/16/go-down.svg</file>
@@ -45,7 +45,7 @@
         <file>icons/elementary/actions/16/go-up.svg</file>
         <file>icons/elementary/actions/16/gtk-edit.svg</file>
         <file>icons/elementary/actions/16/gtk-info.svg</file>
-        <file alias="16x16/help-about">icons/elementary/actions/16/help-about.svg</file>
+        <file alias="16x16/actions/help-about">icons/elementary/actions/16/help-about.svg</file>
         <file>icons/elementary/actions/16/help-contents.svg</file>
         <file>icons/elementary/actions/16/help-hint.svg</file>
         <file>icons/elementary/actions/16/im-message-new.svg</file>
@@ -84,20 +84,20 @@
         <file>icons/elementary/actions/16/process-stop.svg</file>
         <file>icons/elementary/actions/16/system-lock-screen.svg</file>
         <file>icons/elementary/actions/16/system-log-out.svg</file>
-        <file alias="16x16/application-exit">icons/elementary/actions/16/system-shutdown.svg</file>
+        <file alias="16x16/actions/application-exit">icons/elementary/actions/16/system-shutdown.svg</file>
         <file>icons/elementary/actions/16/tab-new.svg</file>
         <file>icons/elementary/actions/16/tag-new.svg</file>
         <file>icons/elementary/actions/16/view-list-compact-symbolic.svg</file>
         <file>icons/elementary/actions/16/view-list-coverflow-symbolic.svg</file>
         <file>icons/elementary/actions/16/view-list-details-symbolic.svg</file>
         <file>icons/elementary/actions/16/view-list-icons-symbolic.svg</file>
-        <file alias="16x16/view-refresh">icons/elementary/actions/16/view-refresh.svg</file>
+        <file alias="16x16/actions/view-refresh">icons/elementary/actions/16/view-refresh.svg</file>
         <file>icons/elementary/actions/16/window-close.svg</file>
         <file>icons/elementary/actions/16/window-new.svg</file>
         <file>icons/elementary/actions/22/address-book-new.svg</file>
         <file>icons/elementary/actions/22/appointment-new.svg</file>
         <file>icons/elementary/actions/22/bookmark-new.svg</file>
-        <file alias="22x22/contact-new">icons/elementary/actions/22/contact-new.svg</file>
+        <file alias="22x22/actions/contact-new">icons/elementary/actions/22/contact-new.svg</file>
         <file>icons/elementary/actions/22/dialog-apply.svg</file>
         <file>icons/elementary/actions/22/document-new.svg</file>
         <file>icons/elementary/actions/22/document-open-recent.svg</file>
@@ -337,11 +337,11 @@
         <file>icons/elementary/actions/48/system-lock-screen.svg</file>
         <file>icons/elementary/actions/48/system-log-out.svg</file>
         <file>icons/elementary/actions/48/system-run.svg</file>
-        <file alias="48x48/application-exit">icons/elementary/actions/48/system-shutdown.svg</file>
+        <file alias="48x48/actions/application-exit">icons/elementary/actions/48/system-shutdown.svg</file>
         <file>icons/elementary/actions/48/tab-new.svg</file>
         <file>icons/elementary/actions/48/tag-new.svg</file>
         <file>icons/elementary/actions/48/transform-rotate.svg</file>
-        <file alias="48x48/view-refresh">icons/elementary/actions/48/view-refresh.svg</file>
+        <file alias="48x48/actions/view-refresh">icons/elementary/actions/48/view-refresh.svg</file>
         <file>icons/elementary/actions/48/window-close.svg</file>
         <file>icons/elementary/actions/48/window-new.svg</file>
         <file>icons/elementary/actions/64/address-book-new.svg</file>
@@ -350,7 +350,7 @@
         <file>icons/elementary/actions/64/document-properties.svg</file>
         <file>icons/elementary/actions/64/edit-delete.svg</file>
         <file>icons/elementary/actions/64/gtk-info.svg</file>
-        <file alias="64x64/help-about">icons/elementary/actions/64/help-about.svg</file>
+        <file alias="64x64/actions/help-about">icons/elementary/actions/64/help-about.svg</file>
         <file>icons/elementary/actions/64/help-contents.svg</file>
         <file>icons/elementary/actions/64/help-hint.svg</file>
         <file>icons/elementary/actions/64/media-import-audio-cd.svg</file>
@@ -1643,5 +1643,6 @@
         <file>icons/elementary/stock/32/SC-categories-fonts.svg</file>
         <file>icons/elementary/stock/32/stock_person.svg</file>
         <file>icons/elementary/stock/48/stock_person.svg</file>
+        <file alias="index.theme">icons/elementary/index.theme</file>
     </qresource>
 </RCC>
