@@ -35,7 +35,7 @@ ChooseOption::ChooseOption(QWidget *parent) :
     QString html("<h2>%1</h2>\n<h4><font color='grey'>%2</font></h4>");
 
     buttons["members"] = new QPushButton(this);
-    buttons["members"]->setIcon(QIcon::fromTheme("notification-message-im", QIcon(":/icons/48x48/notification-message-im")));
+    buttons["members"]->setIcon(QIcon::fromTheme("notification-message-im", QIcon(":/icons/elementary/48x48/actions/notification-message-im")));
     buttons["members"]->setIconSize(QSize(48,48));
     buttons["members"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["members"] = new QLabel(html.arg(tr("Socis"), tr("Modifica la informació dels socis")), this);
@@ -65,7 +65,7 @@ ChooseOption::ChooseOption(QWidget *parent) :
     labels["cash"] = new QLabel(html.arg(tr("Caixa"), tr("Extreu un resum de l'estat de la caixa")), this);
 
     buttons["quit"] = new QPushButton(this);
-    buttons["quit"]->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/48x48/application-exit")));
+    buttons["quit"]->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/elementary/48x48/actions/application-exit")));
     buttons["quit"]->setIconSize(QSize(48,48));
     buttons["quit"]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labels["quit"] = new QLabel(html.arg(tr("Sortir"), tr("Tanca l'aplicació")), this);

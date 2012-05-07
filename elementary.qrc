@@ -20,9 +20,9 @@
         <file>icons/elementary/actions/16/bookmark-new.svg</file>
         <file>icons/elementary/actions/16/dialog-apply.svg</file>
         <file>icons/elementary/actions/16/document-new.svg</file>
-        <file alias="16x16/actions/document-open">icons/elementary/actions/16/document-open.svg</file>
+        <file alias="actions/16/document-open.png">icons/elementary/actions/16/document-open.svg</file>
         <file>icons/elementary/actions/16/document-print-preview.svg</file>
-        <file alias="16x16/actions/document-print">icons/elementary/actions/16/document-print.svg</file>
+        <file alias="actions/16/document-print">icons/elementary/actions/16/document-print.svg</file>
         <file>icons/elementary/actions/16/document-properties.svg</file>
         <file>icons/elementary/actions/16/document-revert.svg</file>
         <file alias="16x16/actions/document-save-as">icons/elementary/actions/16/document-save-as.svg</file>

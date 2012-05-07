@@ -32,11 +32,11 @@ Others::Others(QWidget *parent) :
     // name cif address phone email
 
     QPushButton *clearFilterButton = new QPushButton;
-    clearFilterButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/16x16/edit-clear-symbolic")));
+    clearFilterButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/elementary/16x16/actions/edit-clear-symbolic")));
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
 
     QPushButton *filterButton = new QPushButton(tr("Cerca!"));
-    filterButton->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/16x16/edit-find")));
+    filterButton->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/elementary/16x16/actions/edit-find")));
     connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
 
     filterLineEdit = new QLineEdit;
