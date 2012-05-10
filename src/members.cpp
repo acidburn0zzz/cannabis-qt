@@ -20,6 +20,7 @@
 #include "mydateeditdelegate.h"
 #include "mycheckboxdelegate.h"
 #include "constants.h"
+#include "addmember.h"
 
 Members::Members(QWidget *parent) :
     QWidget(parent)
@@ -141,6 +142,7 @@ void Members::onHelp()
 
 void Members::addNewMember()
 {
+    /*
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     // insert a row at the end
@@ -155,6 +157,12 @@ void Members::addNewMember()
     tableView->scrollToBottom();
 
     setDirtyFlag(true);
+    */
+
+    AddMember *addMember = new AddMember(this);
+
+    addMember->setModel(model);
+
 }
 
 // Això hauria d'estar dins del model (que hauriem de crear derivant la classe de QSqlTableModel)
