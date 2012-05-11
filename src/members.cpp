@@ -25,13 +25,6 @@
 Members::Members(QWidget *parent) :
     QWidget(parent)
 {
-    /*
-    setStyleSheet("QRadioButton { font: bold 18px; padding-left:60px; min-height: 30px; max-height: 60px; }"
-                  "QRadioButton::indicator { width: 40px; height: 40px; }"
-                  "QLabel { font: bold 18px; min-height: 30px; max-height: 60px; }");
-    */
-
-
     QPushButton *clearFilterButton = new QPushButton;
     clearFilterButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/elementary/actions/16/edit-clear-symbolic")));
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
@@ -70,16 +63,9 @@ Members::Members(QWidget *parent) :
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
 
-//    QGroupBox *groupBox = new QGroupBox;
-//    groupBox->setLayout(layout);
-
-    // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Close);
-    // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
-    connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
-    // connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Close);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onClose()));
 
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou soci"));
     addNewCustomerPushButton->setIcon(QIcon::fromTheme("contact-new", QIcon(":/icons/elementary/actions/22/contact-new")));
@@ -348,7 +334,7 @@ void Members::onClearFilter()
     model->select();
 }
 
-void Members::onCancel()
+void Members::onClose()
 { 
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -400,10 +386,12 @@ bool Members::save(bool showMessage)
     if (result && isDirty)
     {
         resizeTableViewToContents();
+
         if (showMessage)
         {
             QMessageBox::information(this, tr("Socis"), tr("S'han guardat tots els canvis"));
         }
+
         setDirtyFlag(false);
     }
 
@@ -419,7 +407,7 @@ void Members::resizeTableViewToContents()
     }
 }
 
-void Members::onApply()
+void Members::onSave()
 {
     save();
 }
@@ -428,7 +416,7 @@ void Members::setDirtyFlag(bool status)
 {
     isDirty = status;
 
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    QPushButton *saveButton = buttonBox->button(QDialogButtonBox::Save);
 
-    applyButton->setEnabled(status);
+    saveButton->setEnabled(status);
 }

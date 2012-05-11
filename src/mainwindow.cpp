@@ -119,25 +119,25 @@ void MainWindow::createActions()
     actions["manageMembers"]->setStatusTip(tr("Afegeix o edita la informació dels teus clients"));
     actions["manageMembers"]->setIcon(QIcon::fromTheme("notification-message-im", QIcon(":/icons/elementary/notifications/48/notification-message-im")));
     actions["manageMembers"]->setIconVisibleInMenu(true);
-    connect(actions["manageMembers"], SIGNAL( triggered() ), this, SLOT( onManageMembers()));
+    connect(actions["manageMembers"], SIGNAL( triggered() ), this, SLOT( onMembers()));
 
     actions["manageCannabis"] = new QAction(tr("Consum de &cànnabis"), this);
     actions["manageCannabis"]->setStatusTip(tr("Afegeix o edita la informació del cànnabis que demanen els socis"));
     actions["manageCannabis"]->setIcon(QIcon(":/icons/leaf-icon"));
     actions["manageCannabis"]->setIconVisibleInMenu(true);
-    connect(actions["manageCannabis"], SIGNAL( triggered() ), this, SLOT( onManageCannabis()));
+    connect(actions["manageCannabis"], SIGNAL( triggered() ), this, SLOT( onCannabis()));
 
     actions["manageCans"] = new QAction(tr("Control dels pots de cànnabis"), this);
     actions["manageCans"]->setStatusTip(tr("Afegeix o edita la informació dels pots contenidors de cànnabis"));
     actions["manageCans"]->setIcon(QIcon(":/icons/container"));
     actions["manageCans"]->setIconVisibleInMenu(true);
-    connect(actions["manageCans"], SIGNAL(triggered()), this, SLOT(onManageCans()));
+    connect(actions["manageCans"], SIGNAL(triggered()), this, SLOT(onCans()));
 
     actions["otherBenefits"] = new QAction(tr("&Altres consums"), this);
     actions["otherBenefits"]->setStatusTip(tr("Afegeix o edita la informació de les donacions"));
     actions["otherBenefits"]->setIcon(QIcon(":/icons/others"));
     actions["otherBenefits"]->setIconVisibleInMenu(true);
-    connect(actions["otherBenefits"], SIGNAL( triggered() ), this, SLOT( onManageOthers()));
+    connect(actions["otherBenefits"], SIGNAL( triggered() ), this, SLOT( onOthers()));
 
     actions["cashControl"] = new QAction(tr("Control de &caixa"), this);
     actions["cashControl"]->setStatusTip(tr("Mostra un resum de l'estat de caixa."));
@@ -217,31 +217,26 @@ void MainWindow::createCentralWidgets()
 {
     // Main menu
     chooseOptionWidget = new ChooseOption();
-    connect( chooseOptionWidget->buttons["members"], SIGNAL(pressed()), this, SLOT(onManageMembers()));
-    connect( chooseOptionWidget->buttons["cannabis"], SIGNAL(pressed()), this, SLOT(onManageCannabis()));
-    connect( chooseOptionWidget->buttons["cans"], SIGNAL(pressed()), this, SLOT(onManageCans()));
-    connect( chooseOptionWidget->buttons["others"], SIGNAL(pressed()), this, SLOT(onManageOthers()));
-    connect( chooseOptionWidget->buttons["cash"], SIGNAL(pressed()), this, SLOT(onCashControl()));
-    connect( chooseOptionWidget->buttons["quit"], SIGNAL(pressed()), this, SLOT(onQuit()));
+    connect(chooseOptionWidget->buttons["members"], SIGNAL(pressed()), this, SLOT(onMembers()));
+    connect(chooseOptionWidget->buttons["cannabis"], SIGNAL(pressed()), this, SLOT(onCannabis()));
+    connect(chooseOptionWidget->buttons["cans"], SIGNAL(pressed()), this, SLOT(onCans()));
+    connect(chooseOptionWidget->buttons["others"], SIGNAL(pressed()), this, SLOT(onOthers()));
+    connect(chooseOptionWidget->buttons["cash"], SIGNAL(pressed()), this, SLOT(onCashControl()));
+    connect(chooseOptionWidget->buttons["quit"], SIGNAL(pressed()), this, SLOT(onQuit()));
 
     membersWidget = new Members();
-    connect(membersWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveMembers()));
     connect(membersWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 
     cannabisWidget = new Cannabis();
-    connect(cannabisWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCannabis()));
     connect(cannabisWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 
     cansWidget = new Cans();
-    connect(cansWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCans()));
     connect(cansWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 
     othersWidget = new Others();
-    connect(othersWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveOthers()));
     connect(othersWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 
     cashControlWidget = new CashControl();
-    connect(cashControlWidget->buttonBox, SIGNAL(accepted()), this, SLOT(onSaveCashControl()));
     connect(cashControlWidget->buttonBox, SIGNAL(rejected()), this, SLOT(onMainMenu()));
 }
 
@@ -323,56 +318,24 @@ void MainWindow::onMainMenu()
     setMyCentralWidget(chooseOptionWidget);
 }
 
-void MainWindow::onManageMembers()
+void MainWindow::onMembers()
 {
     setMyCentralWidget(membersWidget);
 }
 
-void MainWindow::onSaveMembers()
-{
-    if (membersWidget->save())
-    {
-        onMainMenu();
-    }
-}
-
-void MainWindow::onManageCannabis()
+void MainWindow::onCannabis()
 {
     setMyCentralWidget(cannabisWidget);
 }
 
-void MainWindow::onSaveCannabis()
-{
-    if (cannabisWidget->save())
-    {
-        onMainMenu();
-    }
-}
-
-void MainWindow::onManageCans()
+void MainWindow::onCans()
 {
     setMyCentralWidget(cansWidget);
 }
 
-void MainWindow::onSaveCans()
-{
-    if (cansWidget->save())
-    {
-        onMainMenu();
-    }
-}
-
-void MainWindow::onManageOthers()
+void MainWindow::onOthers()
 {
     setMyCentralWidget(othersWidget);
-}
-
-void MainWindow::onSaveOthers()
-{
-    if (othersWidget->save())
-    {
-        onMainMenu();
-    }
 }
 
 void MainWindow::onCashControl()
@@ -380,15 +343,7 @@ void MainWindow::onCashControl()
     setMyCentralWidget(cashControlWidget);
 }
 
-void MainWindow::onSaveCashControl()
-{
-    // No hem de guardar res, però esborrem les dades per no confondre a l'usuari quan torni
-    // a entrar a aquest widget
-
-    cashControlWidget->clear();
-
-    onMainMenu();
-}
+// ---------------------------------------------------------------------------------------------------------
 
 void MainWindow::onExportDB()
 {

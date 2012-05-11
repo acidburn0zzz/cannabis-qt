@@ -23,14 +23,6 @@
 Cannabis::Cannabis(QWidget *parent) :
     QWidget(parent)
 {
-    /*
-    setStyleSheet("QRadioButton { font: bold 18px; padding-left:60px; min-height: 30px; max-height: 60px; }"
-                  "QRadioButton::indicator { width: 40px; height: 40px; }"
-                  "QLabel { font: bold 18px; min-height: 30px; max-height: 60px; }");
-    */
-
-    // name cif address phone email
-
     QPushButton *clearFilterButton = new QPushButton;
     clearFilterButton->setIcon(QIcon::fromTheme("edit-clear-symbolic", QIcon(":/icons/elementary/actions/16/edit-clear-symbolic")));
     connect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
@@ -59,8 +51,6 @@ Cannabis::Cannabis(QWidget *parent) :
 
     model->select();
 
-    // model->removeColumn(0); // don't show the ID
-
     model->setHeaderData(0, Qt::Horizontal, tr("Codi"));
     model->setHeaderData(1, Qt::Horizontal, tr("Soci"));
     model->setHeaderData(2, Qt::Horizontal, tr("Data"));
@@ -72,7 +62,6 @@ Cannabis::Cannabis(QWidget *parent) :
     tableView->setModel(model);
     tableView->setCornerButtonEnabled(false);
 
-    // tableView->resizeColumnsToContents();
     tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->horizontalHeader()->setStretchLastSection(true);
 
@@ -87,13 +76,9 @@ Cannabis::Cannabis(QWidget *parent) :
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
 
-    // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Close);
-    // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
-    connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
-    // connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Close);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onClose()));
 
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou consum"));
     addNewCustomerPushButton->setIcon(QIcon::fromTheme("contact-new", QIcon(":/icons/elementary/actions/22/contact-new")));
@@ -263,7 +248,7 @@ void Cannabis::onClearFilter()
     model->select();
 }
 
-void Cannabis::onCancel()
+void Cannabis::onClose()
 { 
     QSqlRelationalTableModel *model = (QSqlRelationalTableModel *)tableView->model();
 
@@ -284,7 +269,7 @@ void Cannabis::onDataChanged(QModelIndex, QModelIndex)
     setDirtyFlag(true);
 }
 
-void Cannabis::onApply()
+void Cannabis::onSave()
 {
     save();
 }
@@ -346,7 +331,7 @@ void Cannabis::setDirtyFlag(bool status)
 {
     isDirty = status;
 
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    QPushButton *saveButton = buttonBox->button(QDialogButtonBox::Save);
 
-    applyButton->setEnabled(status);
+    saveButton->setEnabled(status);
 }

@@ -78,16 +78,12 @@ Others::Others(QWidget *parent) :
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
 
-//    QGroupBox *groupBox = new QGroupBox;
-//    groupBox->setLayout(layout);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Close);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
 
-    // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Close);
-    // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
     QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
     connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
-    // connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
 
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou consum"));
     connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewOrder()));
@@ -246,8 +242,7 @@ void Others::onClearFilter()
     model->select();
 }
 
-
-void Others::onCancel()
+void Others::onClose()
 { 
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
@@ -315,7 +310,7 @@ void Others::resizeTableViewToContents()
     }
 }
 
-void Others::onApply()
+void Others::onSave()
 {
     save();
 }
@@ -324,7 +319,7 @@ void Others::setDirtyFlag(bool status)
 {
     isDirty = status;
 
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    QPushButton *saveButton = buttonBox->button(QDialogButtonBox::Save);
 
-    applyButton->setEnabled(status);
+    saveButton->setEnabled(status);
 }

@@ -93,20 +93,11 @@ private:
 public slots:
      void onQuit();
 
-     void onManageMembers();
-     void onSaveMembers();
-
-     void onManageCannabis();
-     void onSaveCannabis();
-
-     void onManageCans();
-     void onSaveCans();
-
-     void onManageOthers();
-     void onSaveOthers();
-
+     void onMembers();
+     void onCannabis();
+     void onCans();
+     void onOthers();
      void onCashControl();
-     void onSaveCashControl();
 
      void onMainMenu();
 

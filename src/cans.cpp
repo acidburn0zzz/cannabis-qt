@@ -23,36 +23,6 @@
 Cans::Cans(QWidget *parent) :
     QWidget(parent)
 {
-    /*
-
-      TODO: He repensat tot el widget. Només ha de fer un recompte entre el què s'ha afegit als pots i el què s'ha tret mirant
-            la taula cannabis
-
-            Per tant, no ha de ser una taula editable, però sí ha de permetre afegir herba als pots.
-
-    */
-
-    /*
-    setStyleSheet("QRadioButton { font: bold 18px; padding-left:60px; min-height: 30px; max-height: 60px; }"
-                  "QRadioButton::indicator { width: 40px; height: 40px; }"
-                  "QLabel { font: bold 18px; min-height: 30px; max-height: 60px; }");
-    */
-
-    // name cif address phone email
-
-    // QPushButton *clearFilterButton = new QPushButton(tr(""));
-    // mconnect(clearFilterButton, SIGNAL(pressed()), this, SLOT(onClearFilter()));
-
-    // QPushButton *filterButton = new QPushButton(tr("Cerca!"));
-    // connect(filterButton, SIGNAL(pressed()), this, SLOT(onFilter()));
-
-    // filterLineEdit = new QLineEdit;
-    // connect(filterLineEdit, SIGNAL(returnPressed()), this, SLOT(onFilter()));
-
-    // QHBoxLayout *hbox = new QHBoxLayout;
-    // hbox->addWidget(filterLineEdit);
-    // hbox->addWidget(filterButton);
-
     CansModel *model = new CansModel;
     createModel(model);
 
@@ -63,42 +33,21 @@ Cans::Cans(QWidget *parent) :
 
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    // tableView->verticalHeader()->hide();
-
-    // tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
-
     tableView->show();
 
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(onDataChanged(QModelIndex,QModelIndex)));
 
-//    QGroupBox *groupBox = new QGroupBox;
-//    groupBox->setLayout(layout);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 
-    // buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Ok | QDialogButtonBox::Close);
-    // connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
-//    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
-//    connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
-    // connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
-
-/*
-    QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou pot"));
-    connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewCan()));
-    QPushButton *deleteCustomerPushButton = new QPushButton(tr("Esborrar pot"));
-    connect(deleteCustomerPushButton, SIGNAL(pressed()), this, SLOT(deleteCan()));
-*/
     QPushButton *addPushButton = new QPushButton(tr("Afegir cànnabis a un pot"));
+    addPushButton->setIcon(QIcon::fromTheme("contact-new", QIcon(":/icons/elementary/actions/22/contact-new")));
     connect(addPushButton, SIGNAL(pressed()), this, SLOT(addToCan()));
 
     QHBoxLayout *hbox2 = new QHBoxLayout;
-    // hbox2->addWidget(addNewCustomerPushButton);
-    // hbox2->addWidget(deleteCustomerPushButton);
     hbox2->addWidget(addPushButton);
     hbox2->addWidget(buttonBox);
 
     QVBoxLayout *vbox = new QVBoxLayout;
-    // vbox->addLayout(hbox);
     vbox->addWidget(tableView);
     vbox->addLayout(hbox2);
 
@@ -211,49 +160,6 @@ void Cans::addNewCan()
 
 void Cans::deleteCan()
 {
-/*
-    // int i = tableView->selectedIndexes()
-    // QModelIndex index = tableView->currentIndex();
-
-    QMessageBox::warning(this, tr("Pots"), tr("TODO"));
-    return;
-
-
-
-
-
-    // Does not work : "QSqlQuery::value not positioned on a valid record"
-
-
-    QModelIndex index = tableView->currentIndex();
-
-    if (index.isValid())
-    {
-        int row = index.row();
-
-        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
-
-        QMessageBox msgBox(this);
-
-        msgBox.setText("Aquesta acció eliminarà el pot."
-        "(els seus consums quedaran registrats, però no podrà accedir-hi)");
-        msgBox.setInformativeText("Està segur ?");
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::No);
-
-        // execute message box. method exec() return the button value of clicked button
-        if (msgBox.exec() == QMessageBox::Yes)
-        {
-            model->removeRow(row);
-            setDirtyFlag(true);
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, tr("Pots"), tr("Si us plau, marqui a la llista el pot que vol esborrar"));
-    }
-    */
 }
 
 void Cans::onFilter()
@@ -308,70 +214,9 @@ void Cans::onFilter()
     }
 }
 
-void Cans::onCancel()
-{ 
-    /*
-    QSqlTableModel *model = (QSqlTableModel *)tableView->model();
-
-    if (model != NULL)
-    {
-        model->database().rollback();
-
-        model->revertAll();
-
-        setDirtyFlag(false);
-
-        // qDebug() << model->lastError().text();
-    }
-    */
-}
-
 void Cans::onDataChanged(QModelIndex, QModelIndex)
 {
     setDirtyFlag(true);
-}
-
-bool Cans::save()
-{
-    bool result = false;
-
-    /*
-    if (tableView != NULL)
-    {
-        QSqlTableModel *model = (QSqlTableModel *)tableView->model();
-        model->database().transaction();
-
-        if (model->submitAll())
-        {
-            model->database().commit();
-
-            // QMessageBox::information(this, tr("Pots"), tr("S'han guardat tots els canvis"));
-
-            result = true;
-        }
-        else
-        {
-            model->database().rollback();
-
-            model->revertAll();
-
-            qDebug() << model->lastError().text();
-            QMessageBox::warning(this, tr("Altres"), tr("No puc guardar els canvis: %1").arg(model->lastError().text()));
-        }
-    }
-
-    if (result && isDirty)
-    {
-        resizeTableViewToContents();
-
-        QMessageBox::information(this, tr("Pots"), tr("S'han guardat tots els canvis"));
-        setDirtyFlag(false);
-    }
-    */
-
-    result = true;
-
-    return result;
 }
 
 void Cans::resizeTableViewToContents()
@@ -382,16 +227,7 @@ void Cans::resizeTableViewToContents()
     }
 }
 
-void Cans::onApply()
-{
-    save();
-}
-
 void Cans::setDirtyFlag(bool status)
 {
     isDirty = status;
-
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
-
-    applyButton->setEnabled(status);
 }

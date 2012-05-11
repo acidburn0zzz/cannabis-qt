@@ -68,9 +68,8 @@ CashControl::CashControl(QWidget *parent) :
     tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->show();
 
-    // buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Help);
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-    //connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(onHelp()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onClose()));
 
     printButton = new QPushButton(tr("Imprimeix"));
     printButton->setIcon(QIcon::fromTheme("document-print", QIcon(":/icons/elementary/actions/16/document-print")));
@@ -207,4 +206,9 @@ void CashControl::onPrint()
     }
 
     delete document;
+}
+
+void CashControl::onClose()
+{
+    clear();
 }

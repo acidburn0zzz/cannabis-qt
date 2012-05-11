@@ -67,8 +67,6 @@ public slots:
     void deleteCan();
     void onFilter();
 
-    void onApply();
-    void onCancel();
     void onHelp();
 
     void onDataChanged(QModelIndex , QModelIndex );

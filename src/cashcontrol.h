@@ -66,7 +66,7 @@ public slots:
     void onHelp();
     void onShow();
     void onPrint();
-
+    void onClose();
 };
 
 #endif // CASHCONTROL_H
