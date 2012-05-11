@@ -142,7 +142,6 @@ void Members::onHelp()
 
 void Members::addNewMember()
 {
-    /*
     QSqlTableModel *model = (QSqlTableModel *)tableView->model();
 
     // insert a row at the end
@@ -157,12 +156,12 @@ void Members::addNewMember()
     tableView->scrollToBottom();
 
     setDirtyFlag(true);
-    */
 
+    /*
     AddMember *addMember = new AddMember(this);
-
     addMember->setModel(model);
-
+    addMember->exec();
+    */
 }
 
 // Això hauria d'estar dins del model (que hauriem de crear derivant la classe de QSqlTableModel)

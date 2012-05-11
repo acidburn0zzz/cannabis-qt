@@ -2,7 +2,14 @@
 #define ADDMEMBER_H
 
 #include <QDialog>
+#include <QFormLayout>
 #include <QSqlTableModel>
+#include <QLineEdit>
+#include <QDate>
+#include <QDateEdit>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QDialogButtonBox>
 
 class AddMember : public QDialog
 {
