@@ -80,10 +80,7 @@ Others::Others(QWidget *parent) :
 
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Close);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(onSave()));
-
-    QPushButton *applyButton = buttonBox->button(QDialogButtonBox::Apply);
-    connect(applyButton, SIGNAL(clicked()), this, SLOT(onApply()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onCancel()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(onClose()));
 
     QPushButton *addNewCustomerPushButton = new QPushButton(tr("Nou consum"));
     connect(addNewCustomerPushButton, SIGNAL(pressed()), this, SLOT(addNewOrder()));
