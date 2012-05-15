@@ -22,7 +22,8 @@ SOURCES += src/main.cpp\
     src/mydateeditdelegate.cpp \
     src/cashcontrolmodel.cpp \
     src/cansmodel.cpp \
-    src/addmember.cpp
+    src/addmember.cpp \
+    src/about.cpp
 
 HEADERS  += src/mainwindow.h \
     src/databasemanager.h \
@@ -37,7 +38,8 @@ HEADERS  += src/mainwindow.h \
     src/cashcontrolmodel.h \
     src/cansmodel.h \
     src/constants.h \
-    src/addmember.h
+    src/addmember.h \
+    src/about.h
 
 RESOURCES += \
     cannabis-qt.qrc \
