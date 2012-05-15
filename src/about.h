@@ -19,6 +19,7 @@ signals:
 public slots:
 
     void showLicense();
+    void onClose();
 
 };
 

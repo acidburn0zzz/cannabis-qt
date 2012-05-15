@@ -20,7 +20,12 @@ About::About(QWidget *parent) :
            "Fet per Karasu.<br/>").arg(PROGRAM_VERSION));
 
     QPushButton *closeButton = new QPushButton(tr("Close"));
+    connect(closeButton, SIGNAL(pressed()), this, SLOT(onClose()));
+    closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
     QPushButton *licenseButton = new QPushButton(tr("License"));
+    connect(licenseButton, SIGNAL(pressed()), this, SLOT(showLicense()));
+    licenseButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QHBoxLayout *hbox = new QHBoxLayout;
     hbox->addWidget(licenseButton);
@@ -51,4 +56,9 @@ void About::showLicense()
                 "GNU General Public License for more details.<br /><br />"
                 "You should have received a copy of the GNU General Public License "
                 "along with this program.  If not, see <a href='http://www.gnu.org/licenses/'>www.gnu.org</a>."));
+}
+
+void About::onClose()
+{
+    this->close();
 }
