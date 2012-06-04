@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug() << QString("Application data will be stored in : %1").arg(appDataDir);
 
     // Open our database
-    if (dbManager.openDB())
+    if (!dbManager.openDB())
     {
         qDebug() << tr("Error: can't create/open database in %1").arg(appDataDir);
         QMessageBox::critical(this, tr("Cannabis-qt"),

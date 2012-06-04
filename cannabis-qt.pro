@@ -44,3 +44,5 @@ HEADERS  += src/mainwindow.h \
 RESOURCES += \
     cannabis-qt.qrc \
     elementary.qrc
+
+config += console
