@@ -40,6 +40,16 @@ bool DatabaseManager::openDB(QString filePath)
         {
             // Set database file name and path
             filePath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+            if (!QDir(filePath).exists())
+            {
+                // It doesn't exist, we have to create it.
+                if (!QDir().mkpath(filePath))
+                {
+                    // Can't create directory, try to use application one (this may work in windows)
+                    filePath = QCoreApplication::applicationFilePath();
+                }
+            }
+
             filePath.append(QDir::separator()).append("cannabis-qt.sqlite3");
         }
 

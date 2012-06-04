@@ -31,21 +31,27 @@ MainWindow::MainWindow(QWidget *parent) :
     QString appDataDir (QDesktopServices::storageLocation(QDesktopServices::DataLocation));
     if (!QDir(appDataDir).exists())
     {
-        // It doesn't exists, we have to create it.
-        QDir().mkpath(appDataDir);
+        // It doesn't exist, we have to create it.
+        if (!QDir().mkpath(appDataDir))
+        {
+            // Can't create directory, try to use application one (this may work in windows)
+            appDataDir = QCoreApplication::applicationFilePath();
+        }
     }
 
     qDebug() << QString("Application data will be stored in : %1").arg(appDataDir);
 
     // Open our database
-    if (!dbManager.openDB())
+    if (dbManager.openDB())
     {
-        qDebug() << "Error: can't create/open database.";
+        qDebug() << tr("Error: can't create/open database in %1").arg(appDataDir);
         QMessageBox::critical(this, tr("Cannabis-qt"),
-                              tr("Error crític: No puc obrir la base de dades."
-                              "Si us plau, posi's en contacte amb el seu distribuidor "
-                              "per a obtenir ajuda"));
+                              tr("Error crític: No puc obrir la base de dades.\n"
+                                 "Si us plau, posi's en contacte amb el seu distribuidor "
+                                 "per a obtenir ajuda\n\n"
+                                 "Directori de dades: %1").arg(appDataDir));
         qApp->quit();
+        qFatal("Can't create/open database file!");
     }
 
     qApp->setAttribute(Qt::AA_DontShowIconsInMenus, false);

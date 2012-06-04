@@ -34,6 +34,8 @@
 
 #include <QDesktopServices>
 
+#include <QCoreApplication>
+
 class DatabaseManager : public QObject
 {
     Q_OBJECT
